@@ -1,17 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TEST } from "../reducers/type";
-import { testFunc } from "../actions/index";
+import { testFunc, testFuncAsync } from "../actions/index";
 
 const LandingView = () => {
    const reduxData = useSelector((state) => state.user.test);
    const dispatch = useDispatch();
 
    const onClickButton = () => {
-      dispatch({
-         type: TEST,
-         payload: testFunc("액션 분리 작업"),
-      });
+      dispatch(testFuncAsync("test 시발 됐다"));
    };
 
    return (
