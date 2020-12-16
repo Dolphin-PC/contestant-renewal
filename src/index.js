@@ -12,7 +12,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // redux-thunk
 import reduxThunk from "redux-thunk";
 
-// react strap Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const store = createStore(
@@ -21,10 +20,8 @@ const store = createStore(
 );
 
 ReactDOM.render(
-   <React.StrictMode>
-      <Provider store={store}>
-         <App />
-      </Provider>
-   </React.StrictMode>,
+   // <Provider store={store}>
+   <App />,
+   // </Provider>,
    document.getElementById("root")
 );
