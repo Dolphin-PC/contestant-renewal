@@ -18,6 +18,7 @@ import carousel3 from "assets/images/carousel3.jpg";
 
 import Team from "assets/animation/Team.json";
 import Lottie from "react-lottie";
+import { InputLabel, TextField } from "@material-ui/core";
 
 const items = [
    {
@@ -125,8 +126,11 @@ const LandingView = () => {
             </Container>
          </div>
 
-         {/* TODO: */}
+         <br />
+         <br />
+         <br />
          {/* Contact Section */}
+         <ContactSection />
       </div>
    );
 };
@@ -300,7 +304,103 @@ const CarouselRender = ({ items, header, subHeader }) => {
 };
 
 const ContactSection = () => {
-   return <div></div>;
+   const [info, setInfo] = useState({
+      name: "",
+      email: "",
+      phoneNumber: "",
+      school: "",
+      content: "",
+   });
+
+   const handleOnChange = (e) => {
+      setInfo({
+         [e.target.name]: e.target.value,
+      });
+   };
+
+   const handleOnClick = () => {
+      alert("email send");
+   };
+   return (
+      <Container>
+         <Row>
+            <Col lg="6">
+               <h1>무엇이든 물어보세요.</h1>
+               <small>가입문의, 동아리문의도 괜찮아요!</small>
+               <hr />
+               <Row>
+                  <Col lg="6">
+                     <InputLabel required>이름</InputLabel>
+                     <TextField
+                        fullWidth
+                        variant="outlined"
+                        placeholder="홍길동"
+                        required
+                        onChange={handleOnChange}
+                        value={info.name}
+                        name="name"
+                     />
+                  </Col>
+                  <Col lg="6">
+                     <InputLabel required>이메일 주소</InputLabel>
+                     <TextField
+                        fullWidth
+                        variant="outlined"
+                        placeholder="example@naver.com"
+                        required
+                        onChange={handleOnChange}
+                        value={info.phoneNumber}
+                        name="email"
+                     />
+                  </Col>
+               </Row>
+               <br />
+               <Row>
+                  <Col lg="6">
+                     <InputLabel>핸드폰 번호</InputLabel>
+                     <TextField
+                        fullWidth
+                        variant="outlined"
+                        placeholder="010-1234-5778"
+                        onChange={handleOnChange}
+                        value={info.phoneNumber}
+                        name="phoneNumber"
+                     />
+                  </Col>
+                  <Col lg="6">
+                     <InputLabel>학교/학과</InputLabel>
+                     <TextField
+                        fullWidth
+                        variant="outlined"
+                        placeholder="한림대학교/공과대학"
+                        onChange={handleOnChange}
+                        value={info.school}
+                        name="school"
+                     />
+                  </Col>
+               </Row>
+               <br />
+               <InputLabel required>문의주실 내용</InputLabel>
+               <TextField
+                  multiline
+                  fullWidth
+                  variant="outlined"
+                  placeholder="공모자들에게 무엇이 궁금하신가요?"
+                  required
+                  onChange={handleOnChange}
+                  value={info.content}
+                  name="content"
+               />
+               <Button onClick={handleOnClick}>문의하기</Button>
+            </Col>
+            <Col lg="6" style={{ margin: "auto", textAlign: "center" }}>
+               <h3>공모자들 서포터즈</h3>
+               <hr />
+               <p>김태남</p>
+            </Col>
+         </Row>
+      </Container>
+   );
 };
 
 export default LandingView;
