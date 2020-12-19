@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
    Collapse,
    Nav,
@@ -38,12 +38,18 @@ const CommonNavbar = () => {
             </Link>
             <NavbarToggler onClick={() => setIsMenuOpen(!isMenuOpen)} />
             <Collapse isOpen={isMenuOpen} navbar>
-               <Nav className="m-auto" navbar style={{ color: "white" }}>
-                  <NavItem>공모자들</NavItem>
+               <Nav className="m-auto" navbar fill style={{ color: "white" }}>
+                  <NavItem>
+                     <NavLink to="/">공모자들</NavLink>
+                  </NavItem>
                   &emsp;
-                  <NavItem>동아리소개</NavItem>
+                  <NavItem>
+                     <NavLink to="/introduce">동아리소개</NavLink>
+                  </NavItem>
                   &emsp;
-                  <NavItem>활동하기</NavItem>
+                  <NavItem>
+                     <NavLink to="/activity">활동하기</NavLink>
+                  </NavItem>
                </Nav>
                <NavbarText>
                   <Button variant="contained" color="primary">
