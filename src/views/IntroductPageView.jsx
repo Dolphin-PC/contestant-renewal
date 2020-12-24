@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Col } from "reactstrap";
+import { Button, Col, Container } from "reactstrap";
 
 import carousel1 from "assets/images/carousel1.jpg";
 import carousel2 from "assets/images/carousel2.jpg";
@@ -9,6 +9,9 @@ import { Fab } from "@material-ui/core";
 import { Close, List } from "@material-ui/icons";
 
 import styled from "styled-components";
+import IntroduceTeam from "components/introduce/IntroduceTeam";
+import IntroduceRule from "components/introduce/IntroduceRule";
+import IntroduceActivity from "components/introduce/IntroduceActivity";
 
 const IntroductPageView = () => {
    const height = window.innerHeight;
@@ -67,13 +70,13 @@ const IntroductPageView = () => {
    const SelectionRender = () => {
       switch (currentCategory) {
          case "left":
-            return <h1>Left</h1>;
+            return <IntroduceTeam />;
          case "center":
-            return <h1>center</h1>;
+            return <IntroduceRule />;
          case "right":
-            return <h1>right</h1>;
+            return <IntroduceActivity />;
          default:
-            return <h1>DEFAULT</h1>;
+            return <hr />;
       }
    };
 
@@ -145,7 +148,9 @@ const IntroductPageView = () => {
             </div>
          </div>
 
-         <SelectionRender />
+         <Container>
+            <SelectionRender />
+         </Container>
 
          <BottomListButton />
       </div>

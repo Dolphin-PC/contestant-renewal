@@ -39,3 +39,14 @@ a:hover {
    text-align: center;
    padding: 0 20%;
 }
+
+.Introduce li {
+   border-radius: 20px;
+   background: #ffffff;
+   box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+
+   padding: 10px;
+   border: 1px solid lightgray;
+   margin-bottom: 10px;
+   list-style: none;
+}
