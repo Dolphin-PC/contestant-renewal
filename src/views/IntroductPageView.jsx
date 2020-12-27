@@ -148,9 +148,7 @@ const IntroductPageView = () => {
             </div>
          </div>
 
-         <Container>
-            <SelectionRender />
-         </Container>
+         <SelectionRender />
 
          <BottomListButton />
       </div>

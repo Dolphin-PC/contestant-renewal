@@ -78,7 +78,7 @@ const IntroduceRule = () => {
    };
 
    return (
-      <div>
+      <div className="inner10">
          <div style={{ marginTop: 50, textAlign: "center" }}>
             <h2>운영방안과 규칙</h2>
             <h4>공모자들, 이것만은 꼭! 지켜주세요.</h4>

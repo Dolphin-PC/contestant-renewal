@@ -1,7 +1,7 @@
 import React from "react";
 
 const IntroduceActivity = () => {
-   return <div>activity</div>;
+   return <div className="inner10">activity</div>;
 };
 
 export default IntroduceActivity;
