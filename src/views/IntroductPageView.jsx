@@ -95,12 +95,13 @@ const IntroductPageView = () => {
             >
                <div className="InnerText">
                   <h1>동아리 소개</h1>
-                  <hr />
                   <h5>
-                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                     Maxime, earum asperiores. Debitis architecto placeat non
-                     quisquam magni dolorum. Ex cumque quidem iure esse amet
-                     deserunt dicta harum ut obcaecati fugiat.
+                     '공모자들'에서는 경험이 없어도, 잘 하지 못해도 누구든
+                     다양한 사람들과 함께 공모전에 도전할 수 있습니다.
+                     <hr />
+                     {currentCategory === "left"
+                        ? "#춘천연합동아리 #서포터즈소개"
+                        : ""}
                   </h5>
                </div>
             </div>
@@ -116,12 +117,12 @@ const IntroductPageView = () => {
             >
                <div className="InnerText">
                   <h1>운영방침</h1>
-                  <hr />
                   <h5>
-                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                     Maxime, earum asperiores. Debitis architecto placeat non
-                     quisquam magni dolorum. Ex cumque quidem iure esse amet
-                     deserunt dicta harum ut obcaecati fugiat.
+                     운영방안과 규칙 공모자들, 이것만은 꼭! 지켜주세요.
+                     <hr />
+                     {currentCategory === "center"
+                        ? "#회의방침 #예산운영 #운영방침 #채팅방방침"
+                        : ""}
                   </h5>
                </div>
             </div>
@@ -137,12 +138,12 @@ const IntroductPageView = () => {
             >
                <div className="InnerText">
                   <h1>활동 내역</h1>
-                  <hr />
                   <h5>
-                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                     Maxime, earum asperiores. Debitis architecto placeat non
-                     quisquam magni dolorum. Ex cumque quidem iure esse amet
-                     deserunt dicta harum ut obcaecati fugiat.
+                     '공모자들'의 활약들을 소개합니다.
+                     <hr />
+                     {currentCategory === "right"
+                        ? "#공모전 #수상/경험 #친목활동"
+                        : ""}
                   </h5>
                </div>
             </div>

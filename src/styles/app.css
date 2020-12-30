@@ -54,3 +54,9 @@ a:hover {
    margin-left: 10%;
    margin-right: 10%;
 }
+
+.Gongmojeon {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+}
