@@ -5,6 +5,7 @@ import LandingView from "./views/LandingView";
 
 import "./styles/app.css";
 import IntroductPageView from "views/IntroductPageView";
+import LoginPageView from "views/LoginPageView";
 
 const App = () => {
    return (
@@ -14,6 +15,7 @@ const App = () => {
             <Switch>
                <Route exact path="/" component={LandingView} />
                <Route exact path="/introduce" component={IntroductPageView} />
+               <Route exact path="/login" component={LoginPageView} />
             </Switch>
             <CommonFooter />
          </BrowserRouter>

@@ -52,9 +52,11 @@ const CommonNavbar = () => {
                   </NavItem>
                </Nav>
                <NavbarText>
-                  <Button variant="contained" color="primary">
-                     로그인
-                  </Button>
+                  <Link to="/login">
+                     <Button variant="contained" color="primary">
+                        로그인
+                     </Button>
+                  </Link>
                </NavbarText>
             </Collapse>
          </Navbar>

@@ -47,9 +47,9 @@ const LandingView = () => {
    const height = window.innerHeight;
 
    return (
-      <div>
+      <div className="fullHeight">
          {/* Visual Section */}
-         <div className="Center" style={{ height: height, color: "white" }}>
+         <div className="Center fullHeight" style={{ color: "white" }}>
             <div
                style={{
                   textAlign: "center",
