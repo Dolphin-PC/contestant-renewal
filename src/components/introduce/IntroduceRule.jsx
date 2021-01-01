@@ -1,7 +1,9 @@
 import { Box, makeStyles, Tab, Tabs } from "@material-ui/core";
 import RuleTextFormatComp from "components/RuleTextFormatComp";
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import * as Rules from "data/rules";
+
+import { TabPanel, a11yProps } from "functions/functions";
 
 const IntroduceRule = () => {
    const TabRender = () => {
@@ -18,29 +20,7 @@ const IntroduceRule = () => {
       }));
       const classes = useStyles();
 
-      function TabPanel(props) {
-         const { children, value, index, ...other } = props;
-
-         return (
-            <div
-               role="tabpanel"
-               hidden={value !== index}
-               id={`vertical-tabpanel-${index}`}
-               aria-labelledby={`vertical-tab-${index}`}
-               {...other}
-            >
-               {value === index && <Box p={3}>{children}</Box>}
-            </div>
-         );
-      }
-      function a11yProps(index) {
-         return {
-            id: `vertical-tab-${index}`,
-            "aria-controls": `vertical-tabpanel-${index}`,
-         };
-      }
-
-      const [value, setValue] = React.useState(0);
+      const [value, setValue] = useState(0);
 
       const handleChange = (event, newValue) => {
          setValue(newValue);
