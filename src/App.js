@@ -6,8 +6,21 @@ import LandingView from "./views/LandingView";
 import "./styles/app.css";
 import IntroductPageView from "views/IntroductPageView";
 import LoginPageView from "views/LoginPageView";
+import { useEffect } from "react";
+import { DB_LoadUserInfo } from "actions/firebaseActions";
+import { fireAuth } from "app/initFirebase";
+import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
+   const user = useSelector((state) => state.user);
+   const dispatch = useDispatch();
+   useEffect(() => {
+      fireAuth.onAuthStateChanged((user) => {
+         if (user) {
+            dispatch(DB_LoadUserInfo(user.email.split("@")[0]));
+         }
+      });
+   }, []);
    return (
       <div>
          <BrowserRouter>

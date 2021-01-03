@@ -1,8 +1,25 @@
 import { Paper, Tab, Tabs, TextField, Button } from "@material-ui/core";
+import { RegisterNewUser, SignInUser } from "actions/firebaseActions";
+import { fireAuth } from "app/initFirebase";
 import { a11yProps, TabPanel } from "functions/functions";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const LoginPageView = () => {
+   const history = useHistory();
+   const user = useSelector((state) => state.user);
+
+   useEffect(() => {
+      if (user.status) {
+         history.goBack();
+      }
+   }, []);
+   useEffect(() => {
+      if (user.status) {
+         history.goBack();
+      }
+   }, [user.status]);
    const [value, setValue] = useState(0);
 
    const handleChange = (event, newValue) => {
@@ -33,14 +50,17 @@ const LoginRender = () => {
       id: "",
       password: "",
    });
+   const dispatch = useDispatch();
+
    const handleOnChange = (e) => {
       setInfo({
          ...info,
          [e.target.id]: e.target.value,
       });
    };
-   const handleLogin = () => {
-      console.info(info);
+   const handleLogin = async () => {
+      const result = await dispatch(SignInUser(info));
+      alert(result.message);
    };
 
    return (
@@ -89,8 +109,9 @@ const RegisterRender = () => {
          [e.target.id]: e.target.value,
       });
    };
-   const handleRegister = () => {
-      console.info(info);
+   const handleRegister = async () => {
+      var result = await RegisterNewUser(info);
+      alert(result.message);
    };
 
    return (

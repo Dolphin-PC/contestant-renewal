@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import {
    Collapse,
    Nav,
@@ -12,9 +12,37 @@ import {
 import { Button } from "@material-ui/core";
 import logo from "../assets/images/logo.png";
 import * as Color from "../assets/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { fireAuth } from "app/initFirebase";
+import { LOGOUT } from "actions/types";
 
 const CommonNavbar = () => {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const [status, setStatus] = useState(false);
+
+   useEffect(() => {
+      fireAuth.onAuthStateChanged((user) => {
+         if (user) setStatus(true);
+      });
+   }, []);
+
+   const user = useSelector((state) => state.user);
+   const dispatch = useDispatch();
+   const history = useHistory();
+
+   const { userInfo } = user;
+
+   const handleOnLoginButton = () => {
+      if (status) {
+         fireAuth.signOut();
+         setStatus(false);
+         dispatch({
+            type: LOGOUT,
+         });
+      } else {
+         history.push("/login");
+      }
+   };
    return (
       <div
          style={{
@@ -52,11 +80,13 @@ const CommonNavbar = () => {
                   </NavItem>
                </Nav>
                <NavbarText>
-                  <Link to="/login">
-                     <Button variant="contained" color="primary">
-                        로그인
-                     </Button>
-                  </Link>
+                  <Button
+                     variant="contained"
+                     color="primary"
+                     onClick={handleOnLoginButton}
+                  >
+                     {status ? "로그아웃" : "로그인"}
+                  </Button>
                </NavbarText>
             </Collapse>
          </Navbar>
