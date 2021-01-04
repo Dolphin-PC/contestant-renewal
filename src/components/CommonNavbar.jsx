@@ -15,6 +15,7 @@ import * as Color from "../assets/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fireAuth } from "app/initFirebase";
 import { LOGOUT } from "actions/types";
+import { Logout } from "actions/firebaseActions";
 
 const CommonNavbar = () => {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +35,8 @@ const CommonNavbar = () => {
 
    const handleOnLoginButton = () => {
       if (status) {
-         fireAuth.signOut();
+         Logout();
+         // fireAuth.signOut();
          setStatus(false);
          dispatch({
             type: LOGOUT,

@@ -118,3 +118,7 @@ export const DB_LoadUserInfo = (id) => async (dispatch) => {
          });
       });
 };
+
+export const Logout = () => {
+   fireAuth.signOut();
+};
