@@ -66,3 +66,10 @@ a:hover {
 .fullHeight {
    height: 100%;
 }
+
+.FAB {
+   position: fixed;
+   z-index: 10;
+   bottom: 30px;
+   left: 30px;
+}
