@@ -76,4 +76,8 @@ a:hover {
 
 .LeftMenu {
    margin: 20px;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
 }
