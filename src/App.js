@@ -10,10 +10,8 @@ import { useEffect } from "react";
 import { DB_LoadUserInfo } from "actions/firebaseActions";
 import { fireAuth } from "app/initFirebase";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Menu } from "@material-ui/icons";
-import { Drawer, Fab } from "@material-ui/core";
-import { useState } from "react";
 import UserActionButton from "components/layout/UserActionButton";
+import Loading from "components/layout/Loading";
 
 const App = () => {
    const user = useSelector((state) => state.user);
@@ -37,6 +35,8 @@ const App = () => {
                <Route exact path="/login" component={LoginPageView} />
             </Switch>
             {user.status ? <UserActionButton /> : ""}
+
+            <Loading />
 
             <CommonFooter />
          </BrowserRouter>

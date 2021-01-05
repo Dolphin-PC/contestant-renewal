@@ -1,6 +1,5 @@
 import { Paper, Tab, Tabs, TextField, Button } from "@material-ui/core";
 import { RegisterNewUser, SignInUser } from "actions/firebaseActions";
-import { fireAuth } from "app/initFirebase";
 import { a11yProps, TabPanel } from "functions/functions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,12 +13,8 @@ const LoginPageView = () => {
       if (user.status) {
          history.goBack();
       }
-   }, []);
-   useEffect(() => {
-      if (user.status) {
-         history.goBack();
-      }
    }, [user.status]);
+
    const [value, setValue] = useState(0);
 
    const handleChange = (event, newValue) => {

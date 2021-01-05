@@ -36,7 +36,6 @@ const CommonNavbar = () => {
    const handleOnLoginButton = () => {
       if (status) {
          Logout();
-         // fireAuth.signOut();
          setStatus(false);
          dispatch({
             type: LOGOUT,
