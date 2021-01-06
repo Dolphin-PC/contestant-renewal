@@ -17,18 +17,6 @@ const Log = () => {
                <Col lg="3" xs="12" style={{ marginBottom: 10 }}>
                   <TeamCardComp />
                </Col>
-               <Col lg="3" xs="12">
-                  <TeamCardComp />
-               </Col>
-               <Col lg="3" xs="12">
-                  <TeamCardComp />
-               </Col>
-               <Col lg="3" xs="12">
-                  <TeamCardComp />
-               </Col>
-               <Col lg="3" xs="12">
-                  <TeamCardComp />
-               </Col>
             </Row>
          </div>
       </>
