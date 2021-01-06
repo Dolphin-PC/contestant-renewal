@@ -17,7 +17,11 @@ import {
    Menu,
 } from "@material-ui/icons";
 import { Logout } from "actions/firebaseActions";
+import CreateTeamDialogComp from "components/dialogs/CreateTeamDialogComp";
+import SeasonDialogComp from "components/dialogs/SeasonDialogComp";
+import VoteDialogComp from "components/dialogs/VoteDialogComp";
 import React from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const UserActionButton = ({ open, handleOnOpen }) => {
@@ -32,30 +36,66 @@ const UserActionButton = ({ open, handleOnOpen }) => {
    };
 
    const SupporterMenu = () => {
+      const initialSettingOpen = {
+         season: false,
+         team: false,
+         vote: false,
+      };
+      const [open, setOpen] = useState(initialSettingOpen);
+
+      const handleOnMenuClick = (id) => {
+         setOpen({
+            ...open,
+            [id]: true,
+         });
+      };
+      const handleClose = () => {
+         console.info(open);
+         setOpen(initialSettingOpen);
+      };
+
       if (user.userInfo.isSupporter) {
          return (
-            <List>
-               <p>서포터즈 전용메뉴</p>
+            <div>
+               <List>
+                  <p>서포터즈 전용메뉴</p>
 
-               <ListItem button>
-                  <ListItemIcon>
-                     <InsertInvitation />
-                  </ListItemIcon>
-                  <ListItemText primary="시즌 추가" />
-               </ListItem>
-               <ListItem button>
-                  <ListItemIcon>
-                     <Group />
-                  </ListItemIcon>
-                  <ListItemText primary="팀 생성" />
-               </ListItem>
-               <ListItem button>
-                  <ListItemIcon>
-                     <HowToVote />
-                  </ListItemIcon>
-                  <ListItemText primary="투표만들기(팀 빌딩)" />
-               </ListItem>
-            </List>
+                  <ListItem button onClick={() => handleOnMenuClick("season")}>
+                     <ListItemIcon>
+                        <InsertInvitation />
+                     </ListItemIcon>
+                     <ListItemText primary="시즌 추가" />
+                  </ListItem>
+                  <ListItem button onClick={() => handleOnMenuClick("team")}>
+                     <ListItemIcon>
+                        <Group />
+                     </ListItemIcon>
+                     <ListItemText primary="팀 생성" />
+                  </ListItem>
+                  <ListItem button onClick={() => handleOnMenuClick("vote")}>
+                     <ListItemIcon>
+                        <HowToVote />
+                     </ListItemIcon>
+                     <ListItemText primary="투표만들기(팀 빌딩)" />
+                  </ListItem>
+               </List>
+
+               <SeasonDialogComp
+                  id="season"
+                  open={open.season}
+                  handleClose={handleClose}
+               />
+               <CreateTeamDialogComp
+                  id="team"
+                  open={open.team}
+                  handleClose={handleClose}
+               />
+               <VoteDialogComp
+                  id="vote"
+                  open={open.vote}
+                  handleClose={handleClose}
+               />
+            </div>
          );
       }
       return "";
