@@ -8,7 +8,14 @@ import {
    ListItemIcon,
    ListItemText,
 } from "@material-ui/core";
-import { AccountCircle, AssignmentTurnedIn, Menu } from "@material-ui/icons";
+import {
+   AccountCircle,
+   AssignmentTurnedIn,
+   Group,
+   HowToVote,
+   InsertInvitation,
+   Menu,
+} from "@material-ui/icons";
 import { Logout } from "actions/firebaseActions";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -22,6 +29,36 @@ const UserActionButton = ({ open, handleOnOpen }) => {
          Logout();
          window.location.reload();
       }
+   };
+
+   const SupporterMenu = () => {
+      if (user.userInfo.isSupporter) {
+         return (
+            <List>
+               <p>서포터즈 전용메뉴</p>
+
+               <ListItem button>
+                  <ListItemIcon>
+                     <InsertInvitation />
+                  </ListItemIcon>
+                  <ListItemText primary="시즌 추가" />
+               </ListItem>
+               <ListItem button>
+                  <ListItemIcon>
+                     <Group />
+                  </ListItemIcon>
+                  <ListItemText primary="팀 생성" />
+               </ListItem>
+               <ListItem button>
+                  <ListItemIcon>
+                     <HowToVote />
+                  </ListItemIcon>
+                  <ListItemText primary="투표만들기(팀 빌딩)" />
+               </ListItem>
+            </List>
+         );
+      }
+      return "";
    };
 
    return (
@@ -61,6 +98,7 @@ const UserActionButton = ({ open, handleOnOpen }) => {
                            <ListItemText primary="활동하기" />
                         </ListItem>
                      </List>
+                     <SupporterMenu />
                   </div>
 
                   <div className="Bottom">
