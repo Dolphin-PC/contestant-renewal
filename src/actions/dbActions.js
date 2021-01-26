@@ -2,6 +2,32 @@ import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
 import * as TYPE from "actions/types";
 
 export const AddNewSeason = (seasonName) => async (dispatch) => {
+  dispatch({
+    type: TYPE.LOADING,
+    payload: "새로운 시즌을 추가하고 있습니다...",
+  });
+  // 중복 체크
+  const existsCheck = await fireDatabase
+    .ref(`seasons/${seasonName}`)
+    .once("value")
+    .then((snapShot) => {
+      if (snapShot.val().seasonName === seasonName) {
+        return true;
+      }
+    })
+    .catch(() => {
+      return false;
+    });
+
+  if (existsCheck) {
+    alert("시즌 이름이 중복됩니다.");
+    dispatch({
+      type: TYPE.LOADING,
+      payload: "추가 실패!",
+    });
+    return;
+  }
+
   await fireDatabase
     .ref("/seasons/" + seasonName)
     .set({
@@ -12,6 +38,7 @@ export const AddNewSeason = (seasonName) => async (dispatch) => {
       alert("시즌 추가가 완료되었습니다.");
       dispatch({
         type: TYPE.LOADING,
+        payload: "추가 완료!",
       });
     })
     .catch((err) => {
@@ -29,15 +56,13 @@ export const GetSeasons = () => async (dispatch) => {
     .orderByChild("createStamp")
     .once("value")
     .then((snapShot) => {
-      console.log(snapShot.val());
-
       dispatch({
         type: TYPE.GET_SEASONS,
-        payload: snapShot.val(),
+        payload: Object.values(snapShot.val()),
       });
       dispatch({
         type: TYPE.LOADING,
-        payload: "Complete!",
+        payload: "로딩 완료!",
       });
     });
 };

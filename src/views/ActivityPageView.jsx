@@ -1,9 +1,10 @@
 import { MenuItem, Paper, Select, Tab, Tabs } from "@material-ui/core";
 import { GetSeasons } from "actions/dbActions";
+import { SET_SEASON } from "actions/types";
 import { a11yProps, TabPanel } from "functions/functions";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Attention from "./Activity/Attention";
 import Log from "./Activity/Log";
 import TeamBuilding from "./Activity/TeamBuilding";
@@ -17,22 +18,28 @@ const ActivityPageView = () => {
   };
 
   const [season, setSeason] = useState("test");
+  const activity = useSelector((state) => state.activity);
 
   useEffect(() => {
     dispatch(GetSeasons());
   }, []);
 
+  const onChangeSeason = (e) => {
+    setSeason(e.target.value);
+    dispatch({
+      type: SET_SEASON,
+      payload: e.target.value,
+    });
+  };
+
   return (
     <div style={{ width: "95%", marginTop: "10%", marginLeft: "auto" }}>
-      <Select
-        autoWidth
-        value={season}
-        onChange={(e) => setSeason(e.target.value)}
-      >
-        <MenuItem>3</MenuItem>
-        <MenuItem>2</MenuItem>
-        <MenuItem>3</MenuItem>
-        <MenuItem>4</MenuItem>
+      <Select autoWidth value={season} onChange={onChangeSeason}>
+        {activity.seasons.map((item, index) => (
+          <MenuItem key={index} value={item.seasonName}>
+            {item.seasonName}
+          </MenuItem>
+        ))}
       </Select>
       <div>
         <Paper elevation={3}>
