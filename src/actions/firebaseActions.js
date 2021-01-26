@@ -1,5 +1,5 @@
 import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
-import { LOGIN, LOGOUT, LOAD, LOADING } from "actions/types";
+import { LOGIN, LOGOUT, LOADING } from "actions/types";
 
 // 함수 반환 값
 let resResult = {
@@ -64,6 +64,7 @@ export const RegisterNewUser = async (props) => {
 export const SignInUser = (props) => async (dispatch) => {
    dispatch({
       type: LOADING,
+      payload: "로그인 중입니다...",
    });
    const { id, password } = props;
 
@@ -89,6 +90,7 @@ export const SignInUser = (props) => async (dispatch) => {
 
    dispatch({
       type: LOADING,
+      payload: "",
    });
 
    return resResult;

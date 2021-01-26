@@ -16,18 +16,18 @@ const useStyles = makeStyles((theme) => ({
 const Loading = () => {
    const classes = useStyles();
 
-   const user = useSelector((state) => state.user);
+   const loading = useSelector((state) => state.loading);
    const [open, setOpen] = useState(false);
 
    useEffect(() => {
-      setOpen(user.loading);
-   }, [user.loading]);
+      setOpen(loading.loading);
+   }, [loading.loading]);
 
    return (
       <Backdrop className={classes.backdrop} open={open}>
          <CircularProgress color="inherit" />
          <br />
-         <p>로딩 중입니다...</p>
+         <p>{loading.message}</p>
       </Backdrop>
    );
 };
