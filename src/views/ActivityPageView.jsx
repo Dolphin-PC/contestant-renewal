@@ -17,8 +17,8 @@ const ActivityPageView = () => {
     setPage(value);
   };
 
-  const [season, setSeason] = useState("test");
   const activity = useSelector((state) => state.activity);
+  const [season, setSeason] = useState(activity.currentSeason);
 
   useEffect(() => {
     if (activity.seasons.length === 0) {

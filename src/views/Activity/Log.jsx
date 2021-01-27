@@ -1,11 +1,18 @@
 import { Divider, Select, TextField } from "@material-ui/core";
 import TeamCardComp from "components/TeamCardComp";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge, Col, Row } from "reactstrap";
 
 const Log = () => {
+  const activity = useSelector((state) => state.activity);
+
+  const activeTeam = activity.seasons.filter((season) => {
+    return season.seasonName === activity.currentSeason;
+  });
+
   return (
     <>
       <div className="Log">

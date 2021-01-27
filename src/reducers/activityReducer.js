@@ -4,6 +4,8 @@ import {
   GET_ATTENTION,
   GET_VOTES,
   SET_SEASON,
+  ADD_SEASONS,
+  ADD_LOGS,
 } from "actions/types";
 
 const initialState = {
@@ -25,10 +27,22 @@ export default (state = initialState, action) => {
         seasons: action.payload,
       };
 
+    case ADD_SEASONS:
+      return {
+        ...state,
+        seasons: [...state.seasons, action.payload],
+      };
+
     case GET_LOGS:
       return {
         ...state,
         logs: action.payload,
+      };
+
+    case ADD_LOGS:
+      return {
+        ...state,
+        logs: [...state.logs, action.payload],
       };
 
     case GET_ATTENTION:
