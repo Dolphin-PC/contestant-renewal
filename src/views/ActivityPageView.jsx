@@ -21,7 +21,9 @@ const ActivityPageView = () => {
   const activity = useSelector((state) => state.activity);
 
   useEffect(() => {
-    dispatch(GetSeasons());
+    if (activity.seasons.length === 0) {
+      dispatch(GetSeasons());
+    }
   }, []);
 
   const onChangeSeason = (e) => {

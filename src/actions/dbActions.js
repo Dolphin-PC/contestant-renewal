@@ -66,3 +66,33 @@ export const GetSeasons = () => async (dispatch) => {
       });
     });
 };
+
+export const AddTeam = (seasonName, teamName) => async (dispatch) => {
+  dispatch({
+    type: TYPE.LOADING,
+    message: "새로운 팀을 추가하고 있습니다...",
+  });
+
+  await fireDatabase
+    .ref(`seasons/${seasonName}`)
+    .update({
+      [teamName]: {
+        teamName,
+      },
+    })
+    .then(() => {
+      alert("새로운 팀이 생성되었습니다.");
+      dispatch({
+        type: TYPE.LOADING,
+        message: "추가 완료!",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("팀 생성에 실패했습니다.\n반복 증상시, 개발자에게 문의바랍니다.");
+      dispatch({
+        type: TYPE.LOADING,
+        message: "추가 실패!",
+      });
+    });
+};

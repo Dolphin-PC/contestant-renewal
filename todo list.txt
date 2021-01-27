@@ -20,3 +20,7 @@
 21/01/26
 DONE : 회의록 추가 - timeStamp를 두어서 정렬하기
 회의록 시즌 드롭박스 추가하기
+
+
+TODO 팀 생성 Dialog 에서 [활동하기] 페이지 들어가기 전에 GetSeasons 안하면 [시즌 목록]이 안보이는데, 이거를 Dialog 안에서 Dispatch 하지 말고, 다른 컴포넌트에서 Dispatch하기.
+(Dialog에서 Dispatch하면, open (state)가 무한 반복됨.)
