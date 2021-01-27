@@ -10,14 +10,8 @@ export const AddNewSeason = (seasonName) => async (dispatch) => {
   // 중복 체크
   const existsCheck = await fireDatabase
     .ref(`seasons/${seasonName}`)
-    .once("value")
-    .then((snapShot) => {
-      if (snapShot.val().seasonName === seasonName) {
-        return true;
-      }
-    })
-    .catch(() => {
-      return false;
+    .on("value", (snapShot) => {
+      return snapShot.val().seasonName === seasonName ? true : false;
     });
 
   if (existsCheck) {
@@ -40,10 +34,6 @@ export const AddNewSeason = (seasonName) => async (dispatch) => {
     .set(toAddData)
     .then((res) => {
       alert("시즌 추가가 완료되었습니다.");
-      // dispatch({
-      //   type: TYPE.ADD_SEASONS,
-      //   payload: toAddData,
-      // });
       dispatch({
         type: TYPE.LOADING,
         loading: false,
@@ -74,12 +64,6 @@ export const GetSeasons = () => async (dispatch) => {
         payload: "로딩 완료!",
       });
     });
-  // .catch(() => {
-  //   dispatch({
-  //     type: TYPE.LOADING,
-  //     payload: "로딩 완료!",
-  //   });
-  // });
 };
 
 export const AddTeam = (seasonName, teamName) => async (dispatch) => {

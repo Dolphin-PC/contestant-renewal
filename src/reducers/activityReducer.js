@@ -13,9 +13,9 @@ const initialState = {
   logs: [],
   attention: [],
   votes: [],
-  currentSeason: null,
-  currentLog: null,
-  currentAttention: null,
+  currentSeason: "",
+  currentLog: "",
+  currentAttention: "",
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
