@@ -1,19 +1,36 @@
-import { Button, Divider, Select, TextField } from "@material-ui/core";
+import {
+  Button,
+  Chip,
+  Divider,
+  makeStyles,
+  Select,
+  Tab,
+  Tabs,
+  TextField,
+} from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { SET_TEAM } from "actions/types";
 import TeamCardComp from "components/TeamCardComp";
+import { a11yProps, TabPanel } from "functions/functions";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Badge, Col, Row } from "reactstrap";
+import LogWrapper from "./LogWrapper";
 
 const Log = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const activity = useSelector((state) => state.activity);
   const [teamList, setTeamList] = useState([]);
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   // 팀 리스트 불러오기
   useEffect(() => {
@@ -37,6 +54,10 @@ const Log = () => {
     });
   };
 
+  const handleAddTeamMember = () => {};
+  const handleAddNewLog = () => {};
+
+  // 뒤로가기 시, 팀이 선택되어있다면 => 팀 리스트로
   window.onpopstate = () => {
     if (activity.currentTeam !== "") {
       handleToTeamList();
@@ -54,6 +75,67 @@ const Log = () => {
         </h5> */}
         <br />
         {props.children}
+      </div>
+    );
+  };
+
+  const TabRender = () => {
+    const useStyles = makeStyles((theme) => ({
+      root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        display: "flex",
+        height: "100%",
+      },
+      tabs: {
+        borderRight: `1px solid ${theme.palette.divider}`,
+      },
+    }));
+    const classes = useStyles();
+
+    const [value, setValue] = useState(0);
+
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+
+    return (
+      <div className={classes.root}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+        >
+          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Item Four" {...a11yProps(3)} />
+          <Tab label="Item Five" {...a11yProps(4)} />
+          <Tab label="Item Six" {...a11yProps(5)} />
+          <Tab label="Item Seven" {...a11yProps(6)} />
+        </Tabs>
+        <TabPanel value={value} index={0} className="w1">
+          <LogWrapper />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Item Three
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          Item Four
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          Item Five
+        </TabPanel>
+        <TabPanel value={value} index={5}>
+          Item Six
+        </TabPanel>
+        <TabPanel value={value} index={6}>
+          Item Seven
+        </TabPanel>
       </div>
     );
   };
@@ -80,10 +162,51 @@ const Log = () => {
   } else {
     return (
       <Wrapper>
-        <Button variant="contained" color="primary" onClick={handleToTeamList}>
-          <ArrowBack />
-        </Button>
-        <h4>팀 선택한 화면</h4>
+        <Row>
+          <Col lg="2">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleToTeamList}
+            >
+              <ArrowBack />
+            </Button>
+          </Col>
+          <Col lg="2">
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleAddTeamMember}
+            >
+              팀원추가
+            </Button>
+          </Col>
+          <Col lg="2">
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleAddNewLog}
+            >
+              회의록 작성
+            </Button>
+          </Col>
+          <Col lg="6">
+            <Button fullWidth variant="contained" color="primary">
+              #
+            </Button>
+          </Col>
+        </Row>
+        <br />
+        <h1>{activity.currentTeam.teamName}</h1>
+        <Chip label="test" />
+        &ensp;
+        <Chip label="test" />
+        &ensp;
+        <Chip label="test" />
+        <hr />
+        <TabRender />
       </Wrapper>
     );
   }
