@@ -81,6 +81,13 @@ a:hover {
   flex-direction: column;
   justify-content: space-between;
 }
+.RightMenu {
+  margin: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .w1 {
   width: 100%;
@@ -92,4 +99,12 @@ a:hover {
 
 .margin0 {
   margin: 0px !important;
+}
+
+.FeedBackDrawer .MuiDrawer-paper {
+  width: 40%;
+}
+
+.feedback {
+  width: 100%;
 }

@@ -109,7 +109,7 @@ const UserActionButton = ({ open, handleOnOpen }) => {
         </Fab>
       </div>
 
-      <div className="Drawer">
+      <div>
         <Drawer
           variant="persistent"
           anchor="left"
