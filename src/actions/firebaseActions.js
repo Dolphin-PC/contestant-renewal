@@ -11,7 +11,6 @@ let resResult = {
 const loadAuthCode = async () => {
   const _authCode = await fireDatabase
     .ref("/authCode")
-    .once("value")
     .on("value", (snapShot) => {
       return snapShot.val();
     });
@@ -28,9 +27,9 @@ const loadAuthCode = async () => {
 // 회원가입(Authentification)
 export const RegisterNewUser = async (props) => {
   const { id, password, name, authCode } = props;
-  const { _authCode } = await loadAuthCode();
+  const { _authCode, _authCode_supporter } = await loadAuthCode();
 
-  if (authCode !== _authCode) {
+  if (!(authCode !== _authCode && authCode !== _authCode_supporter)) {
     resResult.message = "인증코드를 확인해주세요.";
     return resResult;
   }
@@ -40,7 +39,8 @@ export const RegisterNewUser = async (props) => {
     .then(async (user) => {
       resResult.res = user;
       resResult.message = "회원가입이 완료되었습니다.";
-      await DB_NewUserInfo(id, name);
+      if (authCode === _authCode) await DB_NewUserInfo(id, name, false);
+      else await DB_NewUserInfo(id, name, true);
     })
     .catch((err) => {
       console.error(err);
@@ -91,13 +91,13 @@ export const SignInUser = (props) => async (dispatch) => {
   return resResult;
 };
 
-const DB_NewUserInfo = async (id, name) => {
+const DB_NewUserInfo = async (id, name, isSupporter) => {
   await fireDatabase
     .ref("users/" + id)
     .set({
       id,
       name,
-      isSupporter: false,
+      isSupporter,
       isAuth: true,
     })
     .then((res) => {

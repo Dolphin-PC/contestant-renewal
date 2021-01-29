@@ -1,20 +1,21 @@
 import {
   GET_SEASONS,
-  GET_LOGS,
+  GET_TEAMS,
   GET_ATTENTION,
   GET_VOTES,
   SET_SEASON,
   ADD_SEASONS,
-  ADD_LOGS,
+  ADD_TEAMS,
+  SET_TEAM,
 } from "actions/types";
 
 const initialState = {
   seasons: [],
-  logs: [],
+  teams: [],
   attention: [],
   votes: [],
   currentSeason: "",
-  currentLog: "",
+  currentTeam: "",
   currentAttention: "",
 };
 
@@ -33,16 +34,16 @@ export default (state = initialState, action) => {
         seasons: [...state.seasons, action.payload],
       };
 
-    case GET_LOGS:
+    case GET_TEAMS:
       return {
         ...state,
-        logs: action.payload,
+        teams: action.payload,
       };
 
-    case ADD_LOGS:
+    case ADD_TEAMS:
       return {
         ...state,
-        logs: [...state.logs, action.payload],
+        teams: [...state.teams, action.payload],
       };
 
     case GET_ATTENTION:
@@ -61,6 +62,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentSeason: action.payload,
+      };
+
+    case SET_TEAM:
+      return {
+        ...state,
+        currentTeam: action.payload,
       };
 
     default:

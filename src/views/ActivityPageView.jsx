@@ -36,6 +36,7 @@ const ActivityPageView = () => {
 
   return (
     <div style={{ width: "95%", marginTop: "10%", marginLeft: "auto" }}>
+      {season === "" ? <h5>시즌을 선택해주세요.</h5> : ""}
       <Select autoWidth value={season} onChange={onChangeSeason}>
         {activity.seasons.map((item, index) => (
           <MenuItem key={index} value={item.seasonName}>
