@@ -14,10 +14,17 @@ import {
   IconButton,
   ListItem,
   Paper,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import { Col, Row } from "reactstrap";
-import { Edit, ExpandLess, ExpandMore } from "@material-ui/icons";
+import {
+  ArrowLeft,
+  Edit,
+  ExpandLess,
+  ExpandMore,
+  Feedback,
+} from "@material-ui/icons";
 
 const LogWrapper = (props) => {
   const { title } = props;
@@ -153,16 +160,85 @@ const LogWrapper = (props) => {
                 </AccordionDetails>
               </Accordion>
             </ListItem>
+            <ListItem>
+              {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
+              <Accordion defaultExpanded={allExpand}>
+                <AccordionSummary expandIcon={<ExpandMore />}>
+                  <Chip label="박찬영" />
+                  <p style={{ margin: "auto 0px auto 10px" }}>2021-01-01</p>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <div>
+                    <div>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Suspendisse malesuada lacus ex, sit amet blandit leo
+                      lobortis eget.
+                    </div>
+                    <div>
+                      <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMore />}>
+                          <Chip label="박찬영" />
+                          <p style={{ margin: "auto 0px auto 10px" }}>
+                            2021-01-01
+                          </p>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Suspendisse malesuada lacus ex, sit amet
+                            blandit leo lobortis eget.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+            </ListItem>
+            <ListItem>
+              {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
+              <Accordion defaultExpanded={allExpand}>
+                <AccordionSummary expandIcon={<ExpandMore />}>
+                  <Chip label="박찬영" />
+                  <p style={{ margin: "auto 0px auto 10px" }}>2021-01-01</p>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <div>
+                    <div>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Suspendisse malesuada lacus ex, sit amet blandit leo
+                      lobortis eget.
+                    </div>
+                    <div>
+                      <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMore />}>
+                          <Chip label="박찬영" />
+                          <p style={{ margin: "auto 0px auto 10px" }}>
+                            2021-01-01
+                          </p>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Suspendisse malesuada lacus ex, sit amet
+                            blandit leo lobortis eget.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+            </ListItem>
           </div>
 
           <div className="Bottom">
             <Button
-              fullWidth
-              variant="outlined"
+              variant="contained"
               color="primary"
               onClick={() => setFeedbackOpen(false)}
             >
-              돌아가기
+              <ArrowLeft /> 돌아가기
             </Button>
           </div>
         </div>
@@ -197,14 +273,17 @@ const LogWrapper = (props) => {
             </Button>
           </Col>
         </>
-        <Col lg="8" style={{ textAlign: "right" }}>
-          <Button
-            variant="outlined"
-            onClick={() => setFeedbackOpen(!feedbackOpen)}
-          >
-            피드백 내용 보기
-          </Button>
-        </Col>
+        <div className="fixed-r30">
+          <Tooltip title="피드백 보기" placement="left">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setFeedbackOpen(!feedbackOpen)}
+            >
+              <Feedback />
+            </Button>
+          </Tooltip>
+        </div>
       </Row>
       <br />
 

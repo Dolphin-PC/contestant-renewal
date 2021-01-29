@@ -108,3 +108,20 @@ a:hover {
 .feedback {
   width: 100%;
 }
+
+.Bottom {
+  background-color: white;
+  bottom: 10px;
+}
+
+.fixed-r30 {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+}
+
+.fixed-r60 {
+  position: fixed;
+  right: 30px;
+  bottom: 90px;
+}

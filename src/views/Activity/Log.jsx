@@ -7,8 +7,9 @@ import {
   Tab,
   Tabs,
   TextField,
+  Tooltip,
 } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import { ArrowBack, ViewList } from "@material-ui/icons";
 import { SET_TEAM } from "actions/types";
 import TeamCardComp from "components/TeamCardComp";
 import { a11yProps, TabPanel } from "functions/functions";
@@ -162,14 +163,26 @@ const Log = () => {
   } else {
     return (
       <Wrapper>
-        <Row>
-          <Col lg="2">
+        <div className="fixed-r60">
+          <Tooltip title="팀 목록으로" placement="left">
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               onClick={handleToTeamList}
             >
-              <ArrowBack />
+              <ViewList />
+            </Button>
+          </Tooltip>
+        </div>
+        <Row>
+          <Col lg="2">
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleToTeamList}
+            >
+              <ViewList /> 팀 목록으로
             </Button>
           </Col>
           <Col lg="2">
