@@ -12,3 +12,5 @@ export const GET_VOTES = "GET_VOTES";
 
 export const SET_SEASON = "SET_SEASON";
 export const SET_TEAM = "SET_TEAM";
+
+export const GET_MEMBERS = "GET_MEMBERS";

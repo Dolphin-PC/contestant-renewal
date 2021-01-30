@@ -52,7 +52,6 @@ const LogWrapper = (props) => {
         if (window.confirm("내용을 수정하시겠습니까?")) {
           //   TODO 내용 저장하기
           setEditMode(false);
-          alert(testRef.current.getInstance());
           console.info(testRef.current.getInstance().getHtml());
         }
       } else {
@@ -142,76 +141,6 @@ const LogWrapper = (props) => {
           </div>
 
           <div style={{ height: "100%" }}>
-            <ListItem>
-              {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
-              <Accordion defaultExpanded={allExpand}>
-                <AccordionSummary expandIcon={<ExpandMore />}>
-                  <Chip label="박찬영" />
-                  <p style={{ margin: "auto 0px auto 10px" }}>2021-01-01</p>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div>
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Suspendisse malesuada lacus ex, sit amet blandit leo
-                      lobortis eget.
-                    </div>
-                    <div>
-                      <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMore />}>
-                          <Chip label="박찬영" />
-                          <p style={{ margin: "auto 0px auto 10px" }}>
-                            2021-01-01
-                          </p>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Suspendisse malesuada lacus ex, sit amet
-                            blandit leo lobortis eget.
-                          </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    </div>
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-            </ListItem>
-            <ListItem>
-              {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
-              <Accordion defaultExpanded={allExpand}>
-                <AccordionSummary expandIcon={<ExpandMore />}>
-                  <Chip label="박찬영" />
-                  <p style={{ margin: "auto 0px auto 10px" }}>2021-01-01</p>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div>
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Suspendisse malesuada lacus ex, sit amet blandit leo
-                      lobortis eget.
-                    </div>
-                    <div>
-                      <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMore />}>
-                          <Chip label="박찬영" />
-                          <p style={{ margin: "auto 0px auto 10px" }}>
-                            2021-01-01
-                          </p>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Suspendisse malesuada lacus ex, sit amet
-                            blandit leo lobortis eget.
-                          </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    </div>
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-            </ListItem>
             <ListItem>
               {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
               <Accordion defaultExpanded={allExpand}>

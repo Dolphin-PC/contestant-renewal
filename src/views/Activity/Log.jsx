@@ -11,11 +11,10 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, ViewList } from "@material-ui/icons";
 import { SET_TEAM } from "actions/types";
+import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
 import { a11yProps, TabPanel } from "functions/functions";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Badge, Col, Row } from "reactstrap";
@@ -27,10 +26,15 @@ const Log = () => {
 
   const activity = useSelector((state) => state.activity);
   const [teamList, setTeamList] = useState([]);
-  const [value, setValue] = React.useState(0);
+  const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleClose = (dialogName) => {
+    switch (dialogName) {
+      case "teamMember":
+        return setOpenAddMemberDialog(false);
+      default:
+        return;
+    }
   };
 
   // 팀 리스트 불러오기
@@ -55,10 +59,7 @@ const Log = () => {
     });
   };
 
-  const handleAddTeamMember = () => {};
-  const handleAddNewLog = () => {};
-
-  // 뒤로가기 시, 팀이 선택되어있다면 => 팀 리스트로
+  // * 뒤로가기 시, 팀이 선택되어있다면 => 팀 리스트로
   window.onpopstate = () => {
     if (activity.currentTeam !== "") {
       handleToTeamList();
@@ -71,10 +72,6 @@ const Log = () => {
       <div className="Log">
         <h3>회의록</h3>
         <hr />
-        {/* <h5>
-          Projects&ensp;<Badge color="primary">{teamList.length}</Badge>
-        </h5> */}
-        <br />
         {props.children}
       </div>
     );
@@ -117,7 +114,7 @@ const Log = () => {
     );
   };
 
-  // 선택된 팀이 없다면, 팀 목록 출력
+  // * 선택된 팀이 없다면, 팀 목록 출력
   if (activity.currentTeam === "") {
     return (
       <Wrapper>
@@ -140,7 +137,7 @@ const Log = () => {
     return (
       <Wrapper>
         <div className="fixed-r60 z1200">
-          <Tooltip title="팀 목록으로" placement="left" cln>
+          <Tooltip title="팀 목록으로" placement="left">
             <Button
               variant="contained"
               color="primary"
@@ -158,7 +155,8 @@ const Log = () => {
               color="primary"
               onClick={handleToTeamList}
             >
-              <ViewList /> 팀 목록으로
+              <ViewList />
+              &ensp;팀 목록으로
             </Button>
           </Col>
           <Col lg="2">
@@ -166,18 +164,17 @@ const Log = () => {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={handleAddTeamMember}
+              onClick={() => setOpenAddMemberDialog(true)}
             >
               팀원추가
             </Button>
+            <AddNewTeamMemberDialogComp
+              open={openAddMemberDialog}
+              handleClose={() => handleClose("teamMember")}
+            />
           </Col>
           <Col lg="2">
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleAddNewLog}
-            >
+            <Button fullWidth variant="contained" color="primary">
               회의록 작성
             </Button>
           </Col>

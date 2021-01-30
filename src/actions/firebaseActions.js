@@ -26,7 +26,7 @@ const loadAuthCode = async () => {
 
 // 회원가입(Authentification)
 export const RegisterNewUser = async (props) => {
-  const { id, password, name, authCode } = props;
+  const { id, password, name, authCode, property } = props;
   const { _authCode, _authCode_supporter } = await loadAuthCode();
 
   if (!(authCode !== _authCode && authCode !== _authCode_supporter)) {
@@ -39,8 +39,9 @@ export const RegisterNewUser = async (props) => {
     .then(async (user) => {
       resResult.res = user;
       resResult.message = "회원가입이 완료되었습니다.";
-      if (authCode === _authCode) await DB_NewUserInfo(id, name, false);
-      else await DB_NewUserInfo(id, name, true);
+      if (authCode === _authCode)
+        await DB_NewUserInfo(id, name, property, false);
+      else await DB_NewUserInfo(id, name, property, true);
     })
     .catch((err) => {
       console.error(err);
@@ -91,16 +92,17 @@ export const SignInUser = (props) => async (dispatch) => {
   return resResult;
 };
 
-const DB_NewUserInfo = async (id, name, isSupporter) => {
+const DB_NewUserInfo = async (id, name, property, isSupporter) => {
   await fireDatabase
     .ref("users/" + id)
     .set({
       id,
       name,
       isSupporter,
+      property,
       isAuth: true,
     })
-    .then((res) => {
+    .then(() => {
       console.info("회원가입 데이터 업로드 성공");
     })
     .catch((err) => {

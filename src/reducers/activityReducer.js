@@ -7,6 +7,7 @@ import {
   ADD_SEASONS,
   ADD_TEAMS,
   SET_TEAM,
+  GET_MEMBERS,
 } from "actions/types";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   teams: [],
   attention: [],
   votes: [],
+  memberList: [],
   currentSeason: "",
   currentTeam: "",
   currentAttention: "",
@@ -68,6 +70,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentTeam: action.payload,
+      };
+
+    case GET_MEMBERS:
+      return {
+        ...state,
+        memberList: action.payload,
       };
 
     default:

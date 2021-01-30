@@ -48,6 +48,7 @@ export const AddNewSeason = (seasonName) => async (dispatch) => {
 export const GetSeasons = () => async (dispatch) => {
   dispatch({
     type: TYPE.LOADING,
+    loading: true,
     payload: "시즌 정보를 불러오고 있습니다...",
   });
   await fireDatabase
@@ -64,6 +65,25 @@ export const GetSeasons = () => async (dispatch) => {
         payload: "로딩 완료!",
       });
     });
+};
+
+export const GetMembers = () => async (dispatch) => {
+  dispatch({
+    type: TYPE.LOADING,
+    loading: true,
+    payload: "회원 정보를 불러오고 있습니다...",
+  });
+  await fireDatabase.ref("users").on("value", (snapShot) => {
+    dispatch({
+      type: TYPE.GET_MEMBERS,
+      payload: Object.values(snapShot.val()),
+    });
+    dispatch({
+      type: TYPE.LOADING,
+      loading: false,
+      payload: "로딩 완료!",
+    });
+  });
 };
 
 export const AddTeam = (seasonName, teamName) => async (dispatch) => {
@@ -96,5 +116,32 @@ export const AddTeam = (seasonName, teamName) => async (dispatch) => {
         loading: false,
         message: "추가 실패!",
       });
+    });
+};
+
+export const AddNewMember = (currentSeason, teamName, member) => async (
+  dispatch
+) => {
+  dispatch({
+    type: TYPE.LOADING,
+    loading: true,
+    payload: "새로운 멤버를 추가하고 있습니다...",
+  });
+
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${teamName}/teamMember`)
+    .push(member)
+    .then((res) => {
+      alert(
+        `${teamName}(${currentSeason}) 팀에 ${member.name}님을 추가했습니다.`
+      );
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        payload: "추가 완료!",
+      });
+    })
+    .catch((err) => {
+      alert("팀원 추가 오류 발생");
     });
 };

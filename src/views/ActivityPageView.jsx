@@ -1,5 +1,5 @@
 import { MenuItem, Paper, Select, Tab, Tabs } from "@material-ui/core";
-import { GetSeasons } from "actions/dbActions";
+import { GetMembers, GetSeasons } from "actions/dbActions";
 import { SET_SEASON } from "actions/types";
 import { a11yProps, TabPanel } from "functions/functions";
 import React, { useState } from "react";
@@ -23,6 +23,9 @@ const ActivityPageView = () => {
   useEffect(() => {
     if (activity.seasons.length === 0) {
       dispatch(GetSeasons());
+    }
+    if (activity.memberList.length === 0) {
+      dispatch(GetMembers());
     }
   }, []);
 
