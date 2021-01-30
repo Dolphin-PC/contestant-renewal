@@ -39,6 +39,10 @@ export const usePreventLeave = () => {
 
 export const getCurrentDateFormat = () => {
   let currentDate = new Date().toLocaleDateString("ko-KR"); // * 2020.01.01
-  currentDate = currentDate.split(".").join("-").replace(/\-$/g, "");
+  currentDate = currentDate
+    .split(".")
+    .join("-")
+    .replace(/\-$/, "")
+    .replace(/(\s*)/g, "");
   return currentDate;
 };

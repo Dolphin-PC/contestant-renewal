@@ -178,6 +178,7 @@ export const AddNewLog = (currentSeason, teamName, currentDate) => async (
     .child(currentDate)
     .update({
       createStamp: new Date().getTime(),
+      logName: currentDate,
       log: "",
       feedback: "",
       feedbacks: [],
@@ -192,6 +193,48 @@ export const AddNewLog = (currentSeason, teamName, currentDate) => async (
     })
     .catch((err) => {
       alert("회의록 추가 오류 발생");
+    })
+    .then(() => {
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        payload: "",
+      });
+    });
+};
+
+export const UpdateLogContent = (
+  activity,
+  logName,
+  tab,
+  updateContent
+) => async (dispatch) => {
+  const { currentSeason, currentTeam } = activity;
+
+  console.info(updateContent);
+
+  dispatch({
+    type: TYPE.LOADING,
+    loading: true,
+    payload: "회의록 내용을 수정하고 있습니다...",
+  });
+
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${currentTeam.teamName}/teamLog`)
+    .child(logName)
+    .update({
+      [tab]: updateContent,
+    })
+    .then((res) => {
+      alert("회의록이 수정되었습니다.");
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        payload: "수정 완료!",
+      });
+    })
+    .catch((err) => {
+      alert("회의록 수정 오류 발생");
     })
     .then(() => {
       dispatch({

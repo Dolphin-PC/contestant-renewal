@@ -93,7 +93,7 @@ const Log = () => {
     );
   };
 
-  const TabRender = () => {
+  const LogTabRender = () => {
     const useStyles = makeStyles((theme) => ({
       root: {
         flexGrow: 1,
@@ -113,6 +113,8 @@ const Log = () => {
       setValue(newValue);
     };
 
+    const { teamLog } = activity.currentTeam;
+
     return (
       <div className={classes.root}>
         <Tabs
@@ -121,11 +123,20 @@ const Log = () => {
           value={value}
           onChange={handleChange}
         >
-          <Tab label="Item One" {...a11yProps(0)} />
+          {teamLog &&
+            Object.values(teamLog).map((log, i) => (
+              <Tab label={log.logName} {...a11yProps(i)} key={i} />
+            ))}
         </Tabs>
-        <TabPanel value={value} index={0} className="w1">
+        {teamLog &&
+          Object.values(teamLog).map((log, i) => (
+            <TabPanel value={value} index={i} className="w1">
+              <LogWrapper {...log} />
+            </TabPanel>
+          ))}
+        {/* <TabPanel value={value} index={0} className="w1">
           <LogWrapper />
-        </TabPanel>
+        </TabPanel> */}
       </div>
     );
   };
@@ -226,7 +237,7 @@ const Log = () => {
           ))}
 
         <hr />
-        <TabRender />
+        <LogTabRender />
       </Wrapper>
     );
   }
