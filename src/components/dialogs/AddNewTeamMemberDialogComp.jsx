@@ -16,9 +16,13 @@ import { useDispatch, useSelector } from "react-redux";
 const AddNewTeamMemberDialogComp = ({ open, handleClose }) => {
   const dispatch = useDispatch();
   const activity = useSelector((state) => state.activity);
-  const [member, setMember] = useState();
+  const [member, setMember] = useState(null);
 
   const handleAddNewMember = async () => {
+    if (member === null) {
+      return;
+    }
+
     let teamName = activity.currentTeam.teamName;
     let currentSeason = activity.currentSeason;
     if (

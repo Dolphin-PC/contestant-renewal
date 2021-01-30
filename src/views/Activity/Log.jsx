@@ -186,11 +186,15 @@ const Log = () => {
         </Row>
         <br />
         <h1>{activity.currentTeam.teamName}</h1>
-        <Chip label="test" />
-        &ensp;
-        <Chip label="test" />
-        &ensp;
-        <Chip label="test" />
+        {Object.values(activity.currentTeam.teamMember).map((member, index) => (
+          <Chip
+            color="primary"
+            label={member.name}
+            key={index}
+            style={{ margin: 3 }}
+          />
+        ))}
+
         <hr />
         <TabRender />
       </Wrapper>
