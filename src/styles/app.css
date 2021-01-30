@@ -92,6 +92,9 @@ a:hover {
 .w1 {
   width: 100%;
 }
+.MuiDialog-paperWidthSm {
+  min-width: 300px;
+}
 
 .padding20 {
   padding: 20px;

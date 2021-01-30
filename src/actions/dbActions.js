@@ -144,6 +144,13 @@ export const AddNewMember = (currentSeason, teamName, member) => async (
     })
     .catch((err) => {
       alert("팀원 추가 오류 발생");
+    })
+    .then(() => {
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        payload: "",
+      });
     });
 };
 
@@ -154,5 +161,43 @@ export const DeleteTeamMember = async (currentSeason, teamName, member) => {
     .remove()
     .then(() => {
       alert("정상적으로 삭제되었습니다.");
+    });
+};
+
+export const AddNewLog = (currentSeason, teamName, currentDate) => async (
+  dispatch
+) => {
+  dispatch({
+    type: TYPE.LOADING,
+    loading: true,
+    payload: "새로운 회의록을 추가하고 있습니다...",
+  });
+
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${teamName}/teamLog`)
+    .child(currentDate)
+    .update({
+      createStamp: new Date().getTime(),
+      log: "",
+      feedback: "",
+      feedbacks: [],
+    })
+    .then((res) => {
+      alert("새 회의록이 추가되었습니다.");
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        payload: "추가 완료!",
+      });
+    })
+    .catch((err) => {
+      alert("회의록 추가 오류 발생");
+    })
+    .then(() => {
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        payload: "",
+      });
     });
 };

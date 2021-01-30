@@ -12,6 +12,7 @@ import {
 import { ArrowBack, ViewList } from "@material-ui/icons";
 import { DeleteTeamMember } from "actions/dbActions";
 import { SET_TEAM } from "actions/types";
+import AddNewLogDialogComp from "components/dialogs/AddNewLogDialogComp";
 import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
 import { a11yProps, TabPanel } from "functions/functions";
@@ -29,6 +30,7 @@ const Log = () => {
   const user = useSelector((state) => state.user);
   const [teamList, setTeamList] = useState([]);
   const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
+  const [openAddLogDialog, setOpenAddLogDialog] = useState(false);
 
   // 팀 리스트 불러오기
   useEffect(() => {
@@ -49,6 +51,8 @@ const Log = () => {
     switch (dialogName) {
       case "teamMember":
         return setOpenAddMemberDialog(false);
+      case "log":
+        return setOpenAddLogDialog(false);
       default:
         return;
     }
@@ -186,9 +190,18 @@ const Log = () => {
             />
           </Col>
           <Col lg="2">
-            <Button fullWidth variant="contained" color="primary">
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenAddLogDialog(true)}
+            >
               회의록 작성
             </Button>
+            <AddNewLogDialogComp
+              open={openAddLogDialog}
+              handleClose={() => handleClose("log")}
+            />
           </Col>
           <Col lg="6">
             <Button fullWidth variant="contained" color="primary">

@@ -35,7 +35,7 @@ const AddNewTeamMemberDialogComp = ({ open, handleClose }) => {
     }
   };
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>새 팀원 추가</DialogTitle>
       <DialogContent>
         <Select
