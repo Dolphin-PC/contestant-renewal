@@ -129,7 +129,7 @@ const LogFeedbackRender = ({ tab, log, feedback, logName }) => {
   };
 
   const WrapperRender = (props) => {
-    const { header, subHeader, content } = props;
+    const { header, subHeader, content, tab } = props;
 
     return (
       <div>
@@ -146,7 +146,11 @@ const LogFeedbackRender = ({ tab, log, feedback, logName }) => {
         <Paper elevation={2} className="padding20">
           {editMode ? (
             <Editor
-              placeholder="이번 주 진행한 회의를 업로드해주세요."
+              placeholder={
+                tab === "log"
+                  ? "이번 주 진행한 회의를 업로드해주세요."
+                  : "다른 동아리원들에게 받은 피드백을 토대로 바뀐 점을 기록해보세요."
+              }
               initialValue={content}
               previewStyle="vertical"
               height="500px"
@@ -166,6 +170,7 @@ const LogFeedbackRender = ({ tab, log, feedback, logName }) => {
     case "log":
       return (
         <WrapperRender
+          tab="log"
           header="회의 내용(필수)"
           subHeader="팀 회의 내용을 적어주세요."
           content={log}
@@ -174,6 +179,7 @@ const LogFeedbackRender = ({ tab, log, feedback, logName }) => {
     case "feedback":
       return (
         <WrapperRender
+          tab="feedback"
           header="피드백(선택)"
           subHeader="받은 피드백에 대한 내용을 적어주세요."
           content={feedback}
