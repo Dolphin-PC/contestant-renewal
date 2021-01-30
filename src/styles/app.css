@@ -138,3 +138,8 @@ a:hover {
   position: absolute;
   top: 100px;
 }
+
+.Bottom > .buttons {
+  display: flex;
+  justify-content: space-between;
+}

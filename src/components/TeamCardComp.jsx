@@ -1,17 +1,16 @@
 import { Card, Divider, Button } from "@material-ui/core";
+import { SetCurrentTeam } from "actions/dbActions";
 import { SET_TEAM } from "actions/types";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TeamCardComp = (props) => {
   const { teamName, deadLine } = props;
   const dispatch = useDispatch();
+  const activity = useSelector((state) => state.activity);
 
   const handleOnClickTeam = () => {
-    dispatch({
-      type: SET_TEAM,
-      payload: props,
-    });
+    dispatch(SetCurrentTeam(activity.currentSeason, teamName));
   };
   return (
     <Card
@@ -28,7 +27,7 @@ const TeamCardComp = (props) => {
         <Divider style={{ width: 50, height: 10 }} />
         <br />
         <h4>{teamName}</h4>
-        <small>~ {deadLine}</small>
+        {/* <small>~ {deadLine}</small> */}
       </div>
 
       <div>

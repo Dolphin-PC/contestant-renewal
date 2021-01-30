@@ -244,3 +244,16 @@ export const UpdateLogContent = (
       });
     });
 };
+
+export const AddNewFeedback = async () => {};
+
+export const SetCurrentTeam = (currentSeason, teamName) => async (dispatch) => {
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${teamName}`)
+    .on("value", (snapShot) => {
+      dispatch({
+        type: TYPE.SET_TEAM,
+        payload: snapShot.val(),
+      });
+    });
+};

@@ -14,6 +14,7 @@ import {
   IconButton,
   ListItem,
   Paper,
+  TextField,
   Tooltip,
   Typography,
 } from "@material-ui/core";
@@ -202,6 +203,8 @@ const FeedbackRightDrawer = (props) => {
   const [allExpand, setAllExpand] = useState(false);
   const { feedbackOpen, handleOpenFeedback } = props;
 
+  const handleNewFeedback = () => {};
+
   return (
     <Drawer
       className="FeedBackDrawer"
@@ -215,14 +218,14 @@ const FeedbackRightDrawer = (props) => {
         <div>
           <ListItem style={{ justifyContent: "space-between" }}>
             <h4>피드백</h4>
-            <div>
+            {/* <div>
               <IconButton onClick={() => setAllExpand(false)}>
                 <ExpandLess />
               </IconButton>
               <IconButton onClick={() => setAllExpand(true)}>
                 <ExpandMore />
               </IconButton>
-            </div>
+            </div> */}
           </ListItem>
           <Divider />
         </div>
@@ -265,14 +268,34 @@ const FeedbackRightDrawer = (props) => {
           </ListItem>
         </div>
 
+        <Divider />
+        <br />
         <div className="Bottom">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleOpenFeedback}
-          >
-            <ArrowLeft /> 돌아가기
-          </Button>
+          <div className="feedbackText">
+            <TextField
+              fullWidth
+              size="small"
+              label="피드백을 써주세요."
+              variant="outlined"
+            />
+          </div>
+          <br />
+          <div className="buttons">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleOpenFeedback}
+            >
+              <ArrowLeft /> 돌아가기
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNewFeedback}
+            >
+              피드백 작성
+            </Button>
+          </div>
         </div>
       </div>
     </Drawer>
