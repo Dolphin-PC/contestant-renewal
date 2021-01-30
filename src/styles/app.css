@@ -125,3 +125,7 @@ a:hover {
   right: 30px;
   bottom: 90px;
 }
+
+.z1200 {
+  z-index: 1200;
+}

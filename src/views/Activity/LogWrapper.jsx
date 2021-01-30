@@ -25,6 +25,9 @@ import {
   ExpandMore,
   Feedback,
 } from "@material-ui/icons";
+import { useRef } from "react";
+import { useEffect } from "react";
+import { usePreventLeave } from "functions/functions";
 
 const LogWrapper = (props) => {
   const { title } = props;
@@ -33,12 +36,24 @@ const LogWrapper = (props) => {
 
   const LogFeedbackRender = ({ tab }) => {
     const [editMode, setEditMode] = useState(false);
+    const testRef = useRef("");
+    const { onPreventLeave, offPreventLeave } = usePreventLeave();
+
+    useEffect(() => {
+      if (editMode) {
+        onPreventLeave();
+      } else {
+        offPreventLeave();
+      }
+    }, [editMode]);
 
     const handleSwitchEditMode = () => {
       if (editMode) {
         if (window.confirm("내용을 수정하시겠습니까?")) {
           //   TODO 내용 저장하기
           setEditMode(false);
+          alert(testRef.current.getInstance());
+          console.info(testRef.current.getInstance().getHtml());
         }
       } else {
         setEditMode(true);
@@ -47,6 +62,7 @@ const LogWrapper = (props) => {
 
     const Wrapper = (props) => {
       const { header, subHeader } = props;
+
       return (
         <div>
           <Row className="margin0" style={{ justifyContent: "space-between" }}>
@@ -67,6 +83,7 @@ const LogWrapper = (props) => {
                 height="500px"
                 initialEditType="wysiwyg"
                 useCommandShortcut={true}
+                ref={testRef}
               />
             ) : (
               <Viewer initialValue="test" />
@@ -273,7 +290,7 @@ const LogWrapper = (props) => {
             </Button>
           </Col>
         </>
-        <div className="fixed-r30">
+        <div className="fixed-r30 z1200">
           <Tooltip title="피드백 보기" placement="left">
             <Button
               variant="contained"
