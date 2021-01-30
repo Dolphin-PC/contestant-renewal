@@ -130,7 +130,8 @@ export const AddNewMember = (currentSeason, teamName, member) => async (
 
   await fireDatabase
     .ref(`seasons/${currentSeason}/teamList/${teamName}/teamMember`)
-    .push(member)
+    .child(`${member.name}(${member.property.split("/")[1]})`)
+    .update(member)
     .then((res) => {
       alert(
         `${teamName}(${currentSeason}) 팀에 ${member.name}님을 추가했습니다.`
@@ -143,5 +144,15 @@ export const AddNewMember = (currentSeason, teamName, member) => async (
     })
     .catch((err) => {
       alert("팀원 추가 오류 발생");
+    });
+};
+
+export const DeleteTeamMember = async (currentSeason, teamName, member) => {
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${teamName}/teamMember`)
+    .child(`${member.name}(${member.property.split("/")[1]})`)
+    .remove()
+    .then(() => {
+      alert("정상적으로 삭제되었습니다.");
     });
 };

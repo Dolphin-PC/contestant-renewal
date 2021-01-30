@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { ArrowBack, ViewList } from "@material-ui/icons";
+import { DeleteTeamMember } from "actions/dbActions";
 import { SET_TEAM } from "actions/types";
 import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
@@ -25,17 +26,9 @@ const Log = () => {
   const history = useHistory();
 
   const activity = useSelector((state) => state.activity);
+  const user = useSelector((state) => state.user);
   const [teamList, setTeamList] = useState([]);
   const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
-
-  const handleClose = (dialogName) => {
-    switch (dialogName) {
-      case "teamMember":
-        return setOpenAddMemberDialog(false);
-      default:
-        return;
-    }
-  };
 
   // 팀 리스트 불러오기
   useEffect(() => {
@@ -52,11 +45,30 @@ const Log = () => {
     }
   }, [activity.currentSeason, activity.seasons]);
 
+  const handleClose = (dialogName) => {
+    switch (dialogName) {
+      case "teamMember":
+        return setOpenAddMemberDialog(false);
+      default:
+        return;
+    }
+  };
+
   const handleToTeamList = () => {
     dispatch({
       type: SET_TEAM,
       payload: "",
     });
+  };
+
+  const handleDeleteMember = (member) => {
+    let teamName = activity.currentTeam.teamName;
+    let currentSeason = activity.currentSeason;
+    if (user.userInfo.isSupporter) {
+      if (window.confirm(`[${member.name}]님을 삭제하시겠습니까?`)) {
+        DeleteTeamMember(currentSeason, teamName, member);
+      }
+    }
   };
 
   // * 뒤로가기 시, 팀이 선택되어있다면 => 팀 리스트로
@@ -186,14 +198,19 @@ const Log = () => {
         </Row>
         <br />
         <h1>{activity.currentTeam.teamName}</h1>
-        {Object.values(activity.currentTeam.teamMember).map((member, index) => (
-          <Chip
-            color="primary"
-            label={member.name}
-            key={index}
-            style={{ margin: 3 }}
-          />
-        ))}
+        {activity.currentTeam.teamMember &&
+          Object.values(
+            activity.currentTeam.teamMember
+          ).map((member, index) => (
+            <Chip
+              clickable
+              color="primary"
+              label={member.name}
+              key={index}
+              style={{ margin: 3 }}
+              onClick={() => handleDeleteMember(member)}
+            />
+          ))}
 
         <hr />
         <TabRender />
