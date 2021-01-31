@@ -143,3 +143,8 @@ a:hover {
   display: flex;
   justify-content: space-between;
 }
+
+.CommonFooter {
+  margin-top: 50px;
+  text-align: center;
+}
