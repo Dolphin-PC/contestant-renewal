@@ -143,3 +143,10 @@ a:hover {
   display: flex;
   justify-content: space-between;
 }
+
+.Log-VerticalTabs {
+  flex-grow: 1;
+  /* background-color: theme.palette.background.paper, */
+  display: flex;
+  height: 100%;
+}

@@ -14,3 +14,5 @@ export const SET_SEASON = "SET_SEASON";
 export const SET_TEAM = "SET_TEAM";
 
 export const GET_MEMBERS = "GET_MEMBERS";
+
+export const SET_LOG = "SET_LOG";

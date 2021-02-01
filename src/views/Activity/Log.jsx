@@ -93,54 +93,6 @@ const Log = () => {
     );
   };
 
-  const LogTabRender = () => {
-    const useStyles = makeStyles((theme) => ({
-      root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        display: "flex",
-        height: "100%",
-      },
-      tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-      },
-    }));
-    const classes = useStyles();
-
-    const [value, setValue] = useState(0);
-
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
-
-    const { teamLog } = activity.currentTeam;
-
-    return (
-      <div className={classes.root}>
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-        >
-          {teamLog &&
-            Object.values(teamLog).map((log, i) => (
-              <Tab label={log.logName} {...a11yProps(i)} key={i} />
-            ))}
-        </Tabs>
-        {teamLog &&
-          Object.values(teamLog).map((log, i) => (
-            <TabPanel value={value} index={i} className="w1">
-              <LogWrapper {...log} />
-            </TabPanel>
-          ))}
-        {/* <TabPanel value={value} index={0} className="w1">
-          <LogWrapper />
-        </TabPanel> */}
-      </div>
-    );
-  };
-
   // * 선택된 팀이 없다면, 팀 목록 출력
   if (activity.currentTeam === "") {
     return (
@@ -237,10 +189,42 @@ const Log = () => {
           ))}
 
         <hr />
-        <LogTabRender />
+        <LogTabRender activity={activity} />
       </Wrapper>
     );
   }
+};
+
+const LogTabRender = ({ activity }) => {
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const { teamLog } = activity.currentTeam;
+
+  return (
+    <div className="Log-VerticalTabs">
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+      >
+        {teamLog &&
+          Object.values(teamLog).map((log, i) => (
+            <Tab label={log.logName} {...a11yProps(i)} key={i} />
+          ))}
+      </Tabs>
+      {teamLog &&
+        Object.values(teamLog).map((log, i) => (
+          <TabPanel value={value} index={i} className="w1">
+            <LogWrapper {...log} />
+          </TabPanel>
+        ))}
+    </div>
+  );
 };
 
 export default Log;

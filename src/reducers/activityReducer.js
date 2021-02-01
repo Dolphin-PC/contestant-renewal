@@ -8,6 +8,7 @@ import {
   ADD_TEAMS,
   SET_TEAM,
   GET_MEMBERS,
+  SET_LOG,
 } from "actions/types";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   currentSeason: "",
   currentTeam: "",
   currentAttention: "",
+  currentLog: "",
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -76,6 +78,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         memberList: action.payload,
+      };
+
+    case SET_LOG:
+      return {
+        ...state,
+        currentLog: action.payload,
       };
 
     default:
