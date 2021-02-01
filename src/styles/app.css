@@ -155,3 +155,8 @@ a:hover {
   margin-top: 50px;
   text-align: center;
 }
+
+.ActivityWrapper {
+  width: 95%;
+  margin-left: auto;
+}
