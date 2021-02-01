@@ -9,13 +9,14 @@ import {
   NavbarToggler,
   NavItem,
 } from "reactstrap";
-import { Button } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
 import logo from "../assets/images/logo.png";
 import * as Color from "../assets/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fireAuth } from "app/initFirebase";
 import { LOGOUT } from "actions/types";
 import { Logout } from "actions/firebaseActions";
+import { Instagram } from "@material-ui/icons";
 
 const CommonNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,6 +44,10 @@ const CommonNavbar = () => {
     } else {
       history.push("/login");
     }
+  };
+
+  const handleOnClickInsta = () => {
+    window.open("https://www.instagram.com/gongmoja_official/");
   };
   return (
     <div
@@ -82,6 +87,10 @@ const CommonNavbar = () => {
             </NavItem>
           </Nav>
           <NavbarText>
+            <IconButton onClick={() => handleOnClickInsta()}>
+              <Instagram style={{ color: "white" }} />
+            </IconButton>
+            &emsp;
             <Button
               variant="contained"
               color="primary"
