@@ -150,3 +150,8 @@ a:hover {
   display: flex;
   height: 100%;
 }
+
+.CommonFooter {
+  margin-top: 50px;
+  text-align: center;
+}

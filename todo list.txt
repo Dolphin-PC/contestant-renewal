@@ -30,3 +30,20 @@ TODO: selectBox 선택할 때마다, 오른쪽 슬라이더 바가 사라지는�
 이거 걍 지워버리고, youtube에서 css 슬라이더 바 만드는거 보고 만들기
 
 TODO: 피드백 모두 확장/축소
+
+
+2021.02.01
+TODO CSS Styling
+1) Navbar 로그인 왼쪽에 인스타 link 
+2) Feedback right modal - 회의록 이름 표기
+3) Feedback 유저 hover => property(정보)표시
+4) lottie Animation 추가
+5) 새시즌 - (회의록, 출석부, 팀빌딩(투표)) 묶어서 띠배너로 만들기
+6) 시즌 선택전, 시즌 선택 + (설명글) + 애니메이션
+8) 팀에 (아이콘 - 숫자) 넣기 | 회의록 개수, 팀원 수
+9) 팀원/회의록 추가 버튼에 (아이콘) 추가 및 각 설명(Tooltip), 공모전 설명 링크(오른쪽에 pencil 아이콘으로 링크 수정 Dialog) 
+7) 로그인 여부
+
+TODO 나중에 했으면 하는 것
+공모자들 전체 일정으로,
+database 연동해서, d day 시간으로 밑에 일정 시작 표시

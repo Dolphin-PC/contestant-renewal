@@ -121,7 +121,6 @@ const LogFeedbackRender = ({ tab, log, feedback, logName }) => {
             contentRef.current.getInstance().getHtml()
           )
         );
-        //   TODO 내용 저장하기
         setEditMode(false);
       }
     } else {
@@ -200,8 +199,9 @@ LogFeedbackRender.defaultProps = {
 
 // * 피드백 오른쪽 Drawer
 const FeedbackRightDrawer = (props) => {
-  const [allExpand, setAllExpand] = useState(false);
   const { feedbackOpen, handleOpenFeedback } = props;
+  const [allExpand, setAllExpand] = useState(false);
+  const [feedback, setFeedback] = useState("");
 
   const handleNewFeedback = () => {};
 
@@ -277,6 +277,8 @@ const FeedbackRightDrawer = (props) => {
               size="small"
               label="피드백을 써주세요."
               variant="outlined"
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
             />
           </div>
           <br />

@@ -245,7 +245,17 @@ export const UpdateLogContent = (
     });
 };
 
-export const AddNewFeedback = async () => {};
+export const AddNewFeedback = (currentSeason,teamName,user,content) => async dispatch => {
+  dispatch({
+    type: TYPE.LOADING,
+    loading: true,
+    message:'피드백을 업로드하고 있습니다...'
+
+
+  })
+
+  // await fireDatabase.ref(`seasons/${currentSeason}/teamList/${teamName}/teamLog/${}`)
+};
 
 export const SetCurrentTeam = (currentSeason, teamName) => async (dispatch) => {
   await fireDatabase

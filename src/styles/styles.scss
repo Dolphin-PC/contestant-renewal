@@ -1,0 +1,10 @@
+$main-color : "#18204D"
+
+
+.CommonNavbar{
+  background-color: $main-color;
+  position:fixed;
+  top:0;
+  width: 100%;
+  z-index: 5;
+}

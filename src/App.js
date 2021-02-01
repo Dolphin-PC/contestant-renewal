@@ -4,6 +4,7 @@ import CommonNavbar from "./components/CommonNavbar";
 import LandingView from "./views/LandingView";
 
 import "./styles/app.css";
+// import './styles/styles.scss'
 import IntroductPageView from "views/IntroductPageView";
 import LoginPageView from "views/LoginPageView";
 import { useEffect, useState } from "react";

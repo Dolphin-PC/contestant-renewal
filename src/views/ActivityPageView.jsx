@@ -1,4 +1,12 @@
-import { MenuItem, Paper, Select, Tab, Tabs } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Tab,
+  Tabs,
+} from "@material-ui/core";
 import { GetMembers, GetSeasons } from "actions/dbActions";
 import { SET_SEASON } from "actions/types";
 import { a11yProps, TabPanel } from "functions/functions";
@@ -40,21 +48,33 @@ const ActivityPageView = () => {
   return (
     <div style={{ width: "95%", marginTop: "10%", marginLeft: "auto" }}>
       {season === "" ? <h5>시즌을 선택해주세요.</h5> : ""}
-      <Select autoWidth value={season} onChange={onChangeSeason}>
-        {activity.seasons.map((item, index) => (
-          <MenuItem key={index} value={item.seasonName}>
-            {item.seasonName}
-          </MenuItem>
-        ))}
-      </Select>
-      <div>
+      <FormControl color="primary" style={{ minWidth: 200 }}>
+        <InputLabel id="season-select-label">시즌 선택</InputLabel>
+        <Select
+          fullWidth
+          labelId="season-select-label"
+          value={season}
+          onChange={onChangeSeason}
+        >
+          {activity.seasons.map((item, index) => (
+            <MenuItem key={index} value={item.seasonName}>
+              <h5>{item.seasonName}</h5>
+            </MenuItem>
+          ))}
+          1
+        </Select>
+      </FormControl>
+
+      <div style={{ marginTop: 20 }}>
         <Paper elevation={3}>
           <Tabs value={page} onChange={handleChangePage}>
             <Tab label="회의록" {...a11yProps(0)} />
             <Tab label="출석부" {...a11yProps(1)} />
             <Tab label="팀 빌딩(투표)" {...a11yProps(2)} />
           </Tabs>
-
+        </Paper>
+        <br />
+        <Paper elevation={3}>
           <TabPanel value={page} index={0} className="TabPanel">
             <Log />
           </TabPanel>
