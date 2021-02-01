@@ -9,6 +9,7 @@ import {
   SET_TEAM,
   GET_MEMBERS,
   SET_LOG,
+  OPEN_FEEDBACK_DRAWER,
 } from "actions/types";
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   currentTeam: "",
   currentAttention: "",
   currentLog: "",
+  openFeedbackDrawer: false,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -84,6 +86,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentLog: action.payload,
+      };
+
+    case OPEN_FEEDBACK_DRAWER:
+      return {
+        ...state,
+        openFeedbackDrawer: action.payload,
       };
 
     default:

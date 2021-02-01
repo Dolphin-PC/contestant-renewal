@@ -30,16 +30,22 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { usePreventLeave } from "functions/functions";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateLogContent } from "actions/dbActions";
+import { AddNewFeedback, UpdateLogContent } from "actions/dbActions";
+import { OPEN_FEEDBACK_DRAWER } from "actions/types";
 
 const LogWrapper = (props) => {
+  const dispatch = useDispatch();
+  const activity = useSelector((state) => state.activity);
+
   const { logName, log, feedback, feedbacks } = props;
   const [tab, setTab] = useState("log");
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const handleOpenFeedback = () => {
-    setFeedbackOpen(false);
-  };
 
+  const handleFeedbackDrawer = () => {
+    dispatch({
+      type: OPEN_FEEDBACK_DRAWER,
+      payload: true,
+    });
+  };
   return (
     <Paper elevation={3} className="padding20">
       <h2>{logName}</h2>
@@ -72,7 +78,7 @@ const LogWrapper = (props) => {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => setFeedbackOpen(true)}
+              onClick={() => handleFeedbackDrawer()}
             >
               <Feedback />
             </Button>
@@ -81,11 +87,8 @@ const LogWrapper = (props) => {
       </Row>
       <br />
 
-      <LogFeedbackRender tab={tab} {...props} />
-      <FeedbackRightDrawer
-        feedbackOpen={feedbackOpen}
-        handleOpenFeedback={handleOpenFeedback}
-      />
+      <LogFeedbackRender tab={tab} activity={activity} {...props} />
+      <FeedbackRightDrawer logName={logName} activity={activity} />
     </Paper>
   );
 };
@@ -94,9 +97,8 @@ LogWrapper.defaultProps = {
 };
 
 // * 회의내용/피드백내용
-const LogFeedbackRender = ({ tab, log, feedback, logName }) => {
+const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
   const dispatch = useDispatch();
-  const activity = useSelector((state) => state.activity);
 
   const [editMode, setEditMode] = useState(false);
   const contentRef = useRef("");
@@ -199,11 +201,34 @@ LogFeedbackRender.defaultProps = {
 
 // * 피드백 오른쪽 Drawer
 const FeedbackRightDrawer = (props) => {
-  const { feedbackOpen, handleOpenFeedback } = props;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const { logName, activity } = props;
   const [allExpand, setAllExpand] = useState(false);
   const [feedback, setFeedback] = useState("");
 
-  const handleNewFeedback = () => {};
+  const handleOpenFeedback = () => {
+    dispatch({
+      type: OPEN_FEEDBACK_DRAWER,
+      payload: false,
+    });
+  };
+
+  const handleNewFeedback = () => {
+    if (feedback === "") {
+      return alert("피드백 내용을 적어주세요.");
+    }
+    dispatch(
+      AddNewFeedback(
+        activity.currentSeason,
+        activity.currentTeam.teamName,
+        logName,
+        user,
+        feedback
+      )
+    );
+  };
 
   return (
     <Drawer
@@ -211,8 +236,8 @@ const FeedbackRightDrawer = (props) => {
       style={{ width: "100%" }}
       variant="persistent"
       anchor="right"
-      open={feedbackOpen}
-      onClose={handleOpenFeedback}
+      open={activity.openFeedbackDrawer}
+      onClose={() => handleOpenFeedback()}
     >
       <div className="RightMenu">
         <div>

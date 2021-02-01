@@ -1,5 +1,6 @@
 import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
 import * as TYPE from "actions/types";
+import { getCurrentDateFormat } from "functions/functions.js";
 
 export const AddNewSeason = (seasonName) => async (dispatch) => {
   dispatch({
@@ -245,16 +246,51 @@ export const UpdateLogContent = (
     });
 };
 
-export const AddNewFeedback = (currentSeason,teamName,user,content) => async dispatch => {
+export const AddNewFeedback = (
+  currentSeason,
+  teamName,
+  logName,
+  user,
+  content
+) => async (dispatch) => {
+  const currentDate = getCurrentDateFormat();
+
   dispatch({
     type: TYPE.LOADING,
     loading: true,
-    message:'피드백을 업로드하고 있습니다...'
+    message: "피드백을 업로드하고 있습니다...",
+  });
 
-
-  })
-
-  // await fireDatabase.ref(`seasons/${currentSeason}/teamList/${teamName}/teamLog/${}`)
+  await fireDatabase
+    .ref(
+      `seasons/${currentSeason}/teamList/${teamName}/teamLog/${logName}/feedbacks`
+    )
+    .push({
+      createStamp: new Date().getTime(),
+      currentDate: currentDate,
+      content,
+      user: user.userInfo,
+    })
+    .then(() => {
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        message: "피드백 업로드 성공!",
+      });
+      alert("피드백 작성이 완료되었습니다.");
+    })
+    .catch(() => {
+      dispatch({
+        type: TYPE.LOADING,
+        loading: false,
+        message: "피드백 업로드 실패...",
+      }).then(() => {
+        dispatch({
+          type: TYPE.LOADING,
+          loading: false,
+        });
+      });
+    });
 };
 
 export const SetCurrentTeam = (currentSeason, teamName) => async (dispatch) => {

@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, ViewList } from "@material-ui/icons";
 import { DeleteTeamMember } from "actions/dbActions";
-import { SET_TEAM } from "actions/types";
+import { SET_LOG, SET_TEAM } from "actions/types";
 import AddNewLogDialogComp from "components/dialogs/AddNewLogDialogComp";
 import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
@@ -196,6 +196,7 @@ const Log = () => {
 };
 
 const LogTabRender = ({ activity }) => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {

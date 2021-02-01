@@ -16,3 +16,5 @@ export const SET_TEAM = "SET_TEAM";
 export const GET_MEMBERS = "GET_MEMBERS";
 
 export const SET_LOG = "SET_LOG";
+
+export const OPEN_FEEDBACK_DRAWER = "OPEN_FEEDBACK_DRAWER";
