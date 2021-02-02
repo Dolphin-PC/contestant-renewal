@@ -50,16 +50,7 @@ const CommonNavbar = () => {
     window.open("https://www.instagram.com/gongmoja_official/");
   };
   return (
-    <div
-      className="CommonNavbar"
-      style={{
-        backgroundColor: Color.mainColor,
-        position: "fixed",
-        top: 0,
-        width: "100%",
-        zIndex: 5,
-      }}
-    >
+    <div className="CommonNavbar">
       <Navbar
         dark
         expand="lg"

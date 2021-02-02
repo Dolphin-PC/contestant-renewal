@@ -36,7 +36,7 @@ TODO: 피드백 모두 확장/축소
 TODO CSS Styling
 [DONE]Navbar 로그인 왼쪽에 인스타 link
 
-2) Feedback right modal - 회의록 이름 표기
+[DONE]Feedback right modal - 회의록 이름 표기
 3) Feedback 유저 hover => property(정보)표시
 
 [DONE]]lottie Animation 추가

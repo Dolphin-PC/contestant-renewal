@@ -7,6 +7,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Badge,
   Button,
   Chip,
   Divider,
@@ -255,7 +256,8 @@ const FeedbackRightDrawer = (props) => {
         <div className="header">
           <ListItem style={{ justifyContent: "space-between" }}>
             <h4>
-              피드백&emsp;<small>{logName}</small>
+              피드백&emsp;
+              <Chip color="primary" label={`${logName} | 회의록`} />
             </h4>
             {/* <div>
               <IconButton onClick={() => setAllExpand(false)}>
@@ -351,5 +353,3 @@ FeedbackAccordionRender.defaultProps = {
   currentDate: "2021-01-01",
 };
 export default LogWrapper;
-
-// * 피드백 보여주는 것 부터 하면 됨.

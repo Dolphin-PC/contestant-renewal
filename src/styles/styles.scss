@@ -1,10 +1,18 @@
-$main-color : "#18204D"
+$main-color: #18204d;
 
-
-.CommonNavbar{
+.CommonNavbar {
   background-color: $main-color;
-  position:fixed;
-  top:0;
+  position: fixed;
+  top: 0;
   width: 100%;
   z-index: 5;
+}
+
+a {
+  color: white !important;
+
+  &:hover {
+    text-decoration: none !important;
+    color: darken(white, 10%) !important;
+  }
 }
