@@ -330,3 +330,5 @@ const FeedbackRightDrawer = (props) => {
 };
 
 export default LogWrapper;
+
+// * 피드백 보여주는 것 부터 하면 됨.

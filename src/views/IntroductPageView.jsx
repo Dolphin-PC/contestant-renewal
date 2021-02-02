@@ -3,12 +3,11 @@ import { useState } from "react";
 import { Button, Col, Container } from "reactstrap";
 
 import carousel1 from "assets/images/carousel1.jpg";
-import carousel2 from "assets/images/carousel2.jpg";
-import carousel3 from "assets/images/carousel3.jpg";
+import IntroduceRuleVisualImage from "assets/images/IntroduceRuleVisualImage.jpg";
+import IntroduceActivityVisualImage from "assets/images/IntroduceActivityVisualImage.jpg";
 import { Fab } from "@material-ui/core";
 import { Close, List } from "@material-ui/icons";
 
-import styled from "styled-components";
 import IntroduceTeam from "components/introduce/IntroduceTeam";
 import IntroduceRule from "components/introduce/IntroduceRule";
 import IntroduceActivity from "components/introduce/IntroduceActivity";
@@ -111,7 +110,7 @@ const IntroductPageView = () => {
           style={{
             width: width.center,
             zIndex: zIndex.center,
-            backgroundImage: `url(${carousel2})`,
+            backgroundImage: `url(${IntroduceRuleVisualImage})`,
           }}
           id="center"
           onClick={handleEnter}
@@ -132,7 +131,7 @@ const IntroductPageView = () => {
           style={{
             width: width.right,
             zIndex: zIndex.right,
-            backgroundImage: `url(${carousel3})`,
+            backgroundImage: `url(${IntroduceActivityVisualImage})`,
           }}
           id="right"
           onClick={handleEnter}
