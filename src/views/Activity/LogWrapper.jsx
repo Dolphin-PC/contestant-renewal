@@ -30,7 +30,11 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { usePreventLeave } from "functions/functions";
 import { useDispatch, useSelector } from "react-redux";
-import { AddNewFeedback, UpdateLogContent } from "actions/dbActions";
+import {
+  AddNewFeedback,
+  GetFeedbacks,
+  UpdateLogContent,
+} from "actions/dbActions";
 import { OPEN_FEEDBACK_DRAWER } from "actions/types";
 
 const LogWrapper = (props) => {
@@ -205,7 +209,8 @@ const FeedbackRightDrawer = (props) => {
   const user = useSelector((state) => state.user);
 
   const { logName, activity } = props;
-  const [allExpand, setAllExpand] = useState(false);
+  // const [allExpand, setAllExpand] = useState(false);
+  const [feedbacks, setFeedbacks] = useState(null);
   const [feedback, setFeedback] = useState("");
 
   const handleOpenFeedback = () => {
@@ -230,6 +235,13 @@ const FeedbackRightDrawer = (props) => {
     );
   };
 
+  useEffect(() => {
+    async function get() {
+      setFeedbacks(await GetFeedbacks(logName, activity));
+    }
+    get();
+  }, []);
+
   return (
     <Drawer
       className="FeedBackDrawer"
@@ -242,7 +254,9 @@ const FeedbackRightDrawer = (props) => {
       <div className="RightMenu">
         <div>
           <ListItem style={{ justifyContent: "space-between" }}>
-            <h4>피드백</h4>
+            <h4>
+              피드백&emsp;<small>{logName}</small>
+            </h4>
             {/* <div>
               <IconButton onClick={() => setAllExpand(false)}>
                 <ExpandLess />
@@ -256,41 +270,10 @@ const FeedbackRightDrawer = (props) => {
         </div>
 
         <div style={{ height: "100%" }}>
-          <ListItem>
-            {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
-            <Accordion defaultExpanded={allExpand}>
-              <AccordionSummary expandIcon={<ExpandMore />}>
-                <Chip label="박찬영" />
-                <p style={{ margin: "auto 0px auto 10px" }}>2021-01-01</p>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div>
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
-                  </div>
-                  <div>
-                    <Accordion>
-                      <AccordionSummary expandIcon={<ExpandMore />}>
-                        <Chip label="박찬영" />
-                        <p style={{ margin: "auto 0px auto 10px" }}>
-                          2021-01-01
-                        </p>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Suspendisse malesuada lacus ex, sit amet blandit
-                          leo lobortis eget.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </div>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          </ListItem>
+          {feedbacks &&
+            Object.values(feedbacks).map((feed) => (
+              <FeedbackAccordionRender {...feed} />
+            ))}
         </div>
 
         <Divider />
@@ -300,7 +283,7 @@ const FeedbackRightDrawer = (props) => {
             <TextField
               fullWidth
               size="small"
-              label="피드백을 써주세요."
+              label="피드백을 작성해주세요."
               variant="outlined"
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
@@ -329,6 +312,44 @@ const FeedbackRightDrawer = (props) => {
   );
 };
 
+const FeedbackAccordionRender = ({ content, currentDate, user }) => {
+  return (
+    <ListItem>
+      {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMore />}>
+          <Chip label={user.name} />
+          <p style={{ margin: "auto 0px auto 10px" }}>{currentDate}</p>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div>
+            <div>{content}</div>
+            {/* TODO: 피드백에 대한 피드백 내용 */}
+            {/* <div>
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMore />}>
+                  <Chip label="박찬영" />
+                  <p style={{ margin: "auto 0px auto 10px" }}>2021-01-01</p>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Suspendisse malesuada lacus ex, sit amet blandit leo
+                    lobortis eget.
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            </div> */}
+          </div>
+        </AccordionDetails>
+      </Accordion>
+    </ListItem>
+  );
+};
+FeedbackAccordionRender.defaultProps = {
+  content: "Feedback Content",
+  currentDate: "2021-01-01",
+};
 export default LogWrapper;
 
 // * 피드백 보여주는 것 부터 하면 됨.

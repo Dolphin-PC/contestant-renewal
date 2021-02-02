@@ -65,7 +65,11 @@ const ActivityPageView = () => {
             onChangeSeason={onChangeSeason}
           />
           <br />
-          <Lottie options={animationOption} height={200} />
+          <Lottie
+            isClickToPauseDisabled={true}
+            options={animationOption}
+            height={200}
+          />
         </div>
       ) : (
         <div className="ActivityWrapper">

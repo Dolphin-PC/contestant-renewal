@@ -196,7 +196,7 @@ const Log = () => {
 };
 
 const LogTabRender = ({ activity }) => {
-  const dispatch = useDispatch();
+  // * LogName을 redux로 못주는 이유 : 주게 되면 여기가 계속 re-rendering 돼서 패널이 안넘어감 => 계속 value = 0 인 상태가 됨.
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {

@@ -303,3 +303,19 @@ export const SetCurrentTeam = (currentSeason, teamName) => async (dispatch) => {
       });
     });
 };
+
+// * LogWrapper - return local State
+export const GetFeedbacks = async (logName, activity) => {
+  const { currentSeason, currentTeam } = activity;
+
+  const result = await fireDatabase
+    .ref(
+      `seasons/${currentSeason}/teamList/${currentTeam.teamName}/teamLog/${logName}/feedbacks`
+    )
+    .once("value")
+    .then((snapShot) => {
+      return snapShot.val();
+    });
+
+  return result;
+};
