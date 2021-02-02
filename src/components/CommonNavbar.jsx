@@ -9,7 +9,7 @@ import {
   NavbarToggler,
   NavItem,
 } from "reactstrap";
-import { Button, IconButton } from "@material-ui/core";
+import { Button, Chip, IconButton } from "@material-ui/core";
 import logo from "../assets/images/logo.png";
 import * as Color from "../assets/colors";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,10 +81,11 @@ const CommonNavbar = () => {
             <IconButton onClick={() => handleOnClickInsta()}>
               <Instagram style={{ color: "white" }} />
             </IconButton>
+            {status ? <Chip color="primary" label={userInfo.name} /> : ""}
             &emsp;
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               onClick={handleOnLoginButton}
             >
               {status ? "로그아웃" : "로그인"}

@@ -34,7 +34,7 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ marginLeft: menuOpen ? "20%" : 0, transition: "0.2s" }}>
+    <div className="root" style={{ marginLeft: menuOpen ? "20%" : 0 }}>
       <BrowserRouter>
         <CommonNavbar />
         <Switch>

@@ -55,7 +55,7 @@ const ActivityPageView = () => {
   };
 
   return (
-    <div style={{ marginTop: "10%" }}>
+    <div className="Activity">
       {season === "" ? (
         <div className="Center">
           <h5>활동할 시즌을 선택해주세요.</h5>

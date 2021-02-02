@@ -30,7 +30,6 @@
 }
 
 .Center {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,9 +131,8 @@
 }
 
 .login-form {
+  margin-top: auto;
   padding: 30px;
-  position: absolute;
-  top: 100px;
 }
 
 .Bottom > .buttons {

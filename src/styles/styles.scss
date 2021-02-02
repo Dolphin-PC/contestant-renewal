@@ -1,4 +1,11 @@
-$main-color: #18204d;
+$main-color: #222831;
+$subMain-color: #393e46;
+$secondary-color: #00adb5;
+$default-color: #eeeeee;
+
+.root {
+  transition: 0.2s;
+}
 
 .CommonNavbar {
   background-color: $main-color;
@@ -14,5 +21,24 @@ a {
   &:hover {
     text-decoration: none !important;
     color: darken(white, 10%) !important;
+  }
+}
+
+.Activity {
+  margin-top: 10%;
+}
+
+.MuiButton-containedSecondary {
+  background-color: $secondary-color !important;
+
+  &:hover {
+    background-color: darken($secondary-color, 10%) !important;
+  }
+}
+
+.MuiButton-containedPrimary {
+  background-color: $subMain-color !important;
+  &:hover {
+    background-color: darken($subMain-color, 10%) !important;
   }
 }
