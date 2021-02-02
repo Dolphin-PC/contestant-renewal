@@ -252,7 +252,7 @@ const FeedbackRightDrawer = (props) => {
       onClose={() => handleOpenFeedback()}
     >
       <div className="RightMenu">
-        <div>
+        <div className="header">
           <ListItem style={{ justifyContent: "space-between" }}>
             <h4>
               피드백&emsp;<small>{logName}</small>
@@ -269,7 +269,7 @@ const FeedbackRightDrawer = (props) => {
           <Divider />
         </div>
 
-        <div style={{ height: "100%" }}>
+        <div className="content">
           {feedbacks &&
             Object.values(feedbacks).map((feed) => (
               <FeedbackAccordionRender {...feed} />

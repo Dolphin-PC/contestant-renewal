@@ -125,6 +125,7 @@ a:hover {
 }
 
 .Bottom {
+  position: sticky;
   background-color: white;
   bottom: 10px;
 }
@@ -171,4 +172,11 @@ a:hover {
 .ActivityWrapper {
   width: 95%;
   margin-left: auto;
+}
+
+.header {
+  position: sticky;
+  top: 10px;
+  z-index: 1300;
+  background-color: white;
 }
