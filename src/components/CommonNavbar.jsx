@@ -20,24 +20,15 @@ import { Instagram } from "@material-ui/icons";
 
 const CommonNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [status, setStatus] = useState(false);
-
-  useEffect(() => {
-    fireAuth.onAuthStateChanged((user) => {
-      if (user) setStatus(true);
-    });
-  }, []);
+  const [name, setName] = useState("");
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { userInfo } = user;
-
   const handleOnLoginButton = () => {
-    if (status) {
+    if (user.status) {
       Logout();
-      setStatus(false);
       dispatch({
         type: LOGOUT,
       });
@@ -49,6 +40,7 @@ const CommonNavbar = () => {
   const handleOnClickInsta = () => {
     window.open("https://www.instagram.com/gongmoja_official/");
   };
+
   return (
     <div className="CommonNavbar">
       <Navbar
@@ -81,14 +73,18 @@ const CommonNavbar = () => {
             <IconButton onClick={() => handleOnClickInsta()}>
               <Instagram style={{ color: "white" }} />
             </IconButton>
-            {status ? <Chip color="primary" label={userInfo.name} /> : ""}
+            {user.status ? (
+              <Chip color="primary" label={user.userInfo.name} />
+            ) : (
+              ""
+            )}
             &emsp;
             <Button
               variant="contained"
               color="secondary"
               onClick={handleOnLoginButton}
             >
-              {status ? "로그아웃" : "로그인"}
+              {user.status ? "로그아웃" : "로그인"}
             </Button>
           </NavbarText>
         </Collapse>

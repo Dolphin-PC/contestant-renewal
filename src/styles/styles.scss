@@ -42,3 +42,7 @@ a {
     background-color: darken($subMain-color, 10%) !important;
   }
 }
+
+.MuiTextField-root {
+  display: block !important;
+}

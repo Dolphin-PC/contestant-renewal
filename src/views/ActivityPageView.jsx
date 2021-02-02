@@ -18,21 +18,25 @@ import Log from "./Activity/Log";
 import TeamBuilding from "./Activity/TeamBuilding";
 import Lottie from "react-lottie";
 import Discussion from "assets/animation/discussion.json";
+import rocket from "assets/animation/rocket.json";
 
 const ActivityPageView = () => {
   const dispatch = useDispatch();
   const activity = useSelector((state) => state.activity);
+  const user = useSelector((state) => state.user);
 
   const [page, setPage] = useState(0);
   const [season, setSeason] = useState(activity.currentSeason);
 
   // * 시즌 정보, 회원 정보 불러오기
   useEffect(() => {
-    if (activity.seasons.length === 0) {
-      dispatch(GetSeasons());
-    }
-    if (activity.memberList.length === 0) {
-      dispatch(GetMembers());
+    if (user.status) {
+      if (activity.seasons.length === 0) {
+        dispatch(GetSeasons());
+      }
+      if (activity.memberList.length === 0) {
+        dispatch(GetMembers());
+      }
     }
   }, []);
 
@@ -48,11 +52,20 @@ const ActivityPageView = () => {
     });
   };
 
-  const animationOption = {
+  const discussionAnimationOption = {
     loop: true,
     autoplay: true,
     animationData: Discussion,
   };
+
+  // * 로그인되지 않은 상태
+  if (!user.status) {
+    return (
+      <div>
+        <StatusNotLogIn />
+      </div>
+    );
+  }
 
   return (
     <div className="Activity">
@@ -67,7 +80,7 @@ const ActivityPageView = () => {
           <br />
           <Lottie
             isClickToPauseDisabled={true}
-            options={animationOption}
+            options={discussionAnimationOption}
             height={200}
           />
         </div>
@@ -124,6 +137,31 @@ const SeasonSelectBox = ({ season, onChangeSeason, activity }) => {
         1
       </Select>
     </FormControl>
+  );
+};
+
+const StatusNotLogIn = () => {
+  const rocketAnimationOption = {
+    loop: true,
+    autoplay: true,
+    animationData: rocket,
+  };
+  return (
+    <div className="Activity">
+      <div className="Center">
+        <h5 style={{ textAlign: "center" }}>
+          공모자 활동을 위해
+          <br />
+          로그인이 필요합니다.
+        </h5>
+        <br />
+        <Lottie
+          isClickToPauseDisabled={true}
+          options={rocketAnimationOption}
+          height={200}
+        />
+      </div>
+    </div>
   );
 };
 

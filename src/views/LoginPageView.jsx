@@ -1,4 +1,11 @@
-import { Paper, Tab, Tabs, TextField, Button } from "@material-ui/core";
+import {
+  Paper,
+  Tab,
+  Tabs,
+  TextField,
+  Button,
+  FormControl,
+} from "@material-ui/core";
 import { RegisterNewUser, SignInUser } from "actions/firebaseActions";
 import { a11yProps, TabPanel } from "functions/functions";
 import React, { useEffect, useState } from "react";
@@ -13,7 +20,7 @@ const LoginPageView = () => {
     if (user.status) {
       history.goBack();
     }
-  }, [user.status]);
+  }, [user]);
 
   const [value, setValue] = useState(0);
 
@@ -53,40 +60,51 @@ const LoginRender = () => {
       [e.target.id]: e.target.value,
     });
   };
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     const result = await dispatch(SignInUser(info));
     alert(result.message);
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="email"
-        id="id"
-        label="아이디"
-        placeholder="ID"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="password"
-        id="password"
-        label="비밀번호"
-        placeholder="PASSWORD"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <Button variant="contained" color="primary" onClick={handleLogin}>
-        로그인
-      </Button>
+      <form onSubmit={handleLogin}>
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          id="id"
+          label="아이디"
+          placeholder="ID"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          type="password"
+          id="password"
+          label="비밀번호"
+          placeholder="PASSWORD"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <Button
+          fullWidth
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={handleLogin}
+        >
+          로그인
+        </Button>
+      </form>
     </div>
   );
 };
@@ -105,77 +123,89 @@ const RegisterRender = () => {
       [e.target.id]: e.target.value,
     });
   };
-  const handleRegister = async () => {
-    var result = await RegisterNewUser(info);
-    alert(result.message);
+  const handleRegister = (e) => {
+    e.preventDefault();
+    RegisterNewUser(info);
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="email"
-        id="id"
-        label="아이디"
-        placeholder="ID"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="password"
-        id="password"
-        label="비밀번호"
-        placeholder="PASSWORD"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="text"
-        id="name"
-        label="이름"
-        placeholder="예) 홍길동"
-        helperText="회의록에 표시되오니, 본명을 입력하기 바랍니다."
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="text"
-        id="property"
-        label="학교/학번"
-        placeholder="예) 한림대학교/20211234"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <TextField
-        onChange={handleOnChange}
-        fullWidth
-        type="text"
-        id="authCode"
-        label="인증코드"
-        placeholder="공모자들 인증코드를 입력해주세요."
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <br />
-      <Button variant="contained" color="primary" onClick={handleRegister}>
-        회원가입
-      </Button>
+      <form onSubmit={handleRegister}>
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          type="email"
+          id="id"
+          label="아이디"
+          placeholder="ID"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          type="password"
+          id="password"
+          label="비밀번호"
+          placeholder="PASSWORD"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          type="text"
+          id="name"
+          label="이름"
+          placeholder="예) 홍길동"
+          helperText="회의록에 표시되오니, 본명을 입력하기 바랍니다."
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          type="text"
+          id="property"
+          label="학교/학번"
+          placeholder="예) 한림대학교/20211234"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <TextField
+          required
+          onChange={handleOnChange}
+          fullWidth
+          type="text"
+          id="authCode"
+          label="인증코드"
+          placeholder="공모자들 인증코드를 입력해주세요."
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRegister}
+          type="submit"
+        >
+          회원가입
+        </Button>
+      </form>
     </div>
   );
 };
