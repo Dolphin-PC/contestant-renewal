@@ -312,11 +312,11 @@ const FeedbackRightDrawer = (props) => {
   );
 };
 
-const FeedbackAccordionRender = ({ content, currentDate, user }) => {
+const FeedbackAccordionRender = ({ content, currentDate, user, allExpand }) => {
   return (
     <ListItem>
       {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
-      <Accordion>
+      <Accordion style={{ width: "100%" }}>
         <AccordionSummary expandIcon={<ExpandMore />}>
           <Chip label={user.name} />
           <p style={{ margin: "auto 0px auto 10px" }}>{currentDate}</p>

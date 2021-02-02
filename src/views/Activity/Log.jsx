@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, ViewList } from "@material-ui/icons";
 import { DeleteTeamMember } from "actions/dbActions";
-import { SET_LOG, SET_TEAM } from "actions/types";
+import { SET_LOG, SET_LOG_PAGE, SET_TEAM } from "actions/types";
 import AddNewLogDialogComp from "components/dialogs/AddNewLogDialogComp";
 import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
@@ -196,11 +196,13 @@ const Log = () => {
 };
 
 const LogTabRender = ({ activity }) => {
-  // * LogName을 redux로 못주는 이유 : 주게 되면 여기가 계속 re-rendering 돼서 패널이 안넘어감 => 계속 value = 0 인 상태가 됨.
-  const [value, setValue] = useState(0);
+  const dispatch = useDispatch();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event, newPage) => {
+    dispatch({
+      type: SET_LOG_PAGE,
+      payload: newPage,
+    });
   };
 
   const { teamLog } = activity.currentTeam;
@@ -210,7 +212,7 @@ const LogTabRender = ({ activity }) => {
       <Tabs
         orientation="vertical"
         variant="scrollable"
-        value={value}
+        value={activity.logPage}
         onChange={handleChange}
       >
         {teamLog &&
@@ -220,7 +222,7 @@ const LogTabRender = ({ activity }) => {
       </Tabs>
       {teamLog &&
         Object.values(teamLog).map((log, i) => (
-          <TabPanel value={value} index={i} className="w1">
+          <TabPanel value={activity.logPage} index={i} className="w1">
             <LogWrapper {...log} />
           </TabPanel>
         ))}
