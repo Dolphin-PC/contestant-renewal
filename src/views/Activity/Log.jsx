@@ -12,6 +12,7 @@ import {
 import { ArrowBack, ViewList } from "@material-ui/icons";
 import { DeleteTeamMember } from "actions/dbActions";
 import { SET_LOG, SET_LOG_PAGE, SET_TEAM } from "actions/types";
+import { CatBallPlayAnimation } from "assets/animation/Animations";
 import AddNewLogDialogComp from "components/dialogs/AddNewLogDialogComp";
 import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
@@ -96,7 +97,10 @@ const Log = () => {
         </Row>
         {activity.currentSeason === "" ? <h5>시즌을 선택해주세요.</h5> : ""}
         {activity.currentSeason !== "" && teamList.length === 0 ? (
-          <h5>생성된 팀이 없네요... 서포터즈가 추가할 겁니다!</h5>
+          <div className="notExistTeam">
+            <h5>생성된 팀이 없네요... 서포터즈가 추가할 겁니다!</h5>
+            <CatBallPlayAnimation height={300} />
+          </div>
         ) : (
           ""
         )}

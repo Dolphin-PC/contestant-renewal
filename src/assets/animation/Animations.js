@@ -1,5 +1,6 @@
 import Lottie from "react-lottie";
 import ActivityHeader from "./ActivityHeader.json";
+import catBallPlay from "./catBallPlay.json";
 
 export const ActivityHeaderAnimation = ({ width, height }) => {
   const animationOption = {
@@ -11,6 +12,24 @@ export const ActivityHeaderAnimation = ({ width, height }) => {
   return (
     <div>
       <Lottie options={animationOption} width={width} height={height} />
+    </div>
+  );
+};
+ActivityHeaderAnimation.defaultProps = {
+  width: "100%",
+  height: "100%",
+};
+
+export const CatBallPlayAnimation = ({ width, height }) => {
+  const animationOption = {
+    loop: true,
+    autoplay: true,
+    animationData: catBallPlay,
+  };
+
+  return (
+    <div style={{ width: width, height: height }}>
+      <Lottie options={animationOption} />
     </div>
   );
 };

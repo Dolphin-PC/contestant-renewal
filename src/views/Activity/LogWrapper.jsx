@@ -323,7 +323,9 @@ const FeedbackAccordionRender = ({ content, currentDate, user, allExpand }) => {
       {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
       <Accordion style={{ width: "100%" }}>
         <AccordionSummary expandIcon={<ExpandMore />}>
-          <Chip label={user.name} />
+          <Tooltip title={user.property} placement="left">
+            <Chip label={user.name} />
+          </Tooltip>
           <p style={{ margin: "auto 0px auto 10px" }}>{currentDate}</p>
         </AccordionSummary>
         <AccordionDetails>

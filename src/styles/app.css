@@ -78,7 +78,7 @@
 
 .LeftMenu,
 .RightMenu {
-  margin: 20px;
+  padding: 20px;
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 10fr 1fr;
@@ -148,7 +148,7 @@
 }
 
 .CommonFooter {
-  margin-top: 50px;
+  margin: 50px;
   text-align: center;
 }
 
@@ -162,4 +162,8 @@
 .content {
   display: flex;
   flex-direction: column;
+}
+
+.notExistTeam {
+  text-align: center;
 }

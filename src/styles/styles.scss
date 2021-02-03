@@ -122,3 +122,34 @@ a {
     border-radius: 10px;
   }
 }
+
+.MuiChip-root {
+  background-color: $subMain-color !important;
+  color: $default-color !important;
+}
+
+.IntroduceTeamFooter {
+  padding: 50px;
+  text-align: center;
+  background-color: $main-color;
+
+  h2,
+  h4,
+  p {
+    color: $default-color !important;
+  }
+}
+
+.hover-up {
+  position: relative;
+  top: 0;
+  transition: top ease 0.3s;
+
+  &:hover {
+    top: -10px;
+  }
+}
+
+.LeftDrawer > div > div {
+  width: 25%;
+}
