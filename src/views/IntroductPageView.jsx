@@ -89,6 +89,7 @@ const IntroductPageView = () => {
             width: width.left,
             zIndex: zIndex.left,
             backgroundImage: `url(${carousel1})`,
+            display: width.left === "0%" ? "none" : "inherit",
           }}
           id="left"
           onClick={handleEnter}
@@ -111,6 +112,7 @@ const IntroductPageView = () => {
             width: width.center,
             zIndex: zIndex.center,
             backgroundImage: `url(${IntroduceRuleVisualImage})`,
+            display: width.center === "0%" ? "none" : "inherit",
           }}
           id="center"
           onClick={handleEnter}
@@ -132,6 +134,7 @@ const IntroductPageView = () => {
             width: width.right,
             zIndex: zIndex.right,
             backgroundImage: `url(${IntroduceActivityVisualImage})`,
+            display: width.right === "0%" ? "none" : "inherit",
           }}
           id="right"
           onClick={handleEnter}

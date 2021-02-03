@@ -18,7 +18,7 @@ import { LOGOUT } from "actions/types";
 import { Logout } from "actions/firebaseActions";
 import { Instagram } from "@material-ui/icons";
 
-const CommonNavbar = () => {
+const CommonNavbar = ({ menuOpen }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [name, setName] = useState("");
 
@@ -42,7 +42,7 @@ const CommonNavbar = () => {
   };
 
   return (
-    <div className="CommonNavbar">
+    <div className="CommonNavbar" style={{ width: menuOpen ? "75%" : "100%" }}>
       <Navbar
         dark
         expand="lg"

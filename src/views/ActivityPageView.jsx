@@ -38,7 +38,7 @@ const ActivityPageView = () => {
         dispatch(GetMembers());
       }
     }
-  }, []);
+  }, [user.status]);
 
   const handleChangePage = (e, value) => {
     setPage(value);
@@ -86,13 +86,12 @@ const ActivityPageView = () => {
         </div>
       ) : (
         <div className="ActivityWrapper">
-          <SeasonSelectBox
-            activity={activity}
-            season={season}
-            onChangeSeason={onChangeSeason}
-          />
-
-          <div style={{ marginTop: 20 }}>
+          <div className="ActivityHeader">
+            <SeasonSelectBox
+              activity={activity}
+              season={season}
+              onChangeSeason={onChangeSeason}
+            />
             <Paper elevation={3}>
               <Tabs value={page} onChange={handleChangePage}>
                 <Tab label="회의록" {...a11yProps(0)} />
@@ -100,7 +99,9 @@ const ActivityPageView = () => {
                 <Tab label="팀 빌딩(투표)" {...a11yProps(2)} />
               </Tabs>
             </Paper>
-            <br />
+          </div>
+
+          <div className="ActivityBody">
             <Paper elevation={3}>
               <TabPanel value={page} index={0} className="TabPanel">
                 <Log />

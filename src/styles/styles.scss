@@ -13,6 +13,7 @@ $default-color: #eeeeee;
   top: 0;
   width: 100%;
   z-index: 5;
+  transition: 0.2s;
 }
 
 a {
@@ -45,4 +46,11 @@ a {
 
 .MuiTextField-root {
   display: block !important;
+}
+
+.ActivityHeader {
+  padding: 20px;
+}
+
+.ActivityBody {
 }

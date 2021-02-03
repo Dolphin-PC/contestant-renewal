@@ -34,9 +34,9 @@ const App = () => {
   }, []);
 
   return (
-    <div className="root" style={{ marginLeft: menuOpen ? "20%" : 0 }}>
+    <div className="root" style={{ marginLeft: menuOpen ? "25%" : 0 }}>
       <BrowserRouter>
-        <CommonNavbar />
+        <CommonNavbar menuOpen={menuOpen} />
         <Switch>
           <Route exact path="/" component={LandingView} />
           <Route exact path="/introduce" component={IntroductPageView} />
