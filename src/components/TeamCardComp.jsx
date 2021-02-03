@@ -13,24 +13,15 @@ const TeamCardComp = (props) => {
     dispatch(SetCurrentTeam(activity.currentSeason, teamName));
   };
   return (
-    <Card
-      style={{
-        maxWidth: "100%",
-        height: 300,
-        paddingLeft: "10%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
-      }}
-    >
-      <div>
+    <Card className="TeamCard">
+      <div className="CardTop">
         <Divider style={{ width: 50, height: 10 }} />
         <br />
         <h4>{teamName}</h4>
         {/* <small>~ {deadLine}</small> */}
       </div>
 
-      <div>
+      <div className="CardBottom">
         <Button color="primary" variant="contained" onClick={handleOnClickTeam}>
           입장하기
         </Button>

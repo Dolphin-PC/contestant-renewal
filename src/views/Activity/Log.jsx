@@ -83,16 +83,6 @@ const Log = () => {
     }
   };
 
-  const Wrapper = (props) => {
-    return (
-      <div className="Log">
-        <h3>회의록</h3>
-        <hr />
-        {props.children}
-      </div>
-    );
-  };
-
   // * 선택된 팀이 없다면, 팀 목록 출력
   if (activity.currentTeam === "") {
     return (
@@ -193,6 +183,15 @@ const Log = () => {
       </Wrapper>
     );
   }
+};
+const Wrapper = (props) => {
+  return (
+    <div className="Log">
+      <h3>회의록</h3>
+      <hr />
+      {props.children}
+    </div>
+  );
 };
 
 const LogTabRender = ({ activity }) => {

@@ -11,9 +11,7 @@ import {
 } from "reactstrap";
 import { Button, Chip, IconButton } from "@material-ui/core";
 import logo from "../assets/images/logo.png";
-import * as Color from "../assets/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { fireAuth } from "app/initFirebase";
 import { LOGOUT } from "actions/types";
 import { Logout } from "actions/firebaseActions";
 import { Instagram } from "@material-ui/icons";

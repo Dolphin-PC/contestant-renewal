@@ -1,4 +1,5 @@
 import {
+  Chip,
   FormControl,
   InputLabel,
   MenuItem,
@@ -19,6 +20,7 @@ import TeamBuilding from "./Activity/TeamBuilding";
 import Lottie from "react-lottie";
 import Discussion from "assets/animation/discussion.json";
 import rocket from "assets/animation/rocket.json";
+import { ActivityHeaderAnimation } from "assets/animation/Animations";
 
 const ActivityPageView = () => {
   const dispatch = useDispatch();
@@ -71,7 +73,7 @@ const ActivityPageView = () => {
     <div className="Activity">
       {season === "" ? (
         <div className="Center">
-          <h5>활동할 시즌을 선택해주세요.</h5>
+          <Chip color="primary" label="활동할 시즌을 선택해주세요." />
           <SeasonSelectBox
             activity={activity}
             season={season}
@@ -86,14 +88,21 @@ const ActivityPageView = () => {
         </div>
       ) : (
         <div className="ActivityWrapper">
+          <div className="BackgroundAnimation">
+            <ActivityHeaderAnimation />
+          </div>
           <div className="ActivityHeader">
             <SeasonSelectBox
               activity={activity}
               season={season}
               onChangeSeason={onChangeSeason}
             />
-            <Paper elevation={3}>
-              <Tabs value={page} onChange={handleChangePage}>
+            <Paper elevation={3} style={{ marginTop: 10 }}>
+              <Tabs
+                value={page}
+                onChange={handleChangePage}
+                className="ActivityTabs"
+              >
                 <Tab label="회의록" {...a11yProps(0)} />
                 <Tab label="출석부" {...a11yProps(1)} />
                 <Tab label="팀 빌딩(투표)" {...a11yProps(2)} />
@@ -102,7 +111,7 @@ const ActivityPageView = () => {
           </div>
 
           <div className="ActivityBody">
-            <Paper elevation={3}>
+            <Paper elevation={3} className="BodyRoot">
               <TabPanel value={page} index={0} className="TabPanel">
                 <Log />
               </TabPanel>
@@ -150,11 +159,10 @@ const StatusNotLogIn = () => {
   return (
     <div className="Activity">
       <div className="Center">
-        <h5 style={{ textAlign: "center" }}>
-          공모자 활동을 위해
-          <br />
-          로그인이 필요합니다.
-        </h5>
+        <Chip
+          color="primary"
+          label="공모자들 활동을 위해 로그인이 필요합니다."
+        />
         <br />
         <Lottie
           isClickToPauseDisabled={true}
