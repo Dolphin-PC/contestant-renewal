@@ -80,9 +80,8 @@
 .RightMenu {
   margin: 20px;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr 10fr 1fr;
 }
 
 .w1 {
@@ -111,7 +110,8 @@
 .Bottom {
   position: sticky;
   background-color: white;
-  bottom: 10px;
+  bottom: 0px;
+  padding-bottom: 10px;
 }
 
 .fixed-r30 {
@@ -154,11 +154,12 @@
 
 .header {
   position: sticky;
-  top: 10px;
-  z-index: 1300;
+  top: 0px;
+  z-index: 1;
   background-color: white;
 }
 
 .content {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

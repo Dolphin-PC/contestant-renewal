@@ -234,13 +234,16 @@ const FeedbackRightDrawer = (props) => {
         feedback
       )
     );
+    setFeedback("");
+    getFeedbacks();
+  };
+
+  const getFeedbacks = async () => {
+    setFeedbacks(await GetFeedbacks(logName, activity));
   };
 
   useEffect(() => {
-    async function get() {
-      setFeedbacks(await GetFeedbacks(logName, activity));
-    }
-    get();
+    getFeedbacks();
   }, []);
 
   return (
@@ -278,9 +281,9 @@ const FeedbackRightDrawer = (props) => {
             ))}
         </div>
 
-        <Divider />
-        <br />
         <div className="Bottom">
+          <Divider />
+          <br />
           <div className="feedbackText">
             <TextField
               fullWidth

@@ -111,3 +111,14 @@ a {
   flex-direction: column;
   justify-content: space-around;
 }
+
+.Log-VerticalTabs {
+  & .MuiTabs-root {
+    overflow: visible !important;
+  }
+  & .TabButton {
+    background-color: $default-color;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+}

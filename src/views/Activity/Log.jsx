@@ -216,7 +216,12 @@ const LogTabRender = ({ activity }) => {
       >
         {teamLog &&
           Object.values(teamLog).map((log, i) => (
-            <Tab label={log.logName} {...a11yProps(i)} key={i} />
+            <Tab
+              label={log.logName}
+              {...a11yProps(i)}
+              key={i}
+              className="TabButton"
+            />
           ))}
       </Tabs>
       {teamLog &&
