@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import React, { useState } from "react";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -10,6 +11,11 @@ import {
   Badge,
   Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Drawer,
   IconButton,
@@ -136,38 +142,82 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
   const user = useSelector((state) => state.user);
 
   const [editMode, setEditMode] = useState(false);
+
   const contentRef = useRef("");
   const { onPreventLeave, offPreventLeave } = usePreventLeave();
 
-  useEffect(() => {
-    if (editMode) {
-      onPreventLeave();
-    } else {
-      offPreventLeave();
-    }
-  }, [editMode]);
-
-  const handleSwitchEditMode = async () => {
-    if (editMode) {
-      if (window.confirm("내용을 수정하시겠습니까?")) {
-        dispatch(
-          UpdateLogContent(
-            activity,
-            logName,
-            tab,
-            contentRef.current.getInstance().getHtml()
-          )
-        );
-        setEditMode(false);
+  const EditConfirmDialog = ({ open, handleClose }) => {
+    const handleDialog = (actionName) => {
+      switch (actionName) {
+        case "save":
+          dispatch(
+            UpdateLogContent(
+              activity,
+              logName,
+              tab,
+              contentRef.current.getInstance().getHtml()
+            )
+          );
+        case "nosave":
+          setEditMode(false);
+        default:
+          handleClose();
       }
-    } else {
-      setEditMode(true);
-    }
+    };
+    return (
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          <h4>회의록 수정</h4>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <h5>
+              회의록 내용을 수정하시겠습니까?
+              <br />
+              <small>(수정 후에는 복구가 불가능합니다.)</small>
+            </h5>
+          </DialogContentText>
+          <Divider />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleDialog("save")} color="primary">
+            수정
+          </Button>
+          <Button
+            onClick={() => handleDialog("nosave")}
+            color="primary"
+            autoFocus
+          >
+            수정하지 않고 종료
+          </Button>
+          <Button
+            onClick={() => handleDialog("default")}
+            color="primary"
+            autoFocus
+          >
+            취소
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
   };
 
   const LogWrapperRender = (props) => {
     const { header, subHeader, content, tab } = props;
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+    const handleCloseConfirmDialog = () => {
+      setOpenConfirmDialog(false);
+    };
 
+    const handleSwitchEditMode = () => {
+      if (editMode) {
+        onPreventLeave();
+        setOpenConfirmDialog(true);
+      } else {
+        offPreventLeave();
+        setEditMode(true);
+      }
+    };
     return (
       <div>
         <Row className="margin0" style={{ justifyContent: "space-between" }}>
@@ -176,9 +226,17 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
             <small>{subHeader}</small>
           </div>
           {IsHavePermissionLog(user, activity) ? (
-            <Button onClick={handleSwitchEditMode}>
-              <Edit />
-            </Button>
+            <>
+              <Tooltip title="회의록 작성">
+                <Button onClick={handleSwitchEditMode}>
+                  <Edit />
+                </Button>
+              </Tooltip>
+              <EditConfirmDialog
+                open={openConfirmDialog}
+                handleClose={handleCloseConfirmDialog}
+              />
+            </>
           ) : (
             ""
           )}
