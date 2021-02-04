@@ -269,6 +269,7 @@ export const AddNewFeedback = (
   content
 ) => async (dispatch) => {
   const currentDate = getCurrentDateFormat();
+  const createStamp = new Date().getTime();
 
   dispatch({
     type: TYPE.LOADING,
@@ -280,9 +281,10 @@ export const AddNewFeedback = (
     .ref(
       `seasons/${currentSeason}/teamList/${teamName}/teamLog/${logName}/feedbacks`
     )
-    .push({
-      createStamp: new Date().getTime(),
-      currentDate: currentDate,
+    .child(createStamp)
+    .set({
+      createStamp,
+      currentDate,
       content,
       user: user.userInfo,
     })
@@ -299,11 +301,6 @@ export const AddNewFeedback = (
         type: TYPE.LOADING,
         loading: false,
         message: "피드백 업로드 실패...",
-      }).then(() => {
-        dispatch({
-          type: TYPE.LOADING,
-          loading: false,
-        });
       });
     });
 };
@@ -322,14 +319,16 @@ export const SetCurrentTeam = (currentSeason, teamName) => async (dispatch) => {
 // * LogWrapper - return local State
 export const GetFeedbacks = async (logName, activity) => {
   const { currentSeason, currentTeam } = activity;
+  let result = null;
 
-  const result = await fireDatabase
+  await fireDatabase
     .ref(
       `seasons/${currentSeason}/teamList/${currentTeam.teamName}/teamLog/${logName}/feedbacks`
     )
-    .once("value")
-    .then((snapShot) => {
-      return snapShot.val();
+    .on("value", (snapShot) => {
+      if (snapShot.val() !== null) {
+        return (result = snapShot.val());
+      }
     });
 
   return result;
@@ -353,5 +352,79 @@ export const DeleteLog = (activity, logName) => async (dispatch) => {
       console.error(err);
       dispatch(Loading(false, "삭제 실패!"));
       alert("회의록 삭제 오류");
+    });
+};
+
+export const DeleteTeam = (currentSeason, teamName) => async (dispatch) => {
+  dispatch(Loading(true, "삭제 중입니다..."));
+
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList`)
+    .child(teamName)
+    .remove()
+    .then(() => {
+      dispatch(Loading(false, "삭제 완료!"));
+      alert("해당 팀이 삭제되었습니다.");
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(Loading(false, "삭제 실패!"));
+      alert("팀 삭제 오류");
+    });
+};
+
+export const DeleteFeedback = (activity, logName, feed) => async (dispatch) => {
+  const { currentSeason, currentTeam } = activity;
+  const { teamName } = currentTeam;
+  const { createStamp } = feed;
+
+  dispatch(Loading(true, "피드백 삭제 중입니다..."));
+
+  await fireDatabase
+    .ref(
+      `seasons/${currentSeason}/teamList/${teamName}/teamLog/${logName}/feedbacks`
+    )
+    .child(createStamp)
+    .remove()
+    .then(() => {
+      dispatch(Loading(false), "피드백 삭제 완료");
+      alert("피드백이 삭제되었습니다.");
+    })
+    .catch((err) => {
+      dispatch(Loading(false), "피드백 삭제 실패");
+      alert("피드백 삭제 실패...");
+    });
+};
+
+export const EditFeedbackContent = (
+  activity,
+  logName,
+  feed,
+  editText
+) => async (dispatch) => {
+  const { currentSeason, currentTeam } = activity;
+  const { teamName } = currentTeam;
+  const { createStamp } = feed;
+
+  let editObject = {
+    ...feed,
+    content: editText,
+  };
+
+  dispatch(Loading(true, "피드백 수정 중입니다..."));
+
+  await fireDatabase
+    .ref(
+      `seasons/${currentSeason}/teamList/${teamName}/teamLog/${logName}/feedbacks`
+    )
+    .child(createStamp)
+    .update(editObject)
+    .then(() => {
+      dispatch(Loading(false), "피드백 수정 완료");
+      alert("피드백이 수정되었습니다.");
+    })
+    .catch((err) => {
+      dispatch(Loading(false), "피드백 수정 실패");
+      alert("피드백 수정 실패...");
     });
 };

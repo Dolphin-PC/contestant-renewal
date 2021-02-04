@@ -22,6 +22,7 @@ import {
 import { Col, Row } from "reactstrap";
 import {
   ArrowLeft,
+  Create,
   Edit,
   ExpandLess,
   ExpandMore,
@@ -34,7 +35,9 @@ import { IsHavePermissionLog, usePreventLeave } from "functions/functions";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddNewFeedback,
+  DeleteFeedback,
   DeleteLog,
+  EditFeedbackContent,
   GetFeedbacks,
   UpdateLogContent,
 } from "actions/dbActions";
@@ -58,7 +61,7 @@ const LogWrapper = (props) => {
   const handleDeleteLog = () => {
     if (
       window.prompt(
-        `해당 회의록을 삭제하시려면 [삭제] 라고 입력해주세요.`,
+        `(주의)\n회의록 삭제시, 해당 회의록의 내용 및 피드백이 모두 삭제되며, 복구가 불가능합니다.\n\n해당 회의록을 삭제하시려면 [삭제] 라고 입력해주세요.`,
         ""
       ) === "삭제"
     ) {
@@ -275,7 +278,7 @@ const FeedbackRightDrawer = (props) => {
 
   useEffect(() => {
     getFeedbacks();
-  }, []);
+  }, [activity]);
 
   return (
     <Drawer
@@ -308,7 +311,12 @@ const FeedbackRightDrawer = (props) => {
         <div className="content">
           {feedbacks &&
             Object.values(feedbacks).map((feed) => (
-              <FeedbackAccordionRender {...feed} />
+              <FeedbackAccordionRender
+                feed={feed}
+                activity={activity}
+                currentUser={user}
+                logName={logName}
+              />
             ))}
         </div>
 
@@ -348,7 +356,45 @@ const FeedbackRightDrawer = (props) => {
   );
 };
 
-const FeedbackAccordionRender = ({ content, currentDate, user, allExpand }) => {
+const FeedbackAccordionRender = ({
+  feed,
+  allExpand,
+  currentUser,
+  activity,
+  logName,
+}) => {
+  const dispatch = useDispatch();
+  const { userInfo } = currentUser;
+  const { content, currentDate, user } = feed;
+
+  const [editable, setEditable] = useState(false);
+  const [editText, setEditText] = useState(content);
+
+  const handleEditFeedback = () => {
+    if (editable) {
+      // * 수정완료하기
+      if (window.confirm("피드백 내용을 수정하시겠습니까?")) {
+        dispatch(EditFeedbackContent(activity, logName, feed, editText));
+        setEditable(false);
+      }
+    } else {
+      // * 수정 모드
+      setEditable(true);
+    }
+  };
+
+  const handleDeleteFeedback = () => {
+    if (
+      window.prompt(
+        "(주의)피드백 삭제시, 복구가 불가능합니다.\n\n해당 피드백을 삭제하시려면 [삭제]를 입력해주세요."
+      ) === "삭제"
+    ) {
+      dispatch(DeleteFeedback(activity, logName, feed));
+    } else {
+      alert("피드백 삭제 취소");
+    }
+  };
+
   return (
     <ListItem>
       {/* TODO 여기 안됨 ㅠㅠ... 모두 확장/축소가 안딤;; */}
@@ -360,8 +406,34 @@ const FeedbackAccordionRender = ({ content, currentDate, user, allExpand }) => {
           <p style={{ margin: "auto 0px auto 10px" }}>{currentDate}</p>
         </AccordionSummary>
         <AccordionDetails>
-          <div>
-            <div>{content}</div>
+          <div className="FeedbackDetail">
+            {editable ? (
+              <TextField
+                size="small"
+                variant="outlined"
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+              />
+            ) : (
+              <p>{content}</p>
+            )}
+
+            {userInfo.name === user.name || userInfo.isSupporter ? (
+              <div className="FeedbackDetailBottom">
+                <IconButton onClick={handleEditFeedback}>
+                  <Tooltip title="피드백 내용 수정">
+                    <Create />
+                  </Tooltip>
+                </IconButton>
+                <IconButton onClick={handleDeleteFeedback}>
+                  <Tooltip title="피드백 삭제">
+                    <HighlightOff />
+                  </Tooltip>
+                </IconButton>
+              </div>
+            ) : (
+              ""
+            )}
             {/* TODO: 피드백에 대한 피드백 내용 */}
             {/* <div>
               <Accordion>
