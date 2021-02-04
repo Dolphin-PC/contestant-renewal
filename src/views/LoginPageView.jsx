@@ -1,11 +1,4 @@
-import {
-  Paper,
-  Tab,
-  Tabs,
-  TextField,
-  Button,
-  FormControl,
-} from "@material-ui/core";
+import { Paper, Tab, Tabs, TextField, Button } from "@material-ui/core";
 import { RegisterNewUser, SignInUser } from "actions/firebaseActions";
 import { a11yProps, TabPanel } from "functions/functions";
 import React, { useEffect, useState } from "react";
@@ -129,7 +122,7 @@ const RegisterRender = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className="RegisterForm">
       <form onSubmit={handleRegister}>
         <TextField
           required

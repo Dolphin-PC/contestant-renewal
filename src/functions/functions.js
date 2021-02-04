@@ -46,3 +46,21 @@ export const getCurrentDateFormat = () => {
     .replace(/(\s*)/g, "");
   return currentDate;
 };
+
+export const IsHavePermissionAddLog = (user, activity) => {
+  // * true = No permission, false = permission
+  const { id, isSupporter } = user.userInfo;
+  const { teamMember } = activity.currentTeam;
+
+  if (isSupporter) return false;
+
+  if (teamMember === undefined) return true;
+
+  if (
+    Object.values(teamMember).find((member) => member.id === id) === undefined
+  )
+    return true;
+  else {
+    return false;
+  }
+};

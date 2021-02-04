@@ -9,11 +9,14 @@ export const AddNewSeason = (seasonName) => async (dispatch) => {
     payload: "새로운 시즌을 추가하고 있습니다...",
   });
   // 중복 체크
-  const existsCheck = await fireDatabase
-    .ref(`seasons/${seasonName}`)
-    .on("value", (snapShot) => {
-      return snapShot.val().seasonName === seasonName ? true : false;
-    });
+  let existsCheck = false;
+
+  await fireDatabase.ref(`seasons/${seasonName}`).on("value", (snapShot) => {
+    if (snapShot.val() !== null) {
+      existsCheck = snapShot.val().seasonName === seasonName ? true : false;
+    }
+    // return snapShot.val().seasonName === seasonName ? true : false;
+  });
 
   if (existsCheck) {
     alert("시즌 이름이 중복됩니다.");
@@ -56,10 +59,12 @@ export const GetSeasons = () => async (dispatch) => {
     .ref("seasons")
     .orderByChild("createStamp")
     .on("value", (snapShot) => {
-      dispatch({
-        type: TYPE.GET_SEASONS,
-        payload: Object.values(snapShot.val()),
-      });
+      if (snapShot.val() !== null) {
+        dispatch({
+          type: TYPE.GET_SEASONS,
+          payload: Object.values(snapShot.val()),
+        });
+      }
       dispatch({
         type: TYPE.LOADING,
         loading: false,

@@ -16,7 +16,11 @@ import { CatBallPlayAnimation } from "assets/animation/Animations";
 import AddNewLogDialogComp from "components/dialogs/AddNewLogDialogComp";
 import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialogComp";
 import TeamCardComp from "components/TeamCardComp";
-import { a11yProps, TabPanel } from "functions/functions";
+import {
+  a11yProps,
+  IsHavePermissionAddLog,
+  TabPanel,
+} from "functions/functions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -48,7 +52,22 @@ const Log = () => {
     }
   }, [activity.currentSeason, activity.seasons]);
 
-  const handleClose = (dialogName) => {
+  const handleOpenDialog = (dialogName) => {
+    switch (dialogName) {
+      case "teamMember":
+        if (user.userInfo.isSupporter === false)
+          return alert("팀원 추가 권한이 없습니다.");
+        return setOpenAddMemberDialog(true);
+      case "log":
+        if (IsHavePermissionAddLog(user, activity))
+          return alert("회의록 작성 권한이 없습니다.");
+        return setOpenAddLogDialog(true);
+      default:
+        return;
+    }
+  };
+
+  const handleCloseDialog = (dialogName) => {
     switch (dialogName) {
       case "teamMember":
         return setOpenAddMemberDialog(false);
@@ -137,13 +156,14 @@ const Log = () => {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={() => setOpenAddMemberDialog(true)}
+              onClick={() => handleOpenDialog("teamMember")}
             >
               팀원추가
             </Button>
             <AddNewTeamMemberDialogComp
               open={openAddMemberDialog}
-              handleClose={() => handleClose("teamMember")}
+              handleClose={() => handleCloseDialog("teamMember")}
+              user={user}
             />
           </Col>
           <Col lg="2">
@@ -151,13 +171,14 @@ const Log = () => {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={() => setOpenAddLogDialog(true)}
+              onClick={() => handleOpenDialog("log")}
             >
               회의록 작성
             </Button>
             <AddNewLogDialogComp
               open={openAddLogDialog}
-              handleClose={() => handleClose("log")}
+              handleClose={() => handleCloseDialog("log")}
+              user={user}
             />
           </Col>
           <Col lg="6">
@@ -183,11 +204,12 @@ const Log = () => {
           ))}
 
         <hr />
-        <LogTabRender activity={activity} />
+        <LogVerticalTabRender activity={activity} />
       </Wrapper>
     );
   }
 };
+
 const Wrapper = (props) => {
   return (
     <div className="Log">
@@ -198,7 +220,7 @@ const Wrapper = (props) => {
   );
 };
 
-const LogTabRender = ({ activity }) => {
+const LogVerticalTabRender = ({ activity }) => {
   const dispatch = useDispatch();
 
   const handleChange = (event, newPage) => {

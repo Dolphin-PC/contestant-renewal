@@ -25,6 +25,15 @@ $default-color: #eeeeee;
   p {
     color: $default-color;
   }
+
+  & .RegisterForm {
+    display: flex;
+    flex-direction: column;
+    p {
+      opacity: 0.5;
+      color: $main-color;
+    }
+  }
 }
 .CommonNavbar {
   background-color: $main-color;
