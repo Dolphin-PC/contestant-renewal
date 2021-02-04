@@ -162,3 +162,10 @@ a {
 .LeftDrawer > div > div {
   width: 25%;
 }
+
+.Row {
+  display: flex;
+  &.Space-between {
+    justify-content: space-between;
+  }
+}

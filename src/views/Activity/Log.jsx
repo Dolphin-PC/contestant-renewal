@@ -1,15 +1,5 @@
-import {
-  Button,
-  Chip,
-  Divider,
-  makeStyles,
-  Select,
-  Tab,
-  Tabs,
-  TextField,
-  Tooltip,
-} from "@material-ui/core";
-import { ArrowBack, ViewList } from "@material-ui/icons";
+import { Button, Chip, Tab, Tabs, Tooltip } from "@material-ui/core";
+import { ViewList } from "@material-ui/icons";
 import { DeleteTeamMember } from "actions/dbActions";
 import { SET_LOG, SET_LOG_PAGE, SET_TEAM } from "actions/types";
 import { CatBallPlayAnimation } from "assets/animation/Animations";
@@ -18,8 +8,9 @@ import AddNewTeamMemberDialogComp from "components/dialogs/AddNewTeamMemberDialo
 import TeamCardComp from "components/TeamCardComp";
 import {
   a11yProps,
-  IsHavePermissionAddLog,
+  IsHavePermissionLog,
   TabPanel,
+  IsSupporter,
 } from "functions/functions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,13 +46,14 @@ const Log = () => {
   const handleOpenDialog = (dialogName) => {
     switch (dialogName) {
       case "teamMember":
-        if (user.userInfo.isSupporter === false)
-          return alert("팀원 추가 권한이 없습니다.");
-        return setOpenAddMemberDialog(true);
+        if (IsSupporter(user)) return setOpenAddMemberDialog(true);
+        else return alert("팀원 추가 권한이 없습니다.");
+
       case "log":
-        if (IsHavePermissionAddLog(user, activity))
-          return alert("회의록 작성 권한이 없습니다.");
-        return setOpenAddLogDialog(true);
+        if (IsHavePermissionLog(user, activity))
+          return setOpenAddLogDialog(true);
+        else return alert("회의록 작성 권한이 없습니다.");
+
       default:
         return;
     }
@@ -88,7 +80,7 @@ const Log = () => {
   const handleDeleteMember = (member) => {
     let teamName = activity.currentTeam.teamName;
     let currentSeason = activity.currentSeason;
-    if (user.userInfo.isSupporter) {
+    if (IsSupporter(user)) {
       if (window.confirm(`[${member.name}]님을 삭제하시겠습니까?`)) {
         DeleteTeamMember(currentSeason, teamName, member);
       }

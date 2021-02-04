@@ -47,20 +47,25 @@ export const getCurrentDateFormat = () => {
   return currentDate;
 };
 
-export const IsHavePermissionAddLog = (user, activity) => {
-  // * true = No permission, false = permission
+export const IsSupporter = (user) => {
+  // * false = No permission, true = permission
+  return user.userInfo.isSupporter;
+};
+
+export const IsHavePermissionLog = (user, activity) => {
+  // * false = No permission, true = permission
   const { id, isSupporter } = user.userInfo;
   const { teamMember } = activity.currentTeam;
 
-  if (isSupporter) return false;
+  if (isSupporter) return true;
 
-  if (teamMember === undefined) return true;
+  if (teamMember === undefined) return false;
 
   if (
     Object.values(teamMember).find((member) => member.id === id) === undefined
   )
-    return true;
-  else {
     return false;
+  else {
+    return true;
   }
 };

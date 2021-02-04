@@ -26,13 +26,15 @@ import {
   ExpandLess,
   ExpandMore,
   Feedback,
+  HighlightOff,
 } from "@material-ui/icons";
 import { useRef } from "react";
 import { useEffect } from "react";
-import { usePreventLeave } from "functions/functions";
+import { IsHavePermissionLog, usePreventLeave } from "functions/functions";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddNewFeedback,
+  DeleteLog,
   GetFeedbacks,
   UpdateLogContent,
 } from "actions/dbActions";
@@ -41,8 +43,9 @@ import { OPEN_FEEDBACK_DRAWER } from "actions/types";
 const LogWrapper = (props) => {
   const dispatch = useDispatch();
   const activity = useSelector((state) => state.activity);
+  const user = useSelector((state) => state.user);
 
-  const { logName, log, feedback, feedbacks } = props;
+  const { logName } = props;
   const [tab, setTab] = useState("log");
 
   const handleFeedbackDrawer = () => {
@@ -51,9 +54,32 @@ const LogWrapper = (props) => {
       payload: true,
     });
   };
+
+  const handleDeleteLog = () => {
+    if (
+      window.prompt(
+        `해당 회의록을 삭제하시려면 [삭제] 라고 입력해주세요.`,
+        ""
+      ) === "삭제"
+    ) {
+      dispatch(DeleteLog(activity, logName));
+    } else {
+      alert("회의록 삭제 취소");
+    }
+  };
+
   return (
-    <Paper elevation={3} className="padding20">
-      <h2>{logName}</h2>
+    <Paper elevation={3} className="LogWrapper padding20">
+      <div className="LogWrapper-header Row Space-between">
+        <h2>{logName}</h2>
+        {IsHavePermissionLog(user, activity) ? (
+          <Button onClick={() => handleDeleteLog()}>
+            <HighlightOff />
+          </Button>
+        ) : (
+          ""
+        )}
+      </div>
       <br />
       <Row>
         <>
@@ -104,6 +130,7 @@ LogWrapper.defaultProps = {
 // * 회의내용/피드백내용
 const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const [editMode, setEditMode] = useState(false);
   const contentRef = useRef("");
@@ -135,7 +162,7 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
     }
   };
 
-  const WrapperRender = (props) => {
+  const LogWrapperRender = (props) => {
     const { header, subHeader, content, tab } = props;
 
     return (
@@ -145,9 +172,13 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
             <h5>{header}</h5>
             <small>{subHeader}</small>
           </div>
-          <Button onClick={handleSwitchEditMode}>
-            <Edit />
-          </Button>
+          {IsHavePermissionLog(user, activity) ? (
+            <Button onClick={handleSwitchEditMode}>
+              <Edit />
+            </Button>
+          ) : (
+            ""
+          )}
         </Row>
         <hr />
         <Paper elevation={2} className="padding20">
@@ -176,7 +207,7 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
   switch (tab) {
     case "log":
       return (
-        <WrapperRender
+        <LogWrapperRender
           tab="log"
           header="회의 내용(필수)"
           subHeader="팀 회의 내용을 적어주세요."
@@ -185,7 +216,7 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
       );
     case "feedback":
       return (
-        <WrapperRender
+        <LogWrapperRender
           tab="feedback"
           header="피드백(선택)"
           subHeader="받은 피드백에 대한 내용을 적어주세요."

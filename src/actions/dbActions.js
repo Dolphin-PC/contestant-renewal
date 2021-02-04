@@ -2,6 +2,16 @@ import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
 import * as TYPE from "actions/types";
 import { getCurrentDateFormat } from "functions/functions.js";
 
+// @param   loading : true/false
+// @param   payload : String
+const Loading = (loading, payload) => {
+  return {
+    type: TYPE.LOADING,
+    loading,
+    payload,
+  };
+};
+
 export const AddNewSeason = (seasonName) => async (dispatch) => {
   dispatch({
     type: TYPE.LOADING,
@@ -323,4 +333,25 @@ export const GetFeedbacks = async (logName, activity) => {
     });
 
   return result;
+};
+
+export const DeleteLog = (activity, logName) => async (dispatch) => {
+  const { currentSeason, currentTeam } = activity;
+  const { teamName } = currentTeam;
+
+  dispatch(Loading(true, "삭제 중입니다..."));
+
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${teamName}/teamLog`)
+    .child(logName)
+    .remove()
+    .then(() => {
+      dispatch(Loading(false, "삭제 완료!"));
+      alert("회의록이 삭제되었습니다.");
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(Loading(false, "삭제 실패!"));
+      alert("회의록 삭제 오류");
+    });
 };
