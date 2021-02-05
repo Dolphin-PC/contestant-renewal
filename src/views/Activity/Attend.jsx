@@ -5,12 +5,21 @@ import {
   Chip,
   IconButton,
   Paper,
+  Tooltip,
 } from "@material-ui/core";
-import { Add, ExpandMore } from "@material-ui/icons";
-import React from "react";
+import {
+  Add,
+  ExpandMore,
+  Settings,
+  TrendingUpRounded,
+} from "@material-ui/icons";
+import AddNewAttendanceDialogComp from "components/dialogs/AddNewAttendanceDialogComp";
+import React, { useState } from "react";
 import { Col } from "reactstrap";
 
 const Attend = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   return (
     <div className="Attend-tab">
       <div className="Row Attend-Schedule">
@@ -22,9 +31,28 @@ const Attend = () => {
         <Col lg="4" className="Plan-Attend-Schedule">
           <div className="Row Space-Between Vertical-Center">
             <h5>예정 출석 일정</h5>
-            <IconButton className="Schedule-Add-Button">
-              <Add />
-            </IconButton>
+            <div className="Schedule-Action-Button">
+              <Tooltip title="출석인원 프리셋 만들기">
+                <IconButton
+                  className="Schedule-Add-Button"
+                  onClick={() => setOpenDialog(TrendingUpRounded)}
+                >
+                  <Settings />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="일정 추가">
+                <IconButton
+                  className="Schedule-Add-Button"
+                  onClick={() => setOpenDialog(TrendingUpRounded)}
+                >
+                  <Add />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <AddNewAttendanceDialogComp
+              open={openDialog}
+              handleClose={() => setOpenDialog(false)}
+            />
           </div>
           <hr />
           <AttendAccordion />
