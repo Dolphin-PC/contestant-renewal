@@ -1,5 +1,12 @@
 import { Card, Divider, Button, IconButton, Tooltip } from "@material-ui/core";
-import { DeleteForever, HighlightOff, KeyboardTab } from "@material-ui/icons";
+import {
+  AssignmentInd,
+  Chat,
+  DeleteForever,
+  Group,
+  HighlightOff,
+  KeyboardTab,
+} from "@material-ui/icons";
 import { DeleteTeam, SetCurrentTeam } from "actions/dbActions";
 import { SET_TEAM } from "actions/types";
 import { IsSupporter } from "functions/functions";
@@ -7,7 +14,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const TeamCardComp = (props) => {
-  const { teamName, deadLine } = props;
+  const { teamName, teamLog, teamMember } = props;
   const dispatch = useDispatch();
   const activity = useSelector((state) => state.activity);
   const user = useSelector((state) => state.user);
@@ -45,6 +52,15 @@ const TeamCardComp = (props) => {
         </div>
         <br />
         <h4>{teamName}</h4>
+        <div className="Row vertical-center">
+          <Chat />
+          &ensp;
+          {teamLog && Object.values(teamLog).length}
+          &emsp;
+          <Group />
+          &ensp;
+          {teamMember && Object.values(teamMember).length}
+        </div>
       </div>
 
       <div className="CardBottom">
@@ -65,5 +81,7 @@ const TeamCardComp = (props) => {
 TeamCardComp.defaultProps = {
   teamName: "팀 이름",
   deadLine: "2020/01/01",
+  countLog: 0,
+  countMember: 0,
 };
 export default TeamCardComp;
