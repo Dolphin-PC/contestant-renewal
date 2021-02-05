@@ -23,8 +23,11 @@ import VoteDialogComp from "components/dialogs/VoteDialogComp";
 import React from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const UserActionButton = ({ open, handleOnOpen }) => {
+  const history = useHistory();
+
   const user = useSelector((state) => state.user);
 
   const handleOnLogout = () => {
@@ -66,7 +69,7 @@ const UserActionButton = ({ open, handleOnOpen }) => {
                   </ListItemIcon>
                   <ListItemText primary="내 정보" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => history.push("/activity")}>
                   <ListItemIcon>
                     <AssignmentTurnedIn />
                   </ListItemIcon>
