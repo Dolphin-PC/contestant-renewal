@@ -43,7 +43,6 @@ TODO CSS Styling
 [DONE]]Feedback 유저 hover => property(정보)표시
 
 
-
 TODO 나중에 했으면 하는 것
 공모자들 전체 일정으로,
 database 연동해서, d day 시간으로 밑에 일정 시작 표시

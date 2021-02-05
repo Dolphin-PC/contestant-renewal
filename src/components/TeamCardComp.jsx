@@ -38,7 +38,7 @@ const TeamCardComp = (props) => {
   return (
     <Card className="TeamCard">
       <div className="CardHeader">
-        <div className="Row Space-between vertical-center">
+        <div className="Row Space-Between Vertical-Center">
           <Divider style={{ width: 50, height: 10 }} />
           {IsSupporter(user) ? (
             <Tooltip title="해당 팀 삭제" placement="bottom">
@@ -52,7 +52,7 @@ const TeamCardComp = (props) => {
         </div>
         <br />
         <h4>{teamName}</h4>
-        <div className="Row vertical-center">
+        <div className="Row Vertical-Center">
           <Chat />
           &ensp;
           {teamLog && Object.values(teamLog).length}
