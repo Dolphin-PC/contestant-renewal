@@ -13,12 +13,20 @@ import {
   Settings,
   TrendingUpRounded,
 } from "@material-ui/icons";
+import { GetSchedules } from "actions/dbActions";
 import AddNewAttendanceDialogComp from "components/dialogs/AddNewAttendanceDialogComp";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Col } from "reactstrap";
 
 const Attend = () => {
+  const dispatch = useDispatch();
+  const schedule = useSelector((state) => state.schedule);
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    dispatch(GetSchedules());
+  }, []);
 
   return (
     <div className="Attend-tab">
@@ -55,7 +63,9 @@ const Attend = () => {
             />
           </div>
           <hr />
-          <AttendAccordion />
+          {Object.values(schedule.schedules).map((schedule) => (
+            <AttendAccordion {...schedule} />
+          ))}
         </Col>
         <Col lg="4" className="Attend-Standard">
           <h5>출석 인정 기준 / 차감 점수</h5>
@@ -83,15 +93,21 @@ const Attend = () => {
   );
 };
 
-const AttendAccordion = () => {
+const AttendAccordion = ({ scheduleName, scheduleTime }) => {
   return (
-    <Accordion style={{ width: "100%" }}>
+    <Accordion className="Attend-Accordion">
       <AccordionSummary expandIcon={<ExpandMore />}>
-        <p>2020-02-05 정기회의</p>
+        <p>
+          {scheduleTime}&ensp;{scheduleName}
+        </p>
       </AccordionSummary>
       <AccordionDetails></AccordionDetails>
     </Accordion>
   );
+};
+AttendAccordion.defaultProps = {
+  scheduleName: "정기회의",
+  scheduleTime: "2020-02-06T19:00",
 };
 
 export default Attend;

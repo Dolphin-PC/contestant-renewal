@@ -471,3 +471,20 @@ export const AddNewSchedule = (scheduleName, scheduleTime) => async (
       alert("일정 추가 실패...");
     });
 };
+
+export const GetSchedules = () => async (dispatch) => {
+  dispatch(Loading(true, "출석 일정을 불러오고 있습니다..."));
+
+  let schedules = null;
+  await fireDatabase.ref("attendance").on("value", (snapShot) => {
+    if (snapShot.val() !== null) {
+      dispatch({
+        type: TYPE.GET_SCHEDULES,
+        payload: snapShot.val(),
+      });
+    }
+  });
+  dispatch(Loading(false, "로딩 완료"));
+
+  return schedules;
+};
