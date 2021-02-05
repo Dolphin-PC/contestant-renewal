@@ -445,3 +445,46 @@ export const EditFeedbackContent = (
       alert("피드백 수정 실패...");
     });
 };
+
+export const AddNewSchedule = (scheduleName, scheduleTime) => async (
+  dispatch
+) => {
+  if (scheduleName === "") return alert("일정 이름을 입력해주세요.");
+  if (scheduleTime === "") return alert("일정/시간을 입력해주세요.");
+  dispatch(Loading(true, "새로운 일정을 만들고 있습니다..."));
+
+  await fireDatabase
+    .ref("attendance")
+    .child(scheduleTime)
+    .update({
+      scheduleName,
+      scheduleTime,
+      createStamp: new Date().getTime(),
+    })
+    .then(() => {
+      dispatch(Loading(false, "새로운 일정 추가 완료!"));
+      alert("일정 추가 완료!");
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(Loading(false, "새로운 일정 추가 실패!"));
+      alert("일정 추가 실패...");
+    });
+};
+
+export const GetSchedules = () => async (dispatch) => {
+  dispatch(Loading(true, "출석 일정을 불러오고 있습니다..."));
+
+  let schedules = null;
+  await fireDatabase.ref("attendance").on("value", (snapShot) => {
+    if (snapShot.val() !== null) {
+      dispatch({
+        type: TYPE.GET_SCHEDULES,
+        payload: snapShot.val(),
+      });
+    }
+  });
+  dispatch(Loading(false, "로딩 완료"));
+
+  return schedules;
+};

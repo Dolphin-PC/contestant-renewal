@@ -14,7 +14,7 @@ import { a11yProps, TabPanel } from "functions/functions";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Attention from "./Activity/Attention";
+import Attend from "./Activity/Attend";
 import Log from "./Activity/Log";
 import TeamBuilding from "./Activity/TeamBuilding";
 import Lottie from "react-lottie";
@@ -116,7 +116,7 @@ const ActivityPageView = () => {
                 <Log />
               </TabPanel>
               <TabPanel value={page} index={1} className="TabPanel">
-                <Attention />
+                <Attend />
               </TabPanel>
               <TabPanel value={page} index={2} className="TabPanel">
                 <TeamBuilding />
