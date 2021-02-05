@@ -183,11 +183,28 @@ export const DeleteTeamMember = async (currentSeason, teamName, member) => {
 export const AddNewLog = (currentSeason, teamName, currentDate) => async (
   dispatch
 ) => {
-  dispatch({
-    type: TYPE.LOADING,
-    loading: true,
-    payload: "새로운 회의록을 추가하고 있습니다...",
-  });
+  let existsCheck = false;
+
+  dispatch(Loading(true, "새로운 회의록을 추가하고 있습니다..."));
+
+  await fireDatabase
+    .ref(`seasons/${currentSeason}/teamList/${teamName}/teamLog/${currentDate}`)
+    .on("value", (snapShot) => {
+      if (snapShot.val() !== null) {
+        existsCheck = snapShot.val().logName === currentDate ? true : false;
+      }
+    });
+
+  if (existsCheck) {
+    dispatch(Loading(false, "중복된 회의록입니다."));
+    if (
+      window.prompt(
+        "중복된 회의록이 있습니다.\n\n기존 회의록에 덮어씌우시려면 [확인]을 입력해주세요."
+      ) !== "확인"
+    ) {
+      return;
+    }
+  }
 
   await fireDatabase
     .ref(`seasons/${currentSeason}/teamList/${teamName}/teamLog`)
