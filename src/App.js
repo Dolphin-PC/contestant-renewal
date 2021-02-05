@@ -15,11 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import UserActionButton from "components/layout/UserActionButton";
 import Loading from "components/layout/Loading";
 import ActivityPageView from "views/ActivityPageView";
+import { useScrollTop } from "functions/functions";
 
 const App = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleOnOpen = (open) => {
     setMenuOpen(open);

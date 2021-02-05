@@ -5,7 +5,6 @@ $default-color: #eeeeee;
 
 .root {
   transition: 0.2s;
-
   h1,
   h2,
   h3,
@@ -178,4 +177,18 @@ a {
   & .FeedbackDetailBottom {
     float: right;
   }
+}
+
+.Landing-Visual-Section {
+  color: white;
+  height: 100%;
+  & .textBox {
+    text-align: center;
+    padding: 6%;
+    background-color: rgba(65, 65, 65, 0.2);
+    border-radius: 50px;
+  }
+}
+.Landing-Activity {
+  text-align: center;
 }
