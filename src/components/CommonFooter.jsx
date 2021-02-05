@@ -10,7 +10,7 @@ const CommonFooter = () => {
     <div className="CommonFooter">
       <p>춘천연합공모전동아리 '공모자들'</p>
       <small>
-        Copyright&copy; 2021. all rights reserved by 공모자들
+        Copyright&copy; 2021. All rights reserved by 공모자들
         <br />
         Made by 박찬영
       </small>
