@@ -16,19 +16,19 @@ import {
   Settings,
   TrendingUpRounded,
 } from "@material-ui/icons";
-import { GetSchedules } from "actions/dbActions";
+import { DeleteSchedules, GetSchedules } from "actions/dbActions";
 import AddNewAttendanceDialogComp from "components/dialogs/AddNewAttendanceDialogComp";
 import AddNewAttendPersonDialogComp from "components/dialogs/AddNewAttendPersonDialogComp";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col } from "reactstrap";
-import AttendTransferComp from "components/transfer/AttendTransferComp";
 
 const Attend = () => {
   const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule);
   const [openNewAttendDialog, setOpenNewAttendDialog] = useState(false);
   const [openNewPersonDialog, setOpenNewPersonDialog] = useState(false);
+  const [currentAttend, setCurrentAttend] = useState(null);
 
   useEffect(() => {
     dispatch(GetSchedules());
@@ -70,13 +70,17 @@ const Attend = () => {
             <AddNewAttendPersonDialogComp
               open={openNewPersonDialog}
               handleClose={() => setOpenNewPersonDialog(false)}
+              currentAttend={currentAttend}
             />
           </div>
           <hr />
           {Object.values(schedule.schedules).map((schedule) => (
             <AttendAccordion
               {...schedule}
-              handleOpenAddDialog={() => setOpenNewPersonDialog(true)}
+              handleOpenAddDialog={() => {
+                setOpenNewPersonDialog(true);
+                setCurrentAttend(schedule);
+              }}
             />
           ))}
         </Col>
@@ -109,14 +113,17 @@ const Attend = () => {
 const AttendAccordion = ({
   scheduleName,
   scheduleTime,
+  scheduleAttends,
   handleOpenAddDialog,
 }) => {
+  const dispatch = useDispatch();
   const handleDeleteSchedule = () => {
     if (
       window.prompt("해당 일정을 삭제하시려면,\n[삭제]를 입력해주세요.") ===
       "삭제"
     ) {
       //   *삭제 이벤트 실행
+      dispatch(DeleteSchedules(scheduleTime));
     }
   };
 
@@ -127,7 +134,9 @@ const AttendAccordion = ({
           {scheduleTime}&ensp;{scheduleName}
         </p>
       </AccordionSummary>
-      <AccordionDetails></AccordionDetails>
+      <AccordionDetails>
+        {scheduleAttends ? "" : <p>출석 인원을 추가해주세요.</p>}
+      </AccordionDetails>
       <AccordionActions>
         <IconButton onClick={handleOpenAddDialog}>
           <Tooltip title="출석 인원 추가">
