@@ -1,5 +1,6 @@
 import {
   Accordion,
+  AccordionActions,
   AccordionDetails,
   AccordionSummary,
   Chip,
@@ -9,20 +10,25 @@ import {
 } from "@material-ui/core";
 import {
   Add,
+  DeleteForever,
   ExpandMore,
+  PersonAdd,
   Settings,
   TrendingUpRounded,
 } from "@material-ui/icons";
 import { GetSchedules } from "actions/dbActions";
 import AddNewAttendanceDialogComp from "components/dialogs/AddNewAttendanceDialogComp";
+import AddNewAttendPersonDialogComp from "components/dialogs/AddNewAttendPersonDialogComp";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col } from "reactstrap";
+import AttendTransferComp from "components/transfer/AttendTransferComp";
 
 const Attend = () => {
   const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openNewAttendDialog, setOpenNewAttendDialog] = useState(false);
+  const [openNewPersonDialog, setOpenNewPersonDialog] = useState(false);
 
   useEffect(() => {
     dispatch(GetSchedules());
@@ -43,7 +49,7 @@ const Attend = () => {
               <Tooltip title="출석인원 프리셋 만들기">
                 <IconButton
                   className="Schedule-Add-Button"
-                  onClick={() => setOpenDialog(TrendingUpRounded)}
+                  onClick={() => setOpenNewAttendDialog(TrendingUpRounded)}
                 >
                   <Settings />
                 </IconButton>
@@ -51,20 +57,27 @@ const Attend = () => {
               <Tooltip title="일정 추가">
                 <IconButton
                   className="Schedule-Add-Button"
-                  onClick={() => setOpenDialog(TrendingUpRounded)}
+                  onClick={() => setOpenNewAttendDialog(TrendingUpRounded)}
                 >
                   <Add />
                 </IconButton>
               </Tooltip>
             </div>
             <AddNewAttendanceDialogComp
-              open={openDialog}
-              handleClose={() => setOpenDialog(false)}
+              open={openNewAttendDialog}
+              handleClose={() => setOpenNewAttendDialog(false)}
+            />
+            <AddNewAttendPersonDialogComp
+              open={openNewPersonDialog}
+              handleClose={() => setOpenNewPersonDialog(false)}
             />
           </div>
           <hr />
           {Object.values(schedule.schedules).map((schedule) => (
-            <AttendAccordion {...schedule} />
+            <AttendAccordion
+              {...schedule}
+              handleOpenAddDialog={() => setOpenNewPersonDialog(true)}
+            />
           ))}
         </Col>
         <Col lg="4" className="Attend-Standard">
@@ -93,7 +106,20 @@ const Attend = () => {
   );
 };
 
-const AttendAccordion = ({ scheduleName, scheduleTime }) => {
+const AttendAccordion = ({
+  scheduleName,
+  scheduleTime,
+  handleOpenAddDialog,
+}) => {
+  const handleDeleteSchedule = () => {
+    if (
+      window.prompt("해당 일정을 삭제하시려면,\n[삭제]를 입력해주세요.") ===
+      "삭제"
+    ) {
+      //   *삭제 이벤트 실행
+    }
+  };
+
   return (
     <Accordion className="Attend-Accordion">
       <AccordionSummary expandIcon={<ExpandMore />}>
@@ -102,6 +128,18 @@ const AttendAccordion = ({ scheduleName, scheduleTime }) => {
         </p>
       </AccordionSummary>
       <AccordionDetails></AccordionDetails>
+      <AccordionActions>
+        <IconButton onClick={handleOpenAddDialog}>
+          <Tooltip title="출석 인원 추가">
+            <PersonAdd />
+          </Tooltip>
+        </IconButton>
+        <IconButton onClick={handleDeleteSchedule}>
+          <Tooltip title="일정 삭제">
+            <DeleteForever />
+          </Tooltip>
+        </IconButton>
+      </AccordionActions>
     </Accordion>
   );
 };
