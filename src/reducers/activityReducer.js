@@ -21,7 +21,7 @@ const initialState = {
   memberList: [],
   currentSeason: "",
   currentTeam: "",
-  currentAttend: "",
+  currentAttention: "",
   currentLog: "",
   openFeedbackDrawer: false,
   logPage: 0,

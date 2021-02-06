@@ -19,5 +19,3 @@ export const SET_LOG = "SET_LOG";
 
 export const OPEN_FEEDBACK_DRAWER = "OPEN_FEEDBACK_DRAWER";
 export const SET_LOG_PAGE = "SET_LOG_PAGE";
-
-export const GET_SCHEDULES = "GET_SCHEDULES";

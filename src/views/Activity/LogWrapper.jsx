@@ -79,7 +79,7 @@ const LogWrapper = (props) => {
 
   return (
     <Paper elevation={3} className="LogWrapper padding20">
-      <div className="LogWrapper-header Row Space-Between">
+      <div className="LogWrapper-header Row Space-between">
         <h2>{logName}</h2>
         {IsHavePermissionLog(user, activity) ? (
           <Button onClick={() => handleDeleteLog()}>
