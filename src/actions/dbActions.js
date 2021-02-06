@@ -534,7 +534,7 @@ export const SaveAttends = (currentAttend, scheduleAttends) => async (
   dispatch(Loading(true, "출석 인원을 추가하고 있습니다..."));
 
   var Attends = scheduleAttends.map((item) => {
-    Object.assign(item, { isAttend: false });
+    Object.assign(item, { isAttend: "not" });
     return item;
   });
 
