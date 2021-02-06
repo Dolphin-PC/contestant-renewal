@@ -96,7 +96,7 @@ a {
 }
 
 .ActivityBody {
-  padding-left: 20px;
+  padding: 0px 20px;
   & .BodyRoot {
     background-color: transparent !important;
   }
@@ -164,11 +164,14 @@ a {
 
 .Row {
   display: flex;
-  &.Space-between {
+  &.Space-Between {
     justify-content: space-between;
   }
-  &.vertical-center {
+  &.Vertical-Center {
     align-items: center;
+  }
+  & .Schedule-Add-Button {
+    padding: 0px 15px !important;
   }
 }
 
@@ -191,4 +194,46 @@ a {
 }
 .Landing-Activity {
   text-align: center;
+}
+
+.FAB > button {
+  background-color: $secondary-color !important;
+  &:hover {
+    background-color: darken($secondary-color, 10%) !important;
+  }
+}
+.Today-Attend-Schedule > h5,
+.Attend-Standard > h5 {
+  display: inline-block;
+}
+
+.Attend-Standard {
+  > div {
+    padding: 20px;
+    > div {
+      display: flex;
+      align-items: baseline;
+    }
+  }
+}
+
+.Chip-Normal {
+  background-color: $main-color !important;
+}
+.Chip-Late {
+  background-color: $subMain-color !important;
+}
+.Chip-Absent {
+  background-color: $secondary-color !important;
+}
+.Attend-Accordion {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.MuiAccordionDetails-root {
+  flex-wrap: wrap;
+  > div {
+    margin: 3px;
+  }
 }
