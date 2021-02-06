@@ -135,7 +135,11 @@ const AttendAccordion = ({
         </p>
       </AccordionSummary>
       <AccordionDetails>
-        {scheduleAttends ? "" : <p>출석 인원을 추가해주세요.</p>}
+        {scheduleAttends ? (
+          scheduleAttends.map((attend) => <Chip label={attend.name} />)
+        ) : (
+          <p>출석 인원을 추가해주세요.</p>
+        )}
       </AccordionDetails>
       <AccordionActions>
         <IconButton onClick={handleOpenAddDialog}>

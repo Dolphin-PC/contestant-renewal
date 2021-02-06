@@ -534,9 +534,8 @@ export const SaveAttends = (currentAttend, scheduleAttends) => async (
   dispatch(Loading(true, "출석 인원을 추가하고 있습니다..."));
 
   await fireDatabase
-    .ref(`attendance/${currentAttend.scheduleTime}`)
-    .child("scheduleAttends")
-    .update(scheduleAttends)
+    .ref(`attendance/${currentAttend.scheduleTime}/scheduleAttends`)
+    .set(scheduleAttends)
     .then(() => {
       alert("출석 인원을 저장했습니다!");
     })

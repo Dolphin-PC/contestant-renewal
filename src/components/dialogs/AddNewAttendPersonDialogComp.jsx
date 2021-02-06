@@ -35,9 +35,20 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
   };
 
   useEffect(() => {
+    let savedAttends = [];
+    console.info(currentAttend);
+    if (currentAttend !== null) {
+      Object.values(schedule.schedules).filter((schedule) => {
+        if (schedule.scheduleTime === currentAttend.scheduleTime) {
+          if (schedule.scheduleAttends !== undefined) {
+            savedAttends = schedule.scheduleAttends;
+          }
+        }
+      });
+      setRight(savedAttends);
+    }
     setLeft(activity.memberList);
-    setRight([]);
-  }, [open]);
+  }, [open, schedule]);
 
   const TransferList = () => {
     const useStyles = makeStyles((theme) => ({
@@ -82,12 +93,12 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
 
     const handleAllRight = () => {
       setRight(right.concat(left));
-      setLeft([]);
+      // setLeft([]);
     };
 
     const handleCheckedRight = () => {
       setRight(right.concat(leftChecked));
-      setLeft(not(left, leftChecked));
+      // setLeft(not(left, leftChecked));
       setChecked(not(checked, leftChecked));
     };
 
@@ -140,7 +151,7 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
         className={classes.root}
       >
         <Grid item className="Left-Attend">
-          <h5>동아리원 목록</h5>
+          <h5>동아리원 목록({left.length})</h5>
           {customList(left)}
         </Grid>
         <Grid item className="Center-Attend-Button">
@@ -188,7 +199,7 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
           </Grid>
         </Grid>
         <Grid item className="Right-Attend">
-          <h5>출석할 인원 목록</h5>
+          <h5>출석할 인원 목록({right.length})</h5>
           {customList(right)}
         </Grid>
       </Grid>
