@@ -17,8 +17,10 @@ import {
   TrendingUpRounded,
 } from "@material-ui/icons";
 import { DeleteSchedules, GetSchedules } from "actions/dbActions";
+import AttendChip from "components/chip/AttendChip";
 import AddNewAttendanceDialogComp from "components/dialogs/AddNewAttendanceDialogComp";
 import AddNewAttendPersonDialogComp from "components/dialogs/AddNewAttendPersonDialogComp";
+import { GetTodaySchedule } from "functions/functions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col } from "reactstrap";
@@ -29,10 +31,15 @@ const Attend = () => {
   const [openNewAttendDialog, setOpenNewAttendDialog] = useState(false);
   const [openNewPersonDialog, setOpenNewPersonDialog] = useState(false);
   const [currentAttend, setCurrentAttend] = useState(null);
+  const [todaySchedule, setTodaySchedule] = useState([]);
 
   useEffect(() => {
     dispatch(GetSchedules());
   }, []);
+
+  useEffect(() => {
+    setTodaySchedule(GetTodaySchedule(schedule.schedules));
+  }, [schedule]);
 
   return (
     <div className="Attend-tab">
@@ -40,7 +47,10 @@ const Attend = () => {
         <Col lg="4" className="Today-Attend-Schedule">
           <h5>오늘 출석 일정</h5>
           <hr />
-          <AttendAccordion />
+          {todaySchedule &&
+            todaySchedule.map((today) => {
+              return <AttendAccordion {...today} today />;
+            })}
         </Col>
         <Col lg="4" className="Plan-Attend-Schedule">
           <div className="Row Space-Between Vertical-Center">
@@ -111,6 +121,7 @@ const Attend = () => {
 };
 
 const AttendAccordion = ({
+  today,
   scheduleName,
   scheduleTime,
   scheduleAttends,
@@ -126,35 +137,55 @@ const AttendAccordion = ({
       dispatch(DeleteSchedules(scheduleTime));
     }
   };
+  const time = scheduleTime.split("T");
 
-  return (
-    <Accordion className="Attend-Accordion">
-      <AccordionSummary expandIcon={<ExpandMore />}>
-        <p>
-          {scheduleTime}&ensp;{scheduleName}
-        </p>
-      </AccordionSummary>
-      <AccordionDetails>
-        {scheduleAttends ? (
-          scheduleAttends.map((attend) => <Chip label={attend.name} />)
-        ) : (
-          <p>출석 인원을 추가해주세요.</p>
-        )}
-      </AccordionDetails>
-      <AccordionActions>
-        <IconButton onClick={handleOpenAddDialog}>
-          <Tooltip title="출석 인원 추가">
-            <PersonAdd />
-          </Tooltip>
-        </IconButton>
-        <IconButton onClick={handleDeleteSchedule}>
-          <Tooltip title="일정 삭제">
-            <DeleteForever />
-          </Tooltip>
-        </IconButton>
-      </AccordionActions>
-    </Accordion>
-  );
+  if (today) {
+    return (
+      <Accordion className="Attend-Accordion">
+        <AccordionSummary expandIcon={<ExpandMore />}>
+          <p>
+            {time[0]}&ensp;{time[1]}&ensp;{scheduleName}
+          </p>
+        </AccordionSummary>
+        <AccordionDetails>
+          {scheduleAttends ? (
+            scheduleAttends.map((attend) => <AttendChip {...attend} />)
+          ) : (
+            <p>출석 인원을 추가해주세요.</p>
+          )}
+        </AccordionDetails>
+      </Accordion>
+    );
+  } else {
+    return (
+      <Accordion className="Attend-Accordion">
+        <AccordionSummary expandIcon={<ExpandMore />}>
+          <p>
+            {time[0]}&ensp;{time[1]}&ensp;{scheduleName}
+          </p>
+        </AccordionSummary>
+        <AccordionDetails>
+          {scheduleAttends ? (
+            scheduleAttends.map((attend) => <Chip label={attend.name} />)
+          ) : (
+            <p>출석 인원을 추가해주세요.</p>
+          )}
+        </AccordionDetails>
+        <AccordionActions>
+          <IconButton onClick={handleOpenAddDialog}>
+            <Tooltip title="출석 인원 추가">
+              <PersonAdd />
+            </Tooltip>
+          </IconButton>
+          <IconButton onClick={handleDeleteSchedule}>
+            <Tooltip title="일정 삭제">
+              <DeleteForever />
+            </Tooltip>
+          </IconButton>
+        </AccordionActions>
+      </Accordion>
+    );
+  }
 };
 AttendAccordion.defaultProps = {
   scheduleName: "정기회의",

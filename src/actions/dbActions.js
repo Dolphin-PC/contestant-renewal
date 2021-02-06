@@ -508,34 +508,39 @@ export const DeleteSchedules = (scheduleTime) => async (dispatch) => {
     });
 };
 
-export const AddNewAttend = (scheduleTime, attend) => async (dispatch) => {
-  dispatch(Loading(true, "출석할 인원을 추가하고 있습니다..."));
+// export const AddNewAttend = (scheduleTime, attend) => async (dispatch) => {
+//   dispatch(Loading(true, "출석할 인원을 추가하고 있습니다..."));
 
-  await fireDatabase
-    .ref(`attendance/${scheduleTime}`)
-    .child("scheduleAttend")
-    .update({
-      attend,
-    })
-    .then(() => {
-      alert("일정 출석 인원 추가 완료!");
-    })
-    .catch((err) => {
-      alert("오류!");
-    })
-    .then(() => {
-      dispatch(Loading(false, "일정 출석 인원 처리 완료"));
-    });
-};
+//   await fireDatabase
+//     .ref(`attendance/${scheduleTime}`)
+//     .child("scheduleAttend")
+//     .update({
+//       attend,
+//     })
+//     .then(() => {
+//       alert("일정 출석 인원 추가 완료!");
+//     })
+//     .catch((err) => {
+//       alert("오류!");
+//     })
+//     .then(() => {
+//       dispatch(Loading(false, "일정 출석 인원 처리 완료"));
+//     });
+// };
 
 export const SaveAttends = (currentAttend, scheduleAttends) => async (
   dispatch
 ) => {
   dispatch(Loading(true, "출석 인원을 추가하고 있습니다..."));
 
+  var Attends = scheduleAttends.map((item) => {
+    Object.assign(item, { isAttend: false });
+    return item;
+  });
+
   await fireDatabase
     .ref(`attendance/${currentAttend.scheduleTime}/scheduleAttends`)
-    .set(scheduleAttends)
+    .set(Attends)
     .then(() => {
       alert("출석 인원을 저장했습니다!");
     })

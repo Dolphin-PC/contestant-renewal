@@ -202,16 +202,19 @@ a {
     background-color: darken($secondary-color, 10%) !important;
   }
 }
+
 .Today-Attend-Schedule > h5,
 .Attend-Standard > h5 {
   display: inline-block;
 }
 
-.Attend-Standard > div {
-  padding: 20px;
+.Attend-Standard {
   > div {
-    display: flex;
-    align-items: baseline;
+    padding: 20px;
+    > div {
+      display: flex;
+      align-items: baseline;
+    }
   }
 }
 
@@ -227,4 +230,11 @@ a {
 .Attend-Accordion {
   width: 100%;
   margin-bottom: 10px;
+}
+
+.MuiAccordionDetails-root {
+  flex-wrap: wrap;
+  > div {
+    margin: 3px;
+  }
 }

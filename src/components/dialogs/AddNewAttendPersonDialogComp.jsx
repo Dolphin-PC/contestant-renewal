@@ -36,7 +36,6 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
 
   useEffect(() => {
     let savedAttends = [];
-    console.info(currentAttend);
     if (currentAttend !== null) {
       Object.values(schedule.schedules).filter((schedule) => {
         if (schedule.scheduleTime === currentAttend.scheduleTime) {

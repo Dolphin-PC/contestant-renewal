@@ -39,7 +39,11 @@ export const usePreventLeave = () => {
 };
 
 export const getCurrentDateFormat = () => {
-  let currentDate = new Date().toLocaleDateString("ko-KR"); // * 2020.01.01
+  let currentDate = new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }); // * 2020.01.01
   currentDate = currentDate
     .split(".")
     .join("-")
@@ -69,4 +73,12 @@ export const IsHavePermissionLog = (user, activity) => {
   else {
     return true;
   }
+};
+
+export const GetTodaySchedule = (schedules) => {
+  const result = Object.values(schedules).filter(
+    (schedule) => schedule.scheduleTime.split("T")[0] === getCurrentDateFormat()
+  );
+
+  return result;
 };
