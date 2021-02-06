@@ -1,4 +1,3 @@
-import "date-fns";
 import {
   Dialog,
   DialogActions,
