@@ -1,6 +1,6 @@
 import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
 import * as TYPE from "actions/types";
-import { getCurrentDateFormat } from "functions/functions.js";
+import { getCurrentDateFormat, GetCurrentTime } from "functions/functions.js";
 import { useCallback } from "react";
 
 // @param   loading : true/false
@@ -554,11 +554,40 @@ export const SaveAttends = (currentAttend, scheduleAttends) => async (
     .then(() => dispatch(Loading(false, "출석 인원 처리 완료")));
 };
 
-export const UpdateAttend = (scheduleTime, id) => async (dispatch) => {
-  dispatch(Loading(true, "출결 처리 중입니다..."));
+export const UpdateAttend = (scheduleTime, id, isAttend) => async (
+  dispatch
+) => {
+  // dispatch(Loading(true, "출결 처리 중입니다..."));
 
-  var attendQuery = fireDatabase
-    .ref(`attendance/${scheduleTime}/scheduleAttends`)
-    .orderByChild("id")
-    .equalTo(id);
+  let scheduledTime = scheduleTime.split("T")[1].split(":");
+  scheduledTime = scheduledTime.map((item) => Number(item));
+  const currentTime = GetCurrentTime();
+  const currentMinute = currentTime[0] * 60 + currentTime[1];
+  const scheduledMinute = scheduledTime[0] * 60 + scheduledTime[1];
+  const betweenTime = currentMinute - scheduledMinute;
+
+  let setAttend = "";
+  if (isAttend !== "not") setAttend = "not";
+  else {
+    console.info(currentTime, currentMinute, scheduledMinute, betweenTime);
+
+    if (scheduledMinute > currentMinute)
+      return alert("아직 출석 시간이 아닙니다.");
+    else if (betweenTime <= 10) setAttend = "attend";
+    else if (betweenTime >= 10 && betweenTime < 20) setAttend = "late";
+    else if (betweenTime >= 20) setAttend = "absent";
+  }
+
+  await fireDatabase
+    .ref(`attendance/${scheduleTime}/scheduleAttends/${id}`)
+    .update({
+      isAttend: setAttend,
+    })
+    .then(() => {
+      dispatch(Loading(false, "출결 처리 완료"));
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(Loading(false, ""));
+    });
 };

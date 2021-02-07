@@ -145,8 +145,24 @@ a {
 }
 
 .MuiChip-root {
-  background-color: $subMain-color !important;
   color: $default-color !important;
+
+  &.MuiChip-colorPrimary {
+    background-color: $main-color !important;
+  }
+  &.MuiChip-attend {
+    background-color: $main-color !important;
+  }
+  &.MuiChip-late {
+    background-color: $subMain-color !important;
+  }
+  &.MuiChip-absent {
+    background-color: $secondary-color !important;
+  }
+  &.MuiChip-default,
+  &.MuiChip-not {
+    color: $main-color !important;
+  }
 }
 
 .IntroduceTeamFooter {

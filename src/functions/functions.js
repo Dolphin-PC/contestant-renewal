@@ -82,3 +82,10 @@ export const GetTodaySchedule = (schedules) => {
 
   return result;
 };
+
+export const GetCurrentTime = () => {
+  const hour = new Date().getHours();
+  const minute = new Date().getMinutes();
+
+  return [hour, minute];
+};

@@ -15,7 +15,9 @@ const AttendChip = ({ id, name, property, isAttend, scheduleTime }) => {
   const dispatch = useDispatch();
 
   const handleAttend = () => {
-    dispatch(UpdateAttend(scheduleTime, id));
+    if (user.userInfo.isSupporter) {
+      dispatch(UpdateAttend(scheduleTime, id, isAttend));
+    }
   };
 
   const attendIcon = (isAttend) => {
@@ -32,12 +34,26 @@ const AttendChip = ({ id, name, property, isAttend, scheduleTime }) => {
         return <Adjust />;
     }
   };
+  const attendClass = (isAttend) => {
+    switch (isAttend) {
+      case "not":
+        return "MuiChip-not";
+      case "attend":
+        return "MuiChip-attend";
+      case "late":
+        return "MuiChip-late";
+      case "absent":
+        return "MuiChip-absent";
+      default:
+        return "MuiChip-default";
+    }
+  };
+
   return (
     <div>
       <Chip
+        className={attendClass(isAttend)}
         label={name}
-        clickable
-        color="primary"
         onDelete={handleAttend}
         deleteIcon={attendIcon(isAttend)}
       />
