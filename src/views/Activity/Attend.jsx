@@ -14,7 +14,6 @@ import {
   ExpandMore,
   PersonAdd,
   Settings,
-  TrendingUpRounded,
 } from "@material-ui/icons";
 import { DeleteSchedules, GetSchedules } from "actions/dbActions";
 import AttendChip from "components/chip/AttendChip";
@@ -32,6 +31,21 @@ const Attend = () => {
   const [openNewPersonDialog, setOpenNewPersonDialog] = useState(false);
   const [currentAttend, setCurrentAttend] = useState(null);
   const [todaySchedule, setTodaySchedule] = useState([]);
+
+  const [isPreset, setIsPreset] = useState(false);
+
+  const handleOpenPresetDialog = () => {
+    // * 출석 인원 추가 dialog 재사용
+    setIsPreset(true);
+    setCurrentAttend(null);
+    setOpenNewPersonDialog(true);
+  };
+
+  const handleOpenAddDialog = (schedule) => {
+    setIsPreset(false);
+    setCurrentAttend(schedule);
+    setOpenNewPersonDialog(true);
+  };
 
   useEffect(() => {
     dispatch(GetSchedules());
@@ -59,7 +73,7 @@ const Attend = () => {
               <Tooltip title="출석인원 프리셋 만들기">
                 <IconButton
                   className="Schedule-Add-Button"
-                  onClick={() => setOpenNewAttendDialog(TrendingUpRounded)}
+                  onClick={handleOpenPresetDialog}
                 >
                   <Settings />
                 </IconButton>
@@ -67,7 +81,7 @@ const Attend = () => {
               <Tooltip title="일정 추가">
                 <IconButton
                   className="Schedule-Add-Button"
-                  onClick={() => setOpenNewAttendDialog(TrendingUpRounded)}
+                  onClick={() => setOpenNewAttendDialog(true)}
                 >
                   <Add />
                 </IconButton>
@@ -81,16 +95,14 @@ const Attend = () => {
               open={openNewPersonDialog}
               handleClose={() => setOpenNewPersonDialog(false)}
               currentAttend={currentAttend}
+              isPreset={isPreset}
             />
           </div>
           <hr />
           {Object.values(schedule.schedules).map((schedule) => (
             <AttendAccordion
               {...schedule}
-              handleOpenAddDialog={() => {
-                setOpenNewPersonDialog(true);
-                setCurrentAttend(schedule);
-              }}
+              handleOpenAddDialog={() => handleOpenAddDialog(schedule)}
             />
           ))}
         </Col>

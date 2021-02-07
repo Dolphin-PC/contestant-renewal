@@ -14,13 +14,20 @@ import {
   ListItemText,
   Grid,
   Tooltip,
+  TextField,
+  Input,
 } from "@material-ui/core";
-import { SaveAttends } from "actions/dbActions";
+import { SaveAttends, SavePreset } from "actions/dbActions";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
+const AddNewAttendPersonDialogComp = ({
+  open,
+  handleClose,
+  currentAttend,
+  isPreset,
+}) => {
   const dispatch = useDispatch();
   const activity = useSelector((state) => state.activity);
   const schedule = useSelector((state) => state.schedule);
@@ -29,8 +36,17 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
   const [left, setLeft] = React.useState([]);
   const [right, setRight] = React.useState([]);
 
-  const handleCreate = () => {
+  const presetNameRef = useRef();
+
+  const handleCreateAttend = () => {
     dispatch(SaveAttends(currentAttend, right));
+    handleClose();
+  };
+
+  const handleCreatePreset = () => {
+    var presetName = presetNameRef.current.value;
+    dispatch(SavePreset(presetName, right));
+    setRight([]);
     handleClose();
   };
 
@@ -72,7 +88,7 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
       return a.filter((value) => b.indexOf(value) !== -1);
     }
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([]);
+    const [checked, setChecked] = useState([]);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -205,32 +221,74 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
     );
   };
 
-  return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>
-        <h5>
-          출석 인원 추가 &emsp;
-          {currentAttend && (
-            <small>
-              {currentAttend.scheduleTime}&ensp;{currentAttend.scheduleName}
-            </small>
-          )}
-        </h5>
-      </DialogTitle>
-      <Divider />
-      <DialogContent>
-        <TransferList />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          취소
-        </Button>
-        <Button onClick={handleCreate} color="primary" variant="contained">
-          저장
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
+  if (isPreset) {
+    return (
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          <h5>
+            출석 인원 프리셋 &emsp;
+            {currentAttend && (
+              <small>
+                {currentAttend.scheduleTime}&ensp;{currentAttend.scheduleName}
+              </small>
+            )}
+          </h5>
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+          <TransferList />
+        </DialogContent>
+        <DialogActions>
+          <input
+            className="Preset-textField"
+            ref={presetNameRef}
+            placeholder="프리셋 이름을 입력해주세요."
+          />
+          <Button onClick={handleClose} color="primary">
+            취소
+          </Button>
+          <Button
+            onClick={handleCreatePreset}
+            color="primary"
+            variant="contained"
+          >
+            저장
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  } else {
+    return (
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          <h5>
+            출석 인원 추가 &emsp;
+            {currentAttend && (
+              <small>
+                {currentAttend.scheduleTime}&ensp;{currentAttend.scheduleName}
+              </small>
+            )}
+          </h5>
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+          <TransferList />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            취소
+          </Button>
+          <Button
+            onClick={handleCreateAttend}
+            color="primary"
+            variant="contained"
+          >
+            저장
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
 };
 
 export default AddNewAttendPersonDialogComp;

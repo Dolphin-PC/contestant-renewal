@@ -89,3 +89,15 @@ export const GetCurrentTime = () => {
 
   return [hour, minute];
 };
+
+export const TranslateArrTokeyObject = (items) => {
+  var result = {};
+
+  items.map((item) => {
+    Object.assign(item, { isAttend: "not" });
+    var keyObj = new Object({ [item.id]: item });
+    result = Object.assign(result, keyObj);
+  });
+
+  return result;
+};

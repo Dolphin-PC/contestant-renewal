@@ -1,6 +1,10 @@
 import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
 import * as TYPE from "actions/types";
-import { getCurrentDateFormat, GetCurrentTime } from "functions/functions.js";
+import {
+  getCurrentDateFormat,
+  GetCurrentTime,
+  TranslateArrTokeyObject,
+} from "functions/functions.js";
 import { useCallback } from "react";
 
 // @param   loading : true/false
@@ -533,13 +537,13 @@ export const SaveAttends = (currentAttend, scheduleAttends) => async (
   dispatch
 ) => {
   dispatch(Loading(true, "출석 인원을 추가하고 있습니다..."));
-  var Attends = {};
+  var Attends = TranslateArrTokeyObject(scheduleAttends);
 
-  scheduleAttends.map((item) => {
-    Object.assign(item, { isAttend: "not" });
-    var keyObj = new Object({ [item.id]: item });
-    Attends = Object.assign(Attends, keyObj);
-  });
+  // scheduleAttends.map((item) => {
+  //   Object.assign(item, { isAttend: "not" });
+  //   var keyObj = new Object({ [item.id]: item });
+  //   Attends = Object.assign(Attends, keyObj);
+  // });
 
   await fireDatabase
     .ref(`attendance/${currentAttend.scheduleTime}/scheduleAttends`)
@@ -589,5 +593,25 @@ export const UpdateAttend = (scheduleTime, id, isAttend) => async (
     .catch((err) => {
       console.error(err);
       dispatch(Loading(false, ""));
+    });
+};
+
+export const SavePreset = (presetName, right) => async (dispatch) => {
+  dispatch(Loading(true, "출석 프리셋을 저장하고 있습니다..."));
+
+  var preset = TranslateArrTokeyObject(right);
+
+  await fireDatabase
+    .ref(`attendPreset`)
+    .child(presetName)
+    .update(preset)
+    .then(() => {
+      dispatch(Loading(false), "프리셋 저장 완료");
+      alert("프리셋 저장이 완료되었습니다.");
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(Loading(false), "");
+      alert("프리셋 저장에 실패하였습니다.");
     });
 };
