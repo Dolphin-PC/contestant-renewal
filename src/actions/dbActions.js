@@ -604,7 +604,10 @@ export const SavePreset = (presetName, right) => async (dispatch) => {
   await fireDatabase
     .ref(`attendPreset`)
     .child(presetName)
-    .update(preset)
+    .update({
+      presetName,
+      preset,
+    })
     .then(() => {
       dispatch(Loading(false), "프리셋 저장 완료");
       alert("프리셋 저장이 완료되었습니다.");
@@ -614,4 +617,18 @@ export const SavePreset = (presetName, right) => async (dispatch) => {
       dispatch(Loading(false), "");
       alert("프리셋 저장에 실패하였습니다.");
     });
+};
+
+export const GetPreset = () => async (dispatch) => {
+  dispatch(Loading(true, "출석 프리셋을 불러오고 있습니다..."));
+
+  await fireDatabase.ref("/attendPreset").on("value", (snapShot) => {
+    if (snapShot.exists()) {
+      dispatch({
+        type: TYPE.GET_PRESETS,
+        payload: snapShot.val(),
+      });
+    }
+  });
+  dispatch(Loading(false, "프리셋 로딩 완료"));
 };

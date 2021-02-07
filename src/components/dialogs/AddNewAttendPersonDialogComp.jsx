@@ -16,10 +16,12 @@ import {
   Tooltip,
   TextField,
   Input,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
-import { SaveAttends, SavePreset } from "actions/dbActions";
+import { GetPreset, SaveAttends, SavePreset } from "actions/dbActions";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddNewAttendPersonDialogComp = ({
@@ -31,29 +33,40 @@ const AddNewAttendPersonDialogComp = ({
   const dispatch = useDispatch();
   const activity = useSelector((state) => state.activity);
   const schedule = useSelector((state) => state.schedule);
+  const { schedules, presets } = schedule;
 
   // * Transfer list - 출석 인원
   const [left, setLeft] = React.useState([]);
   const [right, setRight] = React.useState([]);
 
   const presetNameRef = useRef();
+  const [currentPresets, setCurrentPresets] = useState("");
 
-  const handleCreateAttend = () => {
+  const handleCreateAttend = useCallback(() => {
     dispatch(SaveAttends(currentAttend, right));
     handleClose();
-  };
+  });
 
-  const handleCreatePreset = () => {
+  const handleCreatePreset = useCallback(() => {
     var presetName = presetNameRef.current.value;
+    if (presetName === "") return alert("프리셋 이름을 입력해주세요.");
     dispatch(SavePreset(presetName, right));
-    setRight([]);
-    handleClose();
-  };
 
-  useEffect(() => {
+    handleClose();
+  });
+
+  const handleSelectPreset = useCallback((e) => {
+    if (e.target.value === "") {
+      setCurrentPresets("");
+    } else {
+      setCurrentPresets(e.target.value.presetName);
+    }
+  });
+
+  const getListData = useCallback(() => {
     let savedAttends = [];
     if (currentAttend !== null) {
-      Object.values(schedule.schedules).filter((schedule) => {
+      Object.values(schedules).filter((schedule) => {
         if (schedule.scheduleTime === currentAttend.scheduleTime) {
           if (schedule.scheduleAttends !== undefined) {
             savedAttends = schedule.scheduleAttends;
@@ -63,7 +76,19 @@ const AddNewAttendPersonDialogComp = ({
       setRight(Object.values(savedAttends));
     }
     setLeft(activity.memberList);
-  }, [open, schedule]);
+  });
+
+  const getPresetData = useCallback(() => {
+    dispatch(GetPreset());
+    setRight([]);
+  });
+
+  useEffect(() => {
+    if (isPreset) {
+      getPresetData();
+    }
+    getListData();
+  }, [open]);
 
   const TransferList = () => {
     const useStyles = makeStyles((theme) => ({
@@ -225,24 +250,33 @@ const AddNewAttendPersonDialogComp = ({
     return (
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>
-          <h5>
-            출석 인원 프리셋 &emsp;
-            {currentAttend && (
-              <small>
-                {currentAttend.scheduleTime}&ensp;{currentAttend.scheduleName}
-              </small>
-            )}
-          </h5>
+          <h5>출석 인원 프리셋 설정</h5>
         </DialogTitle>
         <Divider />
         <DialogContent>
           <TransferList />
         </DialogContent>
         <DialogActions>
+          <Tooltip
+            title="프리셋을 생성하시려면, [프리셋 생성]을 선택하고, 프리셋을 수정하시려면, 해당 프리셋을 선택하시면 됩니다."
+            placement="left"
+          >
+            <Select value={currentPresets} onChange={handleSelectPreset}>
+              <MenuItem value="">프리셋 생성</MenuItem>
+              {presets &&
+                Object.values(presets).map((preset) => {
+                  return (
+                    <MenuItem value={preset}>{preset.presetName}</MenuItem>
+                  );
+                })}
+            </Select>
+          </Tooltip>
+
           <input
+            value={currentPresets}
             className="Preset-textField"
             ref={presetNameRef}
-            placeholder="프리셋 이름을 입력해주세요."
+            placeholder={"새 프리셋 이름을 입력해주세요."}
           />
           <Button onClick={handleClose} color="primary">
             취소
