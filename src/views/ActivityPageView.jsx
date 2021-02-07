@@ -105,7 +105,7 @@ const ActivityPageView = () => {
               >
                 <Tab label="회의록" {...a11yProps(0)} />
                 <Tab label="출석부" {...a11yProps(1)} />
-                <Tab label="팀 빌딩(투표)" {...a11yProps(2)} />
+                {/* <Tab label="팀 빌딩(투표)" {...a11yProps(2)} /> */}
               </Tabs>
             </Paper>
           </div>
@@ -118,9 +118,9 @@ const ActivityPageView = () => {
               <TabPanel value={page} index={1} className="TabPanel">
                 <Attend />
               </TabPanel>
-              <TabPanel value={page} index={2} className="TabPanel">
+              {/* <TabPanel value={page} index={2} className="TabPanel">
                 <TeamBuilding />
-              </TabPanel>
+              </TabPanel> */}
             </Paper>
           </div>
         </div>
