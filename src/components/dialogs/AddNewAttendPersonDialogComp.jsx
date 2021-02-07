@@ -55,9 +55,13 @@ const AddNewAttendPersonDialogComp = ({
   });
 
   const handleCreatePreset = useCallback(() => {
-    var presetName = presetNameRef.current.value;
-    if (presetName === "") return alert("프리셋 이름을 입력해주세요.");
-    dispatch(SavePreset(presetName, right));
+    if (currentPresets) {
+      dispatch(SavePreset(currentPresets.presetName, right));
+    } else {
+      var presetName = presetNameRef.current.value;
+      if (presetName === "") return alert("프리셋 이름을 입력해주세요.");
+      dispatch(SavePreset(presetName, right));
+    }
   });
 
   const handleSelectPreset = useCallback((e) => {
@@ -65,7 +69,12 @@ const AddNewAttendPersonDialogComp = ({
       setCurrentPresets(null);
     } else {
       setCurrentPresets(e.target.value);
+      presetNameRef.current.value = "";
     }
+  });
+
+  const handleLoadPreset = useCallback((e) => {
+    setCurrentPresets(e.target.value);
   });
 
   const handleDeletePreset = () => {
@@ -350,6 +359,22 @@ const AddNewAttendPersonDialogComp = ({
           <TransferList />
         </DialogContent>
         <DialogActions>
+          <Select
+            className="Add-Attend-Preset-Select-Box"
+            value={currentPresets}
+            onChange={handleLoadPreset}
+          >
+            <MenuItem value="">프리셋 선택</MenuItem>
+
+            {presets &&
+              Object.values(presets).map((preset) => {
+                return (
+                  <MenuItem value={preset}>
+                    <ListItemText primary={preset.presetName} />
+                  </MenuItem>
+                );
+              })}
+          </Select>
           <Button onClick={handleClose} color="primary">
             취소
           </Button>

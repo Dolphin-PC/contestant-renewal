@@ -459,7 +459,7 @@ const FeedbackAccordionRender = ({
       <Accordion style={{ width: "100%" }}>
         <AccordionSummary expandIcon={<ExpandMore />}>
           <Tooltip title={user.property} placement="left">
-            <Chip label={user.name} />
+            <Chip label={user.name} color="primary" />
           </Tooltip>
           <p style={{ margin: "auto 0px auto 10px" }}>{currentDate}</p>
         </AccordionSummary>
