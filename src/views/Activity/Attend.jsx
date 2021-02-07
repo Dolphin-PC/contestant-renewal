@@ -149,7 +149,9 @@ const AttendAccordion = ({
         </AccordionSummary>
         <AccordionDetails>
           {scheduleAttends ? (
-            scheduleAttends.map((attend) => <AttendChip {...attend} />)
+            Object.values(scheduleAttends).map((attend) => (
+              <AttendChip {...attend} scheduleTime={time} />
+            ))
           ) : (
             <p>출석 인원을 추가해주세요.</p>
           )}
@@ -166,7 +168,9 @@ const AttendAccordion = ({
         </AccordionSummary>
         <AccordionDetails>
           {scheduleAttends ? (
-            scheduleAttends.map((attend) => <Chip label={attend.name} />)
+            Object.values(scheduleAttends).map((attend) => (
+              <Chip label={attend.name} />
+            ))
           ) : (
             <p>출석 인원을 추가해주세요.</p>
           )}

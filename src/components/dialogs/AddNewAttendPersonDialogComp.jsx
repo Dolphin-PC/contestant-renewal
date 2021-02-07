@@ -44,7 +44,7 @@ const AddNewAttendPersonDialogComp = ({ open, handleClose, currentAttend }) => {
           }
         }
       });
-      setRight(savedAttends);
+      setRight(Object.values(savedAttends));
     }
     setLeft(activity.memberList);
   }, [open, schedule]);

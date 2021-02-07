@@ -6,7 +6,7 @@ import carousel1 from "assets/images/carousel1.jpg";
 import IntroduceRuleVisualImage from "assets/images/IntroduceRuleVisualImage.jpg";
 import IntroduceActivityVisualImage from "assets/images/IntroduceActivityVisualImage.jpg";
 import { Fab } from "@material-ui/core";
-import { Close, List } from "@material-ui/icons";
+import { Close, List, TouchApp } from "@material-ui/icons";
 
 import IntroduceTeam from "components/introduce/IntroduceTeam";
 import IntroduceRule from "components/introduce/IntroduceRule";
@@ -100,9 +100,11 @@ const IntroductPageView = () => {
               '공모자들'에서는 경험이 없어도, 잘 하지 못해도 누구든 다양한
               사람들과 함께 공모전에 도전할 수 있습니다.
               <hr />
-              {currentCategory === "left"
-                ? "#춘천연합동아리 #서포터즈소개"
-                : ""}
+              {currentCategory === "left" ? (
+                "#춘천연합동아리 #서포터즈소개"
+              ) : (
+                <TouchApp />
+              )}
             </h5>
           </div>
         </div>
@@ -122,9 +124,11 @@ const IntroductPageView = () => {
             <h5>
               운영방안과 규칙 공모자들, 이것만은 꼭! 지켜주세요.
               <hr />
-              {currentCategory === "center"
-                ? "#회의방침 #예산운영 #운영방침 #채팅방방침"
-                : ""}
+              {currentCategory === "center" ? (
+                "#회의방침 #예산운영 #운영방침 #채팅방방침"
+              ) : (
+                <TouchApp />
+              )}
             </h5>
           </div>
         </div>
@@ -144,9 +148,11 @@ const IntroductPageView = () => {
             <h5>
               '공모자들'의 활약들을 소개합니다.
               <hr />
-              {currentCategory === "right"
-                ? "#공모전 #수상/경험 #친목활동"
-                : ""}
+              {currentCategory === "right" ? (
+                "#공모전 #수상/경험 #친목활동"
+              ) : (
+                <TouchApp />
+              )}
             </h5>
           </div>
         </div>

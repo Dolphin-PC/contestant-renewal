@@ -1,6 +1,7 @@
 import { fireAuth, fireDatabase, fireStorage } from "../app/initFirebase.js";
 import * as TYPE from "actions/types";
 import { getCurrentDateFormat } from "functions/functions.js";
+import { useCallback } from "react";
 
 // @param   loading : true/false
 // @param   payload : String
@@ -532,10 +533,12 @@ export const SaveAttends = (currentAttend, scheduleAttends) => async (
   dispatch
 ) => {
   dispatch(Loading(true, "출석 인원을 추가하고 있습니다..."));
+  var Attends = {};
 
-  var Attends = scheduleAttends.map((item) => {
+  scheduleAttends.map((item) => {
     Object.assign(item, { isAttend: "not" });
-    return item;
+    var keyObj = new Object({ [item.id]: item });
+    Attends = Object.assign(Attends, keyObj);
   });
 
   await fireDatabase
@@ -548,5 +551,14 @@ export const SaveAttends = (currentAttend, scheduleAttends) => async (
       console.error(err);
       alert("출석 인원 저장에 실패했습니다...");
     })
-    .then(() => [dispatch(Loading(false, "출석 인원 처리 완료"))]);
+    .then(() => dispatch(Loading(false, "출석 인원 처리 완료")));
+};
+
+export const UpdateAttend = (scheduleTime, id) => async (dispatch) => {
+  dispatch(Loading(true, "출결 처리 중입니다..."));
+
+  var attendQuery = fireDatabase
+    .ref(`attendance/${scheduleTime}/scheduleAttends`)
+    .orderByChild("id")
+    .equalTo(id);
 };

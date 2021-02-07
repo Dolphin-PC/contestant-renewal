@@ -5,11 +5,17 @@ import {
   SentimentSatisfied,
   SentimentVeryDissatisfied,
 } from "@material-ui/icons";
-import React from "react";
+import { UpdateAttend } from "actions/dbActions";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const AttendChip = ({ id, name, property, isAttend }) => {
+const AttendChip = ({ id, name, property, isAttend, scheduleTime }) => {
+  const user = useSelector((state) => state.user);
+  const schedule = useSelector((state) => state.schedule);
+  const dispatch = useDispatch();
+
   const handleAttend = () => {
-    // * 출결 처리 하기
+    dispatch(UpdateAttend(scheduleTime, id));
   };
 
   const attendIcon = (isAttend) => {
