@@ -632,3 +632,17 @@ export const GetPreset = () => async (dispatch) => {
   });
   dispatch(Loading(false, "프리셋 로딩 완료"));
 };
+
+export const DeletePreset = async (presetName) => {
+  await fireDatabase
+    .ref("/attendPreset")
+    .child(presetName)
+    .remove()
+    .then(() => {
+      alert("프리셋을 삭제했습니다.");
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("프리셋 삭제 오류");
+    });
+};

@@ -18,8 +18,15 @@ import {
   Input,
   Select,
   MenuItem,
+  IconButton,
 } from "@material-ui/core";
-import { GetPreset, SaveAttends, SavePreset } from "actions/dbActions";
+import { HighlightOff } from "@material-ui/icons";
+import {
+  DeletePreset,
+  GetPreset,
+  SaveAttends,
+  SavePreset,
+} from "actions/dbActions";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +47,7 @@ const AddNewAttendPersonDialogComp = ({
   const [right, setRight] = React.useState([]);
 
   const presetNameRef = useRef();
-  const [currentPresets, setCurrentPresets] = useState("");
+  const [currentPresets, setCurrentPresets] = useState(null);
 
   const handleCreateAttend = useCallback(() => {
     dispatch(SaveAttends(currentAttend, right));
@@ -51,17 +58,25 @@ const AddNewAttendPersonDialogComp = ({
     var presetName = presetNameRef.current.value;
     if (presetName === "") return alert("프리셋 이름을 입력해주세요.");
     dispatch(SavePreset(presetName, right));
-
-    handleClose();
   });
 
   const handleSelectPreset = useCallback((e) => {
     if (e.target.value === "") {
-      setCurrentPresets("");
+      setCurrentPresets(null);
     } else {
-      setCurrentPresets(e.target.value.presetName);
+      setCurrentPresets(e.target.value);
     }
   });
+
+  const handleDeletePreset = () => {
+    if (
+      window.prompt("프리셋을 삭제하시려면 [삭제]를 입력해주세요.") === "삭제"
+    ) {
+      DeletePreset(currentPresets.presetName);
+    } else {
+      alert("삭제 취소");
+    }
+  };
 
   const getListData = useCallback(() => {
     let savedAttends = [];
@@ -89,6 +104,14 @@ const AddNewAttendPersonDialogComp = ({
     }
     getListData();
   }, [open]);
+
+  useEffect(() => {
+    if (currentPresets !== null && currentPresets.preset != null) {
+      setRight(Object.values(currentPresets.preset));
+    } else {
+      setRight([]);
+    }
+  }, [currentPresets]);
 
   const TransferList = () => {
     const useStyles = makeStyles((theme) => ({
@@ -246,6 +269,7 @@ const AddNewAttendPersonDialogComp = ({
     );
   };
 
+  // * 프리셋 설정 다이얼로그
   if (isPreset) {
     return (
       <Dialog open={open} onClose={handleClose} fullWidth>
@@ -261,25 +285,40 @@ const AddNewAttendPersonDialogComp = ({
             title="프리셋을 생성하시려면, [프리셋 생성]을 선택하고, 프리셋을 수정하시려면, 해당 프리셋을 선택하시면 됩니다."
             placement="left"
           >
-            <Select value={currentPresets} onChange={handleSelectPreset}>
+            <Select
+              value={currentPresets ? currentPresets.presetName : ""}
+              onChange={handleSelectPreset}
+            >
               <MenuItem value="">프리셋 생성</MenuItem>
               {presets &&
                 Object.values(presets).map((preset) => {
                   return (
-                    <MenuItem value={preset}>{preset.presetName}</MenuItem>
+                    <MenuItem value={preset}>
+                      <ListItemText primary={preset.presetName} />
+                      <HighlightOff
+                        onClick={handleDeletePreset}
+                        fontSize="small"
+                      />
+                    </MenuItem>
                   );
                 })}
             </Select>
           </Tooltip>
 
-          <input
-            value={currentPresets}
-            className="Preset-textField"
-            ref={presetNameRef}
-            placeholder={"새 프리셋 이름을 입력해주세요."}
-          />
+          <Tooltip title="기존 프리셋 이름은 변경이 불가합니다.">
+            <input
+              disabled={currentPresets ? true : false}
+              className="Preset-textField"
+              ref={presetNameRef}
+              placeholder={
+                currentPresets
+                  ? currentPresets.presetName
+                  : "새 프리셋 이름을 입력해주세요."
+              }
+            />
+          </Tooltip>
           <Button onClick={handleClose} color="primary">
-            취소
+            닫기
           </Button>
           <Button
             onClick={handleCreatePreset}
@@ -291,7 +330,9 @@ const AddNewAttendPersonDialogComp = ({
         </DialogActions>
       </Dialog>
     );
-  } else {
+  }
+  // * 출석인원 추가 설정 다이얼로그
+  else {
     return (
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>
