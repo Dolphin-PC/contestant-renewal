@@ -133,7 +133,6 @@ const DB_NewUserInfo = async (id, name, property, isSupporter) => {
 // DB 에서 유저 정보 불러오기
 export const DB_LoadUserInfo = (id) => async (dispatch) => {
   await fireDatabase.ref(`users/${id}`).on("value", (snapShot) => {
-    console.info(snapShot.val());
     dispatch({
       type: LOGIN,
       payload: snapShot.val(),

@@ -233,18 +233,18 @@ const LogVerticalTabRender = ({ activity }) => {
         onChange={handleChange}
       >
         {teamLog &&
-          Object.values(teamLog).map((log, i) => (
+          Object.values(teamLog).map((log, index) => (
             <Tab
               label={log.logName}
-              {...a11yProps(i)}
-              key={i}
+              {...a11yProps(index)}
+              key={index}
               className="TabButton"
             />
           ))}
       </Tabs>
       {teamLog &&
         Object.values(teamLog).map((log, i) => (
-          <TabPanel value={activity.logPage} index={i} className="w1">
+          <TabPanel value={activity.logPage} key={i} index={i} className="w1">
             <LogWrapper {...log} />
           </TabPanel>
         ))}

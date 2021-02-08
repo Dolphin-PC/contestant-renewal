@@ -43,10 +43,6 @@ TODO CSS Styling
 [DONE]]Feedback 유저 hover => property(정보)표시
 
 
-TODO 나중에 했으면 하는 것
-공모자들 전체 일정으로,
-database 연동해서, d day 시간으로 밑에 일정 시작 표시
-
 
 TODO: 2020.02.03
 [DONE]
@@ -60,10 +56,7 @@ TODO: 2020.02.03
 7)) 출석부 생성(오늘/예정 출석일정, 출결체크(시간에 따른), 출석 프리셋 저장,삭제,수정,불러오기)
 
 [Do]
-8)) LeftDrawer - 내 정보 Router 연결 및 회원 정보 확인 및 수정 페이지 생성하기
-
 6) Landing Page Carousel 이미지 더 넣기
-1) 알림 Toast로 하기
 
 10)) Google Analytics 연결하기
 
@@ -76,3 +69,14 @@ TODO: 2020.02.03
 
 11)) 아이디/비밀번호 저장하기
 12) 비밀번호 재설정(Firebase)
+
+ - 출석부 일정 Snack bar 알림
+
+
+2021.02.08
+내일은 자잘한 오류(console.err) 수정하고,
+코드 리뷰하기
+
+[TODO / Today]
+ - LeftDrawer - 내 정보 Router 연결 및 회원 정보 확인 및 수정 페이지 생성하기
+ - 알림 Toast로 하기

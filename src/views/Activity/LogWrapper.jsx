@@ -166,16 +166,12 @@ const LogFeedbackRender = ({ tab, log, feedback, logName, activity }) => {
     };
     return (
       <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>
-          <h4>회의록 수정</h4>
-        </DialogTitle>
+        <DialogTitle>회의록 수정</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <h5>
-              회의록 내용을 수정하시겠습니까?
-              <br />
-              <small>(수정 후에는 복구가 불가능합니다.)</small>
-            </h5>
+            회의록 내용을 수정하시겠습니까?
+            <br />
+            <small>(수정 후에는 복구가 불가능합니다.)</small>
           </DialogContentText>
           <Divider />
         </DialogContent>
@@ -368,8 +364,9 @@ const FeedbackRightDrawer = (props) => {
 
         <div className="content">
           {feedbacks &&
-            Object.values(feedbacks).map((feed) => (
+            Object.values(feedbacks).map((feed, index) => (
               <FeedbackAccordionRender
+                key={index}
                 feed={feed}
                 activity={activity}
                 currentUser={user}

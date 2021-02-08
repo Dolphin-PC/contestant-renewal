@@ -282,9 +282,7 @@ const AddNewAttendPersonDialogComp = ({
   if (isPreset) {
     return (
       <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>
-          <h5>출석 인원 프리셋 설정</h5>
-        </DialogTitle>
+        <DialogTitle>출석 인원 프리셋 설정</DialogTitle>
         <Divider />
         <DialogContent>
           <TransferList />
@@ -300,9 +298,9 @@ const AddNewAttendPersonDialogComp = ({
             >
               <MenuItem value="">프리셋 생성</MenuItem>
               {presets &&
-                Object.values(presets).map((preset) => {
+                Object.values(presets).map((preset, index) => {
                   return (
-                    <MenuItem value={preset}>
+                    <MenuItem value={preset} key={index}>
                       <ListItemText primary={preset.presetName} />
                       <HighlightOff
                         onClick={handleDeletePreset}
@@ -367,9 +365,9 @@ const AddNewAttendPersonDialogComp = ({
             <MenuItem value="">프리셋 선택</MenuItem>
 
             {presets &&
-              Object.values(presets).map((preset) => {
+              Object.values(presets).map((preset, index) => {
                 return (
-                  <MenuItem value={preset}>
+                  <MenuItem value={preset} key={index}>
                     <ListItemText primary={preset.presetName} />
                   </MenuItem>
                 );

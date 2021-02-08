@@ -16,8 +16,8 @@ const CommonFooter = () => {
       </small>
       <br />
       <Tooltip title="Dolphin-PC Git Repo." placement="top">
-        <IconButton>
-          <GitHub onClick={() => handleOnClickGitHub()} />
+        <IconButton onClick={() => handleOnClickGitHub()}>
+          <GitHub />
         </IconButton>
       </Tooltip>
     </div>

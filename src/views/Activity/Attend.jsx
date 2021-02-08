@@ -62,8 +62,8 @@ const Attend = () => {
           <h5>오늘 출석 일정</h5>
           <hr />
           {todaySchedule &&
-            todaySchedule.map((today) => {
-              return <AttendAccordion {...today} today />;
+            todaySchedule.map((today, index) => {
+              return <AttendAccordion {...today} today key={index} />;
             })}
         </Col>
         <Col lg="4" className="Plan-Attend-Schedule">
@@ -99,8 +99,9 @@ const Attend = () => {
             />
           </div>
           <hr />
-          {Object.values(schedule.schedules).map((schedule) => (
+          {Object.values(schedule.schedules).map((schedule, index) => (
             <AttendAccordion
+              key={index}
               {...schedule}
               handleOpenAddDialog={() => handleOpenAddDialog(schedule)}
             />
@@ -161,8 +162,8 @@ const AttendAccordion = ({
         </AccordionSummary>
         <AccordionDetails>
           {scheduleAttends ? (
-            Object.values(scheduleAttends).map((attend) => (
-              <AttendChip {...attend} scheduleTime={scheduleTime} />
+            Object.values(scheduleAttends).map((attend, index) => (
+              <AttendChip {...attend} scheduleTime={scheduleTime} key={index} />
             ))
           ) : (
             <p>출석 인원을 추가해주세요.</p>
@@ -180,8 +181,8 @@ const AttendAccordion = ({
         </AccordionSummary>
         <AccordionDetails>
           {scheduleAttends ? (
-            Object.values(scheduleAttends).map((attend) => (
-              <Chip label={attend.name} color="primary" />
+            Object.values(scheduleAttends).map((attend, index) => (
+              <Chip label={attend.name} color="primary" key={index} />
             ))
           ) : (
             <p>출석 인원을 추가해주세요.</p>
