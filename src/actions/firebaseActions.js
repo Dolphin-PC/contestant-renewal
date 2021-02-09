@@ -85,12 +85,13 @@ export const SignInUser = (props) => async (dispatch) => {
   });
 
   await fireAuth
-    .signInWithEmailAndPassword(id + "@gongmoja.com", password)
+    .signInWithEmailAndPassword(id, password)
     .then((user) => {
       resResult.res = user;
       resResult.message = "로그인 성공";
     })
     .catch((err) => {
+      console.error(err.code);
       resResult.res = err;
       switch (err.code) {
         case "auth/user-not-found":
@@ -118,7 +119,7 @@ const DB_NewUserInfo = async (id, name, property, isSupporter) => {
   await fireDatabase
     .ref("users/" + changeId)
     .set({
-      changeId,
+      id: changeId,
       mail,
       name,
       isSupporter,

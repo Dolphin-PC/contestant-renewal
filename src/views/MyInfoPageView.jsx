@@ -1,12 +1,15 @@
 import { Button, Chip, Paper, TextField } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { UpdateAskPermission, UpdateUserInfo } from "actions/dbActions";
+import { fireAuth } from "app/initFirebase";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Col } from "reactstrap";
 
 const MyInfoPageView = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((state) => state.user);
   const [isEditable, setIsEditable] = useState(false);
   const [info, setInfo] = useState({
@@ -44,6 +47,22 @@ const MyInfoPageView = () => {
     dispatch(UpdateAskPermission(info, code));
   };
 
+  const handleOnPasswordReset = () => {
+    if (window.confirm("비밀번호 재설정 이메일을 발송하시겠습니까?")) {
+      const emailAddress = user.userInfo.id + "@" + user.userInfo.mail;
+
+      fireAuth
+        .sendPasswordResetEmail(emailAddress)
+        .then(() => {
+          alert("비밀번호 재설정 이메일을 전송했습니다.");
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("비밀번호 재설정 이메일 발송에 실패하였습니다.");
+        });
+    }
+  };
+
   const handleBack = () => {
     setIsEditable(false);
   };
@@ -51,6 +70,8 @@ const MyInfoPageView = () => {
   useEffect(() => {
     if (user.userInfo !== null) {
       setInfo(user.userInfo);
+    } else {
+      history.push("/");
     }
   }, [user]);
 
@@ -109,7 +130,11 @@ const MyInfoPageView = () => {
             {isEditable ? "저장하기" : "수정하기"}
           </Button>
           &emsp;
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleOnPasswordReset}
+          >
             비밀번호 재설정
           </Button>
         </footer>
