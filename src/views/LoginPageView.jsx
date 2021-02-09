@@ -131,7 +131,8 @@ const RegisterRender = () => {
           type="email"
           id="id"
           label="아이디"
-          placeholder="ID"
+          placeholder="Email ID를 입력해주세요."
+          helperText="실제 사용하시는 메일로 입력 부탁드려요."
           InputLabelProps={{
             shrink: true,
           }}

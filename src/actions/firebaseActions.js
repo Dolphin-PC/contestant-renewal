@@ -51,7 +51,7 @@ export const RegisterNewUser = async (props) => {
   if (auth === "") return alert("인증코드를 확인해주세요.");
 
   await fireAuth
-    .createUserWithEmailAndPassword(id + "@gongmoja.com", password)
+    .createUserWithEmailAndPassword(id, password)
     .then(async (user) => {
       resResult.res = user;
       alert("회원가입이 완료되었습니다.");
@@ -59,7 +59,7 @@ export const RegisterNewUser = async (props) => {
       else if (auth === "supporter") DB_NewUserInfo(id, name, property, true);
     })
     .catch((err) => {
-      console.error(err);
+      console.error(err.code);
       resResult.res = err;
       switch (err.code) {
         case "auth/email-already-in-use":
@@ -112,10 +112,14 @@ export const SignInUser = (props) => async (dispatch) => {
 };
 
 const DB_NewUserInfo = async (id, name, property, isSupporter) => {
+  const changeId = id.split("@")[0];
+  const mail = id.split("@")[1];
+
   await fireDatabase
-    .ref("users/" + id)
+    .ref("users/" + changeId)
     .set({
-      id,
+      changeId,
+      mail,
       name,
       isSupporter,
       property,
