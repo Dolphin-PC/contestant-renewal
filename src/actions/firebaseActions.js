@@ -8,7 +8,7 @@ let resResult = {
 };
 
 // DB 에서 인증코드 불러오기(일반코드, 서포터즈코드)
-const loadAuthCode = async () => {
+export const loadAuthCode = async () => {
   const _authCode = await fireDatabase
     .ref("authCode")
     .once("value")
@@ -26,7 +26,7 @@ const loadAuthCode = async () => {
   return [_authCode, _authCode_Supporter];
 };
 
-// 회원가입(Authentification)
+// *회원가입(Auth)
 export const RegisterNewUser = async (props) => {
   const { id, password, name, property, authCode } = props;
 
@@ -132,10 +132,22 @@ const DB_NewUserInfo = async (id, name, property, isSupporter) => {
 
 // DB 에서 유저 정보 불러오기
 export const DB_LoadUserInfo = (id) => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+    loading: true,
+    payload: "사용자 정보를 불러오고 있습니다...",
+  });
+
   await fireDatabase.ref(`users/${id}`).on("value", (snapShot) => {
     dispatch({
       type: LOGIN,
       payload: snapShot.val(),
+    });
+
+    dispatch({
+      type: LOADING,
+      loading: false,
+      payload: "사용자 정보 로딩 성공",
     });
   });
 };

@@ -191,6 +191,7 @@ const RegisterRender = () => {
         />
         <br />
         <Button
+          fullWidth
           variant="contained"
           color="primary"
           onClick={handleRegister}

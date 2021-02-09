@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UserActionButton from "components/layout/UserActionButton";
 import Loading from "components/layout/Loading";
 import ActivityPageView from "views/ActivityPageView";
-import { useScrollTop } from "functions/functions";
+import MyInfoPageView from "views/MyInfoPageView";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,6 +44,7 @@ const App = () => {
           <Route exact path="/introduce" component={IntroductPageView} />
           <Route exact path="/login" component={LoginPageView} />
           <Route exact path="/activity" component={ActivityPageView} />
+          <Route exact path="/my" component={MyInfoPageView} />
         </Switch>
         {user.status ? (
           <UserActionButton open={menuOpen} handleOnOpen={handleOnOpen} />

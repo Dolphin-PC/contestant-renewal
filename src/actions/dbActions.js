@@ -5,10 +5,10 @@ import {
   GetCurrentTime,
   TranslateArrTokeyObject,
 } from "functions/functions.js";
-import { useCallback } from "react";
+import { loadAuthCode } from "actions/firebaseActions";
 
-// @param   loading : true/false
-// @param   payload : String
+// *param   loading : true/false
+// *param   payload : String
 const Loading = (loading, payload) => {
   return {
     type: TYPE.LOADING,
@@ -645,4 +645,54 @@ export const DeletePreset = async (presetName) => {
       console.error(err);
       alert("프리셋 삭제 오류");
     });
+};
+
+export const UpdateUserInfo = (info) => async (dispatch) => {
+  dispatch(Loading(true, "정보를 수정하고 있습니다..."));
+
+  await fireDatabase
+    .ref(`users/${info.id}`)
+    .update(info)
+    .then(() => {
+      alert("내 정보를 수정/저장 했습니다.");
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("정보를 저장하지 못했습니다.");
+    });
+  dispatch(Loading(false), "");
+};
+
+export const UpdateAskPermission = (info, code) => async (dispatch) => {
+  if (code === "") return alert("인증코드를 확인해주세요.");
+
+  dispatch(Loading(true, "인증을 진행하고 있습니다..."));
+
+  const Auth_code = await loadAuthCode();
+  const AuthCode = Auth_code[0];
+  const AuthCode_Supporter = Auth_code[1];
+
+  let auth = "";
+  if (code === AuthCode) auth = "normal";
+  else if (code === AuthCode_Supporter) auth = "supporter";
+
+  const ref = fireDatabase.ref(`users/${info.id}`);
+  if (auth === "normal") {
+    await ref
+      .update({
+        isAuth: true,
+      })
+      .then(() => alert("[일반] 인증이 완료되었습니다."));
+  } else if (auth === "supporter") {
+    await ref
+      .update({
+        isAuth: true,
+        isSupporter: true,
+      })
+      .then(() => alert("[서포터즈] 인증이 완료되었습니다."));
+  } else {
+    alert("인증코드를 확인해주세요.");
+  }
+
+  dispatch(Loading(false), "");
 };

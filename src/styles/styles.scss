@@ -51,9 +51,9 @@ $default-color: #eeeeee;
   background-color: $main-color;
   position: fixed;
   top: 0;
-  width: 100%;
   z-index: 5;
   transition: 0.2s;
+  height: 80px;
 }
 
 a {
@@ -66,7 +66,7 @@ a {
 }
 
 .Activity {
-  margin-top: 10%;
+  margin-top: 5vh;
 }
 
 .MuiButton-containedSecondary {
@@ -81,6 +81,13 @@ a {
   background-color: $subMain-color !important;
   &:hover {
     background-color: darken($subMain-color, 10%) !important;
+  }
+}
+.MuiButton-outlinedPrimary {
+  color: $subMain-color !important;
+  border: 1px solid $subMain-color !important;
+  &:hover {
+    color: darken($subMain-color, 10%) !important;
   }
 }
 
@@ -187,7 +194,7 @@ a {
   }
 }
 
-.LeftDrawer > div > div {
+.LeftDrawer > div {
   width: 25%;
 }
 .Row {
@@ -265,4 +272,36 @@ a {
 
 .Add-Attend-Preset-Select-Box {
   width: 150px;
+}
+
+.Introduce {
+  height: 100%;
+  > div.Row {
+    height: 100%;
+  }
+}
+
+.Center {
+  & .My-Paper {
+    padding: 20px;
+    margin-top: 2vh;
+
+    & .Text-Format {
+      width: 100%;
+      h5,
+      p {
+        color: $main-color;
+      }
+    }
+  }
+}
+
+.BackDrop-Loading {
+  z-index: 10 !important;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  p {
+    color: white;
+  }
 }
