@@ -11,7 +11,7 @@ const LoginPageView = () => {
 
   useEffect(() => {
     if (user.status) {
-      history.goBack();
+      history.push("/");
     }
   }, [user]);
 

@@ -35,6 +35,12 @@ const App = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (user.userInfo === null) {
+      setMenuOpen(false);
+    }
+  }, [user]);
+
   return (
     <div className="root" style={{ marginLeft: menuOpen ? "25%" : 0 }}>
       <BrowserRouter>
