@@ -56,25 +56,25 @@ TODO: 2020.02.03
 7)) 출석부 생성(오늘/예정 출석일정, 출결체크(시간에 따른), 출석 프리셋 저장,삭제,수정,불러오기)
 11)) 이름, 소속 변경
 12) 비밀번호 재설정(Firebase)
+ - LeftDrawer - 내 정보 Router 연결 및 회원 정보 확인 및 수정 페이지 생성하기
 
 [Do]
-4)) 팀원관리 - [서포터즈 전용메뉴] 추가 => 점수 통계 및 차감
 
 6) Landing Page Carousel 이미지 더 넣기
 
-10)) Google Analytics 연결하기
-
-
 9) 팀원/회의록 추가 버튼에 (아이콘) 추가 및 각 설명(Tooltip), 공모전 설명 링크(오른쪽에 pencil 아이콘으로 링크 수정 Dialog) 
 3) 회의록 기본양식 작성(편의)
-5)) 구글 Ads 광고(Footer에 넣기)
 3))) Firebase 데이터 용량 도식화해서 관리자페이지 볼수 있게, 데이터 백업/삭제 기능 - 될런지 모르겄다...
 
-
- - 출석부 일정 Snack bar 알림
 
 
 
 [TODO / Today]
- - LeftDrawer - 내 정보 Router 연결 및 회원 정보 확인 및 수정 페이지 생성하기
  - 알림 Toast로 하기
+ - 출석부 일정 Snack bar 알림
+ - 본인 Chip은 본인이 출결처리할 수 있게
+ - 팀원관리 - [서포터즈 전용메뉴] 추가 => 점수 통계 및 차감
+
+ [DevOps]
+ - Google Analytics 연결하기
+ - 구글 Ads 광고(Footer에 넣기)
