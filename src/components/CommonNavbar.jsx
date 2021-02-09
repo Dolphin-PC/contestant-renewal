@@ -72,7 +72,11 @@ const CommonNavbar = ({ menuOpen }) => {
               <Instagram style={{ color: "white" }} />
             </IconButton>
             {user.status ? (
-              <Chip color="primary" label={user.userInfo.name} />
+              <Chip
+                color="primary"
+                label={user.userInfo.name}
+                onClick={() => history.push("/my")}
+              />
             ) : (
               ""
             )}
