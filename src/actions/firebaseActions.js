@@ -91,7 +91,7 @@ export const SignInUser = (props) => async (dispatch) => {
       resResult.message = "로그인 성공";
     })
     .catch((err) => {
-      console.error(err.code);
+      console.error(err);
       resResult.res = err;
       switch (err.code) {
         case "auth/user-not-found":
