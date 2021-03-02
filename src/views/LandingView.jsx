@@ -13,9 +13,21 @@ import {
   Input,
 } from "reactstrap";
 
+// 공모전 Carousel img
 import carousel1 from "assets/images/carousel1.jpg";
 import carousel2 from "assets/images/carousel2.jpg";
 import carousel3 from "assets/images/carousel3.jpg";
+
+// 수상/경험 Carousel img
+import prizeCarousel1 from "assets/images/landing_award_1.jpg";
+import prizeCarousel2 from "assets/images/landing_award_2.jpg";
+import prizeCarousel3 from "assets/images/landing_award_3.jpg";
+
+// 친목활동 Carousel img
+import friendlyCarousel1 from "assets/images/landing_friendly_1.jpg";
+import friendlyCarousel2 from "assets/images/landing_friendly_2.jpg";
+import friendlyCarousel3 from "assets/images/landing_friendly_3.jpg";
+import friendlyCarousel4 from "assets/images/landing_friendly_4.jpg";
 
 import { InputLabel, TextField, Button } from "@material-ui/core";
 import { LandingPageTeamAnimation } from "assets/animation/Animations";
@@ -23,7 +35,7 @@ import { ArrowRight } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import emailjs from "emailjs-com";
 
-const items = [
+const constestItem = [
   {
     src: carousel1,
     altText: "",
@@ -36,6 +48,47 @@ const items = [
   },
   {
     src: carousel3,
+    altText: "",
+    caption: "",
+  },
+];
+
+const prizeItem = [
+  {
+    src: prizeCarousel1,
+    altText: "",
+    caption: "",
+  },
+  {
+    src: prizeCarousel2,
+    altText: "",
+    caption: "",
+  },
+  {
+    src: prizeCarousel3,
+    altText: "",
+    caption: "",
+  },
+];
+
+const friendlyItem = [
+  {
+    src: friendlyCarousel1,
+    altText: "",
+    caption: "",
+  },
+  {
+    src: friendlyCarousel2,
+    altText: "",
+    caption: "",
+  },
+  {
+    src: friendlyCarousel3,
+    altText: "",
+    caption: "",
+  },
+  {
+    src: friendlyCarousel4,
     altText: "",
     caption: "",
   },
@@ -100,21 +153,21 @@ const LandingView = () => {
           <Row>
             <Col lg="4">
               <CarouselRender
-                items={items}
+                items={constestItem}
                 header="공모전"
                 subHeader="자유기획/팀프로젝트를 진행합니다."
               />
             </Col>
             <Col lg="4">
               <CarouselRender
-                items={items}
+                items={prizeItem}
                 header="수상/경험"
                 subHeader="공모자들의 도움으로 수상을 경험합니다."
               />
             </Col>
             <Col lg="4">
               <CarouselRender
-                items={items}
+                items={friendlyItem}
                 header="친목활동"
                 subHeader="영화/야유회/체험 등 공모자들 여러분과 친목을 다집니다."
               />
@@ -240,7 +293,7 @@ const CarouselRender = ({ items, header, subHeader }) => {
           alt={item.altText}
           style={{
             margin: "auto",
-            height: "100%",
+            height: "250px",
             width: "100%",
             objectFit: "cover",
             borderRadius: 10,
