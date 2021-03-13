@@ -19,7 +19,7 @@ import { DeleteSchedules, GetSchedules } from "actions/dbActions";
 import AttendChip from "components/chip/AttendChip";
 import AddNewAttendanceDialogComp from "components/dialogs/AddNewAttendanceDialogComp";
 import AddNewAttendPersonDialogComp from "components/dialogs/AddNewAttendPersonDialogComp";
-import { GetTodaySchedule } from "functions/functions";
+import { GetTodaySchedule, IsSupporter } from "functions/functions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col } from "reactstrap";
@@ -27,6 +27,7 @@ import { Col } from "reactstrap";
 const Attend = () => {
   const dispatch = useDispatch();
   const schedule = useSelector((state) => state.schedule);
+  const user = useSelector((state) => state.user);
   const [openNewAttendDialog, setOpenNewAttendDialog] = useState(false);
   const [openNewPersonDialog, setOpenNewPersonDialog] = useState(false);
   const [currentAttend, setCurrentAttend] = useState(null);
@@ -69,24 +70,28 @@ const Attend = () => {
         <Col lg="4" className="Plan-Attend-Schedule">
           <div className="Row Space-Between Vertical-Center">
             <h5>예정 출석 일정</h5>
-            <div className="Schedule-Action-Button">
-              <Tooltip title="출석인원 프리셋 만들기">
-                <IconButton
-                  className="Schedule-Add-Button"
-                  onClick={handleOpenPresetDialog}
-                >
-                  <Settings />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="일정 추가">
-                <IconButton
-                  className="Schedule-Add-Button"
-                  onClick={() => setOpenNewAttendDialog(true)}
-                >
-                  <Add />
-                </IconButton>
-              </Tooltip>
-            </div>
+            {!IsSupporter(user) ? (
+              <div className="Schedule-Action-Button">
+                <Tooltip title="출석인원 프리셋 만들기">
+                  <IconButton
+                    className="Schedule-Add-Button"
+                    onClick={handleOpenPresetDialog}
+                  >
+                    <Settings />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="일정 추가">
+                  <IconButton
+                    className="Schedule-Add-Button"
+                    onClick={() => setOpenNewAttendDialog(true)}
+                  >
+                    <Add />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            ) : (
+              ""
+            )}
             <AddNewAttendanceDialogComp
               open={openNewAttendDialog}
               handleClose={() => setOpenNewAttendDialog(false)}
