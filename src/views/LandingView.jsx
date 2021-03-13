@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Col,
@@ -34,6 +34,7 @@ import { LandingPageTeamAnimation } from "assets/animation/Animations";
 import { ArrowRight } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import emailjs from "emailjs-com";
+import { fireAnalytics } from "app/initFirebase";
 
 const constestItem = [
   {
@@ -95,6 +96,10 @@ const friendlyItem = [
 ];
 
 const LandingView = () => {
+  useEffect(() => {
+    fireAnalytics.logEvent("Landing View");
+  }, []);
+
   const history = useHistory();
   return (
     <>

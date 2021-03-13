@@ -119,12 +119,12 @@ const SupporterMenu = ({ user }) => {
             </ListItemIcon>
             <ListItemText primary="팀 생성" />
           </ListItem>
-          <ListItem button onClick={() => handleOnMenuClick("vote")}>
+          {/* <ListItem button onClick={() => handleOnMenuClick("vote")}>
             <ListItemIcon>
               <SupervisedUserCircle />
             </ListItemIcon>
             <ListItemText primary="동아리원 관리" />
-          </ListItem>
+          </ListItem> */}
         </List>
 
         <SeasonDialogComp
