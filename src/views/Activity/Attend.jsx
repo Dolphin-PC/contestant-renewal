@@ -56,6 +56,8 @@ const Attend = () => {
     setTodaySchedule(GetTodaySchedule(schedule.schedules));
   }, [schedule]);
 
+  console.log(IsSupporter(user));
+
   return (
     <div className="Attend-tab">
       <div className="Row Attend-Schedule">
@@ -70,7 +72,7 @@ const Attend = () => {
         <Col lg="4" className="Plan-Attend-Schedule">
           <div className="Row Space-Between Vertical-Center">
             <h5>예정 출석 일정</h5>
-            {!IsSupporter(user) ? (
+            {IsSupporter(user) ? (
               <div className="Schedule-Action-Button">
                 <Tooltip title="출석인원 프리셋 만들기">
                   <IconButton
